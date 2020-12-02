@@ -1,0 +1,48 @@
+<div *ngIf="postToDisplay==null; else elseBlock">Loading...</div>
+<ng-template class="" #elseBlock>
+
+    <div class="mb-5  border p-3 mt-3 postappearance">
+
+        <div [routerLink]="['/posts/', postToDisplay.id]" style="cursor: pointer;">
+            <div *ngIf="postToDisplay?.imagePath" class="col-12 text-center ">
+                <!-- <img src="\assets\images\1.8.JPG" width="400" /> -->
+                <!-- data binding gdy używamy [] do przypisania własciwości, interpolacja {{}} gdy wyświetlamy -->
+                <img [src]="postToDisplay.imagePath" width="90%" />
+            </div>
+            <div class="col-12 border-bottom border-primary h-auto text-justify bg-light py-2">{{postToDisplay?.text}}
+            </div>
+        </div>
+        <div class="col-12 btn-toolbar justify-content-between bg-light pt-2">
+
+            <div class="mt-1 small pt-2 pl-1 ">{{postToDisplay?.whenAdded | date: 'mm:HH dd/mm/yyyy'}}</div>
+
+            <div class="btn-group bg-light form-group row pr-2">
+
+                <button class="btn border" type="button" id="likeButton">
+                    <span class="badge badge-light btn" id="postCounter">
+                        <i class="fas fa-thumbs-up fa-lg">{{postToDisplay?.postReactions.length}}</i>
+                    </span>
+                </button>
+
+                <button type="button" class="btn border">
+                    <span class="badge badge-light">
+                        <i class="far fa-comments fa-lg">{{postToDisplay?.postComments.length}}</i>
+                    </span>
+                </button>
+
+                <button type="button" class="btn border" (click)="cos()">
+                    <i class="fas fa-edit fa-align-center"></i>
+                </button>
+
+                <button type="button" class="btn btn-success border">
+                    <i class="fas fa-portrait"></i>
+                </button>
+
+                <button type="button" href="#" class="btn btn-danger border">
+                    <i class="fas fa-trash-alt fa-adjust"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
