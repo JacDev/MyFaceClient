@@ -25,6 +25,10 @@
                     <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
                         style="cursor: pointer;" (click)="logout()">Logout <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item active">
+                    <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
+                        style="cursor: pointer;" [routerLink]="['user/profile']">Profil <span class="sr-only">(current)</span></a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

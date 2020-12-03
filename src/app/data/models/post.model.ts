@@ -4,8 +4,8 @@ export interface PostModel {
     id: string
     imageFullPath: string | null
     imagePath: string | null
-    postComments: []
-    postReactions: []
+    postCommentsCounter: number
+    postReactionsCounter: number
     text: string
     userId: string
     whenAdded: Data

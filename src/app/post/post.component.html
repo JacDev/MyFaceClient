@@ -20,17 +20,17 @@
 
                 <button class="btn border" type="button" id="likeButton">
                     <span class="badge badge-light btn" id="postCounter">
-                        <i class="fas fa-thumbs-up fa-lg">{{postToDisplay?.postReactions.length}}</i>
+                        <i class="fas fa-thumbs-up fa-lg">{{postToDisplay?.postReactionsCounter}}</i>
                     </span>
                 </button>
 
                 <button type="button" class="btn border">
                     <span class="badge badge-light">
-                        <i class="far fa-comments fa-lg">{{postToDisplay?.postComments.length}}</i>
+                        <i class="far fa-comments fa-lg">{{postToDisplay?.postCommentsCounter}}</i>
                     </span>
                 </button>
 
-                <button type="button" class="btn border" (click)="cos()">
+                <button type="button" class="btn border">
                     <i class="fas fa-edit fa-align-center"></i>
                 </button>
 
