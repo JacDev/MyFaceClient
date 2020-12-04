@@ -1,13 +1,13 @@
 import { Data } from '@angular/router';
 
-export class LoggedUser {
+export class UserModel {
     id: string;
     firstName: string;
     lastName: string;
     profileImagePath: string;
     dateOfBirht: Data;
     
-    constructor(user: LoggedUser) {
+    constructor(user: UserModel) {
         this.id = user.id;
         this.firstName= user.firstName;
         this.lastName= user.lastName;

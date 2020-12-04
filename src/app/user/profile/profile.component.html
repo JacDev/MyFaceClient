@@ -1,1 +1,4 @@
-<app-post #postComponent *ngFor="let post of listOfPostFromApi" [postToDisplay] = "post"></app-post>
+<div class="mt-2">
+    <app-user [userToDisplay]="currentUser"></app-user>
+    <app-post #postComponent *ngFor="let post of listOfPostFromApi" [postToDisplay]="post"></app-post>
+</div>

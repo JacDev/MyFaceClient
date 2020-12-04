@@ -10,7 +10,7 @@
                 <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
                     [routerLink]="['/']">Home <span class="sr-only">(current)</span></a>
             </li>
-            <div *ngIf="!isLoggedIn" class="row ml-1">
+            <span *ngIf="!isLoggedIn" class="row ml-1">
                 <li class="nav-item active">
                     <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
                         style="cursor: pointer;" (click)="login()">Login <span class="sr-only">(current)</span></a>
@@ -19,17 +19,20 @@
                     <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
                         [routerLink]="['user/register']">Rejestracja <span class="sr-only">(current)</span></a>
                 </li>
-            </div>
-            <div *ngIf="isLoggedIn">
-                <li class="nav-item active">
+            </span>
+                <li *ngIf="isLoggedIn" class="nav-item active">
                     <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
                         style="cursor: pointer;" (click)="logout()">Logout <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
+                <li *ngIf="isLoggedIn" class="nav-item active">
                     <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
                         style="cursor: pointer;" [routerLink]="['user/profile']">Profil <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item dropdown">
+                <li *ngIf="isLoggedIn" class="nav-item active">
+                    <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
+                        style="cursor: pointer;" [routerLink]="['user/friends']">Znajomi <span class="sr-only">(current)</span></a>
+                </li>
+                <li *ngIf="isLoggedIn" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         
@@ -48,7 +51,6 @@
                         <a class="dropdown-item" [routerLink]="'/create-opportunity'"> Create Opportunity </a>
                     </div>
                 </li>
-            </div>
         </ul>
     </div>
 </nav>

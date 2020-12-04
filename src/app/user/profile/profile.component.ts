@@ -1,8 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
-import { PostAccessService } from 'src/app/data/api-access/api-access-index';
+import { PostAccessService, UserAccessService } from 'src/app/data/api-access/api-access-index';
 import { PaginatiomModel } from 'src/app/data/common/pagination-model';
 import { PostModel } from 'src/app/data/models/post.model';
+import { UserModel } from 'src/app/data/models/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -12,14 +14,30 @@ import { PostModel } from 'src/app/data/models/post.model';
 
 export class ProfileComponent implements OnInit {
   
-    constructor(private _dataService: PostAccessService, 
-      private _authService: AuthorizationService) { 
+    constructor(private _postDataService: PostAccessService, 
+      private _userDataService: UserAccessService,
+      private _authService: AuthorizationService,
+      private route: ActivatedRoute,) { 
     }
     
     public listOfPostFromApi: PostModel[] = null;
     public paginationParams: PaginatiomModel = null;
+    public currentUser: UserModel = null;
     ngOnInit(): void {
-      this._dataService.getUserPosts(this._authService.currentUserId)
+      const currentUserId = this.route.snapshot.params['id'] ||  this._authService.currentUserId;
+     if(this.route.snapshot.params['id']){
+       this._userDataService.getUser(currentUserId)
+       .subscribe(
+         result=>{
+          this.currentUser = result
+         }
+       ),
+       error => console.log('error', error)
+     }
+     else{
+      this.currentUser = this._authService.currentUser;
+     }
+      this._postDataService.getUserPosts(currentUserId)
         .subscribe(
           result => {
             this.listOfPostFromApi = result.collection;
@@ -34,7 +52,7 @@ export class ProfileComponent implements OnInit {
     onScroll(): void {
       if (this.bottomReached() && this.paginationParams.hasNext) {
         let newPosts : PostModel[]  = null;
-        this._dataService.getUserPosts(this._authService.currentUserId, this.paginationParams.nextPageLink)
+        this._postDataService.getUserPosts(this._authService.currentUserId, this.paginationParams.nextPageLink)
         .subscribe(
           result => {
             newPosts  = result.collection;

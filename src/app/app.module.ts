@@ -15,6 +15,9 @@ import { AuthorizationRouteGuard } from './core/guards/authorize-route-guard';
 
 import {SignoutRedirectCallbackComponent, SigninRedirectCallbackComponent, AuthorizationService} from './core/authorization/authorization-index'
 import { UserAccessService, PostAccessService } from './data/api-access/api-access-index';
+import { UserFriendsAccessService } from './data/api-access/user-friends-access.service';
+import { VerticalNavbarComponent } from './vertical-navbar/vertical-navbar.component';
+import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
 
 
 @NgModule({
@@ -22,7 +25,8 @@ import { UserAccessService, PostAccessService } from './data/api-access/api-acce
     AppComponent,
     NavbarComponent,
     SigninRedirectCallbackComponent,
-    SignoutRedirectCallbackComponent,   
+    SignoutRedirectCallbackComponent,
+    VerticalNavbarComponent,   
   ],
   imports: [
     BrowserModule,
@@ -39,6 +43,8 @@ import { UserAccessService, PostAccessService } from './data/api-access/api-acce
     AuthInterceptorService,
     DataAccessService,
     AuthorizationRouteGuard,
+    UserFriendsAccessService,
+    UserRouteActivator,
     {provide : HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

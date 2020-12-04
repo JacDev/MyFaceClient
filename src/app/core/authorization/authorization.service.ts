@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { User, UserManager } from 'oidc-client';
 import { Subject } from 'rxjs';
 import { UserAccessService } from 'src/app/data/api-access/user-access.service';
-import { LoggedUser } from 'src/app/data/models/loggeduser.model';
+import { UserModel } from 'src/app/data/models/user.model';
+
 import { ConnectionsConstants } from "./ConnectionsConstants";
 
 @Injectable()
@@ -10,7 +11,7 @@ export class AuthorizationService {
   private _userManager: UserManager;
   private _user: User;
   private _loginChangedSubject = new Subject<boolean>();
-  public currentUser : LoggedUser;
+  public currentUser : UserModel;
   public loginChanged = this._loginChangedSubject.asObservable();
   public currentUserId : string;
 
@@ -79,7 +80,7 @@ export class AuthorizationService {
     this._dataService.getUser(this._user?.profile.sub)
     .subscribe(
       result => {
-        this.currentUser = new LoggedUser(result);
+        this.currentUser = new UserModel(result);
         console.log(result);
       },
       error => console.log('error', error)
