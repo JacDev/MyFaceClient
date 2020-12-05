@@ -18,6 +18,7 @@ import { UserAccessService, PostAccessService } from './data/api-access/api-acce
 import { UserFriendsAccessService } from './data/api-access/user-friends-access.service';
 import { VerticalNavbarComponent } from './vertical-navbar/vertical-navbar.component';
 import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
+import { PostCommentAccessService } from './data/api-access/post-comments-access.service';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { UserRouteActivator } from './user/shared/user/user-route-activator.serv
     AuthorizationRouteGuard,
     UserFriendsAccessService,
     UserRouteActivator,
+    PostCommentAccessService,
     {provide : HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

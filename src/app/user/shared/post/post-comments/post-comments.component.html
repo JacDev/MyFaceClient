@@ -1,0 +1,15 @@
+<div>
+    <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment"></post-comment>
+</div>
+<form class="container col-10">
+    <div class="input-group">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <textarea class="form-control" type="text" asp-for="@Model.Text" rows="1" style="height:3em;"
+            id="text"></textarea>
+        <span asp-validation-for="@Model.Text" class="text-danger"></span>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-sm btn-success">
+                <i class="fas fa-plus"></i></button>
+        </div>
+    </div>
+</form>

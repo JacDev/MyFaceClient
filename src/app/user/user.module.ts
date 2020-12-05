@@ -7,6 +7,8 @@ import { HomeComponent } from './home/home.component';
 import { UserComponent } from './shared/user/user.component';
 import { PostComponent } from './shared/post/post.component';
 import { FriendsComponent } from './friends/friends.component';
+import { PostCommentsComponent } from './shared/post/post-comments/post-comments.component';
+import { CommentComponent } from './shared/post/post-comments/comment/comment.component';
 
 
 
@@ -16,7 +18,9 @@ import { FriendsComponent } from './friends/friends.component';
     PostComponent,
     HomeComponent,
     UserComponent,
-    FriendsComponent
+    FriendsComponent,
+    PostCommentsComponent,
+    CommentComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,19 @@
+<div class="container my-3 col-10">
+    <div class="input-group row col-12 mt-0">
+        {{comment.firstName}} {{comment.lastName}}
+        <div class="form-control border border-dark text-justify">{{comment.text}}</div>
+        <div class="input-group-append">
+            <form asp-action="EditComment">
+                <button class="btn border">
+                    <i class="fas fa-edit fa-align-center"></i>
+                </button>
+            </form>
+            <form method="post">
+                <button class="btn btn-danger border" type="submit">
+                    <i class="fas fa-trash-alt fa-adjust"></i>
+                </button>
+            </form>
+        </div>
+        }
+    </div>
+</div>

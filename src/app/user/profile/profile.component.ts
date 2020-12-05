@@ -29,15 +29,20 @@ export class ProfileComponent implements OnInit {
        this._userDataService.getUser(currentUserId)
        .subscribe(
          result=>{
-          this.currentUser = result
+          this.currentUser = result;
+          this.getPosts();
          }
        ),
        error => console.log('error', error)
      }
      else{
       this.currentUser = this._authService.currentUser;
+      this.getPosts()
      }
-      this._postDataService.getUserPosts(currentUserId)
+      
+    }
+    getPosts(){
+      return this._postDataService.getUserPosts(this.currentUser.id)
         .subscribe(
           result => {
             this.listOfPostFromApi = result.collection;

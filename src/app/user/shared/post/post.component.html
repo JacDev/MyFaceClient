@@ -1,22 +1,22 @@
 <div *ngIf="postToDisplay==null; else elseBlock">Loading...</div>
 <ng-template class="" #elseBlock>
 
-    <div class="mb-5  border p-3 mt-3 postappearance">
-
+    <div class="mb-5 rounded p-3 mt-3 postappearance">
+        {{postToDisplay.firstName}} {{postToDisplay.lastName}}
         <div [routerLink]="['/posts/', postToDisplay.id]" style="cursor: pointer;">
             <div *ngIf="postToDisplay?.imagePath" class="col-12 text-center ">
                 <!-- <img src="\assets\images\1.8.JPG" width="400" /> -->
                 <!-- data binding gdy używamy [] do przypisania własciwości, interpolacja {{}} gdy wyświetlamy -->
                 <img [src]="postToDisplay.imagePath" width="90%" />
             </div>
-            <div class="col-12 border-bottom border-primary h-auto text-justify bg-light py-2">{{postToDisplay?.text}}
+            <div class="col-12 h-auto text-justify py-2">{{postToDisplay?.text}}
             </div>
         </div>
-        <div class="col-12 btn-toolbar justify-content-between bg-light pt-2">
+        <div class="col-12 btn-toolbar d-flex justify-content-end  pt-2">
 
-            <div class="mt-1 small pt-2 pl-1 ">{{postToDisplay?.whenAdded | date: 'mm:HH dd/mm/yyyy'}}</div>
+           
 
-            <div class="btn-group bg-light form-group row pr-2">
+            <div class="btn-group form-group row pr-2 ">
 
                 <button class="btn border" type="button" id="likeButton">
                     <span class="badge badge-light btn" id="postCounter">
@@ -24,7 +24,7 @@
                     </span>
                 </button>
 
-                <button type="button" class="btn border">
+                <button type="button" class="btn border" (click)="ShowComments()">
                     <span class="badge badge-light">
                         <i class="far fa-comments fa-lg">{{postToDisplay?.postCommentsCounter}}</i>
                     </span>
@@ -44,5 +44,8 @@
 
             </div>
         </div>
+        <app-post-comment [postId]="postToDisplay.id" *ngIf="showComments"></app-post-comment>
+        <button class="btn border" *ngIf="showComments">Pokaż wiecej</button>
     </div>
+
 </ng-template>
