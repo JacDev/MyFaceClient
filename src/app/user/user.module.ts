@@ -9,6 +9,7 @@ import { PostComponent } from './shared/post/post.component';
 import { FriendsComponent } from './friends/friends.component';
 import { PostCommentsComponent } from './shared/post/post-comments/post-comments.component';
 import { CommentComponent } from './shared/post/post-comments/comment/comment.component';
+import { UserCardComponent } from './user-card/user-card.component';
 
 
 
@@ -20,7 +21,8 @@ import { CommentComponent } from './shared/post/post-comments/comment/comment.co
     UserComponent,
     FriendsComponent,
     PostCommentsComponent,
-    CommentComponent
+    CommentComponent,
+    UserCardComponent
   ],
   imports: [
     CommonModule,

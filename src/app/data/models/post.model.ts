@@ -9,6 +9,4 @@ export interface PostModel {
     text: string
     userId: string
     whenAdded: Data
-    firstName:string;
-    lastName:string;
 }

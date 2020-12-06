@@ -11,27 +11,27 @@ export class AuthorizationService {
   private _userManager: UserManager;
   private _user: User;
   private _loginChangedSubject = new Subject<boolean>();
-  public currentUser : UserModel;
+  public currentUser: UserModel;
   public loginChanged = this._loginChangedSubject.asObservable();
-  public currentUserId : string;
+  public currentUserId: string;
 
   constructor(private _dataService: UserAccessService) {
     this._userManager = new UserManager(this.getStsSettings());
 
-    this._userManager.events.addAccessTokenExpired(_ =>{
+    this._userManager.events.addAccessTokenExpired(_ => {
       this._loginChangedSubject.next(false);
     })
 
-    this._userManager.events.addUserLoaded(user=>{
-      if(this._user!== user){
+    this._userManager.events.addUserLoaded(user => {
+      if (this._user !== user) {
         this._user = user;
         this.currentUserId = this._user.profile.sub;
         this.loadSecurityContext();
         this._loginChangedSubject.next(!!user && !user.expired);
       }
     })
-   }
-   login() {
+  }
+  login() {
     return this._userManager.signinRedirect();
   }
   isLoggedIn(): Promise<boolean> {
@@ -67,7 +67,7 @@ export class AuthorizationService {
     return this._userManager.signoutRedirectCallback();
   }
   getAccessToken() {
-   return this._userManager.getUser().then(user => {
+    return this._userManager.getUser().then(user => {
       if (!!user && !user.expired) {
         return user.access_token;
       }
@@ -76,19 +76,19 @@ export class AuthorizationService {
       }
     });
   }
-  loadSecurityContext(){
+  loadSecurityContext() {
     this._dataService.getUser(this._user?.profile.sub)
-    .subscribe(
-      result => {
-        this.currentUser = new UserModel(result);
-        console.log(result);
-      },
-      error => console.log('error', error)
-    );
+      .subscribe(
+        result => {
+          this.currentUser = new UserModel(result);
+          console.log(result);
+        },
+        error => console.log('error', error)
+      );
   }
 
   private getStsSettings() {
-   return {
+    return {
       authority: ConnectionsConstants.stsAuthority,
       client_id: ConnectionsConstants.clientId,
       redirect_uri: `${ConnectionsConstants.clientRoot}signin-callback`,

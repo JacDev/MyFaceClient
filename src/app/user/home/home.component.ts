@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { UserModel } from 'src/app/data/models/user.model';
 import { AuthorizationService } from '../../core/authorization/authorization.service';
 import { PostAccessService } from '../../data/api-access/post-access.service';
 import { PaginatiomModel } from '../../data/common/pagination-model';
@@ -14,11 +15,14 @@ export class HomeComponent implements OnInit {
 
   constructor(private _dataService: PostAccessService, 
     private _authService: AuthorizationService) {
-
   }
   public listOfPostFromApi: PostModel[] = null;
   public paginationParams: PaginatiomModel = null;
+  private _isLoadingNewPosts : Boolean = false;
+  public currentUserId: string = null;
+
   ngOnInit(): void {
+    this.currentUserId = this._authService.currentUserId;
     this._dataService.getFriendsPosts(this._authService.currentUserId)
       .subscribe(
         result => {
@@ -32,8 +36,9 @@ export class HomeComponent implements OnInit {
   }
   @HostListener("window:scroll", [])
   onScroll(): void {
-    if (this.bottomReached() && this.paginationParams.hasNext) {
+    if (this.bottomReached() && this.paginationParams.hasNext && !this._isLoadingNewPosts) {
       let newPosts : PostModel[]  = null;
+      this._isLoadingNewPosts = true;
       this._dataService.getFriendsPosts(this._authService.currentUserId, this.paginationParams.nextPageLink)
       .subscribe(
         result => {
@@ -43,6 +48,7 @@ export class HomeComponent implements OnInit {
           this.listOfPostFromApi.push(... newPosts);
           console.log(this.listOfPostFromApi);
           console.log(this.paginationParams);
+          this._isLoadingNewPosts = false;
         },
         error => console.log('error', error)
       );

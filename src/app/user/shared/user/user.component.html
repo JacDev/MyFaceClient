@@ -2,18 +2,8 @@
 <ng-template class="" #elseBlock>
 
     <div class=" col-sm-12 border pb-2 bg-white form-group clearfix">
-        <a [routerLink]="['/user/profile/', userToDisplay.id]" class=" text-dark">
-
-            <div class="float-left mt-1 pr-4">
-                <!-- <img class="rounded-circle" *ngIf="userToDisplay?.profileImagePath" [src]="userToDisplay.profileImagePath"
-                width="90%" /> -->
-                <img class="rounded-circle" src="../../../../assets/images/default.jpg" width="90%" />
-
-            </div>
-
-            <div class="ml-3 mt-3 float-left">
-                <span class="">{{userToDisplay.firstName}} {{userToDisplay.lastName}} </span>
-            </div>
+        <a  class=" text-dark">
+            <user-card [userToDisplay]="userToDisplay"></user-card>
         </a>
         <div class="float-right  mt-3">
             <a class="btn btn-primary btn-sm mr-1">

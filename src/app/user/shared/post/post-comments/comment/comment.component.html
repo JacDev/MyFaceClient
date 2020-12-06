@@ -1,6 +1,8 @@
 <div class="container my-3 col-10">
-    <div class="input-group row col-12 mt-0">
-        {{comment.firstName}} {{comment.lastName}}
+    <div class="input-group col-12 mt-0">
+        <div class="col-12">
+            <user-card [userToDisplay]="userToDisplay"></user-card>
+        </div>
         <div class="form-control border border-dark text-justify">{{comment.text}}</div>
         <div class="input-group-append">
             <form asp-action="EditComment">
@@ -14,6 +16,5 @@
                 </button>
             </form>
         </div>
-        }
     </div>
 </div>

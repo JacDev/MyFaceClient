@@ -1,4 +1,4 @@
 <div class="mt-2">
-    <app-user [userToDisplay]="currentUser"></app-user>
-    <app-post #postComponent *ngFor="let post of listOfPostFromApi" [postToDisplay]="post"></app-post>
+    <app-user [userToDisplay]="currentDisplayedUser"></app-user>
+    <app-post #postComponent *ngFor="let post of listOfPostFromApi" [postToDisplay]="post" [currentUserId]="currentLoggedUserId"></app-post>
 </div>

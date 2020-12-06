@@ -15,6 +15,7 @@ export class PostCommentsComponent implements OnInit {
 
   public listOfCommentsFromApi: PostCommentModel[] = null;
   public paginationParams: PaginatiomModel = null;
+
   @Input() postId: string;
 
   constructor(private _postCommentsAccess: PostCommentAccessService,
@@ -28,17 +29,6 @@ export class PostCommentsComponent implements OnInit {
         result => {
           this.listOfCommentsFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
-
-          for (let x = 0; x < this.listOfCommentsFromApi.length; x++) {
-            this._userAccess.getUser(this.listOfCommentsFromApi[x].fromWho)
-              .subscribe(
-                resu => {
-                  this.listOfCommentsFromApi[x].firstName = resu.firstName;
-                  this.listOfCommentsFromApi[x].lastName = resu.lastName;
-                },
-                error => console.log('error', error)
-              )
-          }
           console.log(this.listOfCommentsFromApi);
           console.log(this.paginationParams);
         },

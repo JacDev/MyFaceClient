@@ -1,51 +1,46 @@
-<div *ngIf="postToDisplay==null; else elseBlock">Loading...</div>
+<div *ngIf="postToDisplay==null ||currentUserId==null; else elseBlock">Loading...</div>
 <ng-template class="" #elseBlock>
 
-    <div class="mb-5 rounded p-3 mt-3 postappearance">
-        {{postToDisplay.firstName}} {{postToDisplay.lastName}}
-        <div [routerLink]="['/posts/', postToDisplay.id]" style="cursor: pointer;">
-            <div *ngIf="postToDisplay?.imagePath" class="col-12 text-center ">
-                <!-- <img src="\assets\images\1.8.JPG" width="400" /> -->
-                <!-- data binding gdy używamy [] do przypisania własciwości, interpolacja {{}} gdy wyświetlamy -->
-                <img [src]="postToDisplay.imagePath" width="90%" />
-            </div>
-            <div class="col-12 h-auto text-justify py-2">{{postToDisplay?.text}}
+    <div class="mb-5 rounded p-2 mt-2 post col-12">
+        <div class=" ml-1 row d-flex">
+            <user-card [userToDisplay]="userToDisplay"></user-card>
+            <div *ngIf="currentUserId == postToDisplay.userId" class="dropdown ml-auto mr-2 pt-0">
+                <button type="button" class="btn text-white align-items-start mt-0 pt-0" data-toggle="dropdown">
+                    <span style="font-size: x-large;" class="pb-6">...</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Edytuj</a>
+                    <a class="dropdown-item" href="#">Usuń</a>
+                </div>
             </div>
         </div>
-        <div class="col-12 btn-toolbar d-flex justify-content-end  pt-2">
+        <div class="col-12 h-auto text-justify py-2">
+            {{postToDisplay?.text}}
+        </div>
 
-           
+
+        <div class="col-12 btn-toolbar d-flex justify-content-end  pt-2">
 
             <div class="btn-group form-group row pr-2 ">
 
-                <button class="btn border" type="button" id="likeButton">
-                    <span class="badge badge-light btn" id="postCounter">
-                        <i class="fas fa-thumbs-up fa-lg">{{postToDisplay?.postReactionsCounter}}</i>
+                <button type="button" class="btn" style="background-color: rgb(58, 58, 59);"  id="likeButton">
+                    <span class="badge badge-light btn" style="background-color: rgb(58, 58, 59);" id="postCounter">
+                        <i class="fas fa-thumbs-up fa-lg white">{{postToDisplay?.postReactionsCounter}}</i>
                     </span>
                 </button>
 
-                <button type="button" class="btn border" (click)="ShowComments()">
+                <button type="button" class="btn" (click)="ShowComments()">
                     <span class="badge badge-light">
                         <i class="far fa-comments fa-lg">{{postToDisplay?.postCommentsCounter}}</i>
                     </span>
                 </button>
 
-                <button type="button" class="btn border">
-                    <i class="fas fa-edit fa-align-center"></i>
-                </button>
-
-                <button type="button" class="btn btn-success border">
-                    <i class="fas fa-portrait"></i>
-                </button>
-
-                <button type="button" href="#" class="btn btn-danger border">
-                    <i class="fas fa-trash-alt fa-adjust"></i>
-                </button>
-
             </div>
         </div>
         <app-post-comment [postId]="postToDisplay.id" *ngIf="showComments"></app-post-comment>
-        <button class="btn border" *ngIf="showComments">Pokaż wiecej</button>
+        <div class="col-12 d-flex justify-content-center">
+            <button class="btn col-3 text-center text-white " *ngIf="showComments">Pokaż wiecej</button>
+        </div>
     </div>
 
 </ng-template>
