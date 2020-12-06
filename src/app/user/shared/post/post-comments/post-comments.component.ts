@@ -17,7 +17,7 @@ export class PostCommentsComponent implements OnInit {
   public paginationParams: PaginatiomModel = null;
 
   @Input() postId: string;
-
+  @Input() currentLoggedUserId: string;
   constructor(private _postCommentsAccess: PostCommentAccessService,
     private _authService: AuthorizationService,
     private _userAccess: UserAccessService) { }

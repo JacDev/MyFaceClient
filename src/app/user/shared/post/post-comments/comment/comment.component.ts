@@ -11,7 +11,8 @@ import { UserModel } from 'src/app/data/models/user.model';
 export class CommentComponent implements OnInit {
 
   @Input() comment: PostCommentModel;
-  @Input() userToDisplay: UserModel = null;
+  @Input() userToDisplay: UserModel;
+  @Input() currentLoggedUserId:string;
   constructor(private _userAccess: UserAccessService) { }
 
   ngOnInit(): void {

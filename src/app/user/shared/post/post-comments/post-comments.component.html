@@ -1,5 +1,5 @@
 <div>
-    <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment"></post-comment>
+    <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment" [currentLoggedUserId]="currentLoggedUserId"></post-comment>
 </div>
 <form class="container col-10">
     <div class="input-group">

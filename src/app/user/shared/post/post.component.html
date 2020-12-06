@@ -37,7 +37,7 @@
 
             </div>
         </div>
-        <app-post-comment [postId]="postToDisplay.id" *ngIf="showComments"></app-post-comment>
+        <app-post-comment [postId]="postToDisplay.id" [currentLoggedUSerId]="currentUserId" *ngIf="showComments"></app-post-comment>
         <div class="col-12 d-flex justify-content-center">
             <button class="btn col-3 text-center text-white " *ngIf="showComments">Pokaż wiecej</button>
         </div>
