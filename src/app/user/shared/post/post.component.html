@@ -45,7 +45,7 @@
                     <span class="badge badge-light icon">
                         <i class="far fa-comments fa-lg icontext">
                             <span class="pl-1 small">
-                                {{postToDisplay?.postCommentsCounter}}
+                                {{commentsCounter}}
                             </span>
                         </i>
                     </span>
@@ -53,7 +53,7 @@
 
             </div>
         </div>
-        <app-post-comment [postId]="postToDisplay.id" [currentLoggedUserId]="currentLoggedUserId" [displayedUserId]="postToDisplay.userId" *ngIf="showComments" (hideCommentsEmitter)="hideComments($event)"></app-post-comment>
+        <app-post-comment [postId]="postToDisplay.id" [currentLoggedUserId]="currentLoggedUserId" [displayedUserId]="postToDisplay.userId" *ngIf="showComments" (hideCommentsEmitter)="hideComments($event)" (changeCommentsCounterEmitter)="changeCommentsCounter($event)"></app-post-comment>
 
     </div>
 

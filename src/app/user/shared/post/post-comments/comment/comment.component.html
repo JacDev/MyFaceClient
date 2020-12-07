@@ -2,31 +2,20 @@
 <ng-template #elseBlock>
     <div class="container my-3 col-10">
         <div class="input-group col-12 pt-1 rounded" style="background-color: rgb(83, 83, 85);">
-            <div class="col-12 pl-0 ml-0">
+            <div class="col-12 pl-0 ml-0 btn-group row">
                 <user-card [userToDisplay]="userToDisplay"></user-card>
-            </div>
-            <div *ngIf="currentLoggedUserId == comment.fromWho" class="dropdown ml-auto mr-2 pt-0">
-                <button type="button" class="btn text-white align-items-start mt-0 pt-0" data-toggle="dropdown">
-                    <span style="font-size: x-large;" class="pb-6">...</span>
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Edytuj</a>
-                    <a class="dropdown-item" href="#">Usuń</a>
+
+                <div *ngIf="currentLoggedUserId == comment.fromWho" class="dropdown ml-auto">
+                    <button type="button" class="btn text-white align-items-start mt-0 pt-0 pr-0" data-toggle="dropdown">
+                        <span style="font-size: x-large;" class="pb-6">...</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <button type="button" class="dropdown-item" (click)="editComment()" >Edytuj</button>
+                        <button type="button" class="dropdown-item" (click)="deleteComment()">Usuń</button>
+                    </div>
                 </div>
             </div>
-            <div class="">{{comment.text}}</div>
-            <!-- <div class="btn-group">
-                <form asp-action="EditComment">
-                    <button class="btn border">
-                        <i class="fas fa-edit fa-align-center"></i>
-                    </button>
-                </form>
-                <form method="post">
-                    <button class="btn btn-danger border" type="submit">
-                        <i class="fas fa-trash-alt fa-adjust"></i>
-                    </button>
-                </form>
-            </div> -->
+            <div class="col-12 pb-1" style="word-wrap: break-word;">{{comment.text}}</div>
         </div>
     </div>
 </ng-template>

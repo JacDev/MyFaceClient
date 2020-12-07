@@ -17,13 +17,15 @@ export class PostComponent implements OnInit {
   public userToDisplay: UserModel;
   public showComments: boolean = false;
   public isAlreadyLike: boolean = false;
-  public reactionCounter:number = 0;
+  public reactionCounter: number = 0;
+  public commentsCounter: number = 0;
 
   constructor(private _userAccess: UserAccessService,
     private _postReactionsAccess: ReactionAccessService) { }
 
   ngOnInit(): void {
     this.reactionCounter = this.postToDisplay.postReactionsCounter;
+    this.commentsCounter = this.postToDisplay.postCommentsCounter;
     this._userAccess.getUser(this.postToDisplay.userId)
       .subscribe(
         resu => {
@@ -64,8 +66,10 @@ export class PostComponent implements OnInit {
     }
     this.isAlreadyLike = !this.isAlreadyLike;
   }
-  hideComments(hide:boolean){
+  hideComments(hide: boolean) {
     this.showComments = false;
   }
-
+  changeCommentsCounter(event: number) {
+    this.commentsCounter += event;
+  }
 }

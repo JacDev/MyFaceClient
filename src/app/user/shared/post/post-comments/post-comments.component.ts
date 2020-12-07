@@ -1,6 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { stringify } from 'querystring';
 import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
 import { PostCommentAccessService } from 'src/app/data/api-access/api-access-index';
 import { PaginatiomModel } from 'src/app/data/common/pagination-model';
@@ -23,6 +22,7 @@ export class PostCommentsComponent implements OnInit {
   @Input() currentLoggedUserId: string;
   @Input() displayedUserId: string;
   @Output() hideCommentsEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() changeCommentsCounterEmitter: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private _postCommentsAccess: PostCommentAccessService,
     private _authService: AuthorizationService,
@@ -66,7 +66,7 @@ export class PostCommentsComponent implements OnInit {
     this.hideCommentsEmitter.emit(true);
   }
   addComment(comment: FormGroup) {
-    console.log(comment.value.commentText[0]==='↵');
+    console.log(comment.value.commentText[0] === '↵');
     console.log(comment.value)
     console.log(comment.value.commentText.trim().length == 0);
     if (!comment.value.commentText || comment.value.commentText.trim().length == 0) {
@@ -78,16 +78,33 @@ export class PostCommentsComponent implements OnInit {
       console.log(commenttoret);
       this._postCommentsAccess.postComment(this.displayedUserId, this.postId, { 'text': commenttoret, 'fromWho': this.currentLoggedUserId })
 
-      .subscribe(result=>{
-        this.listOfCommentsFromApi.push(result);
-      })
+        .subscribe(result => {
+          this.listOfCommentsFromApi.push(result);
+        })
     }
     comment.reset();
-    //this.commentText.setValue('');
+    this.changeCommentsCounterEmitter.emit(1);
   }
-  autoSize(e) {
-    e.target.style.overflow = 'hidden';
-    e.target.style.height = "auto";
-    e.target.style.height = (e.target.scrollHeight) + "px";
+
+  deleteComment(commentId: string) {
+    this._postCommentsAccess.deleteComment(this.displayedUserId, this.postId, commentId)
+      .subscribe(result => {
+        console.log(result)
+        this.changeCommentsCounterEmitter.emit(-1);
+      },
+        error => console.log('error', error));
+    this.listOfCommentsFromApi = this.listOfCommentsFromApi.filter(x => x.id !== commentId);
+  }
+  editComment(comment: Object) {
+    console.log(comment)
+    const x = Object.keys(comment).map(key => comment[key]);
+
+    this._postCommentsAccess.patchComment(this.currentLoggedUserId, this.postId, x[0], [{
+      "op": "replace",
+      "path": "/text",
+      "value" : x[1]
+  }])
+    .subscribe();    
+    const comm = this.listOfCommentsFromApi.find(x=>x.id.localeCompare(x[0])).text=x[1];
   }
 }

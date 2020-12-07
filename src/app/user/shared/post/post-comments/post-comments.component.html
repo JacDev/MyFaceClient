@@ -1,6 +1,9 @@
 <div>
     <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment"
-        [currentLoggedUserId]="currentLoggedUserId"></post-comment>
+        [currentLoggedUserId]="currentLoggedUserId" 
+        (deleteCommentEvent)="deleteComment($event)"
+        (editCommentEvent)="editComment($event)"
+        ></post-comment>
 </div>
 <form class="container col-10">
     <div >
