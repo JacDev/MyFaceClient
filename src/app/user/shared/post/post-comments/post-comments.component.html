@@ -1,15 +1,21 @@
 <div>
-    <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment" [currentLoggedUserId]="currentLoggedUserId"></post-comment>
+    <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment"
+        [currentLoggedUserId]="currentLoggedUserId"></post-comment>
 </div>
 <form class="container col-10">
-    <div class="input-group">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <textarea class="form-control" type="text" asp-for="@Model.Text" rows="1" style="height:3em;"
-            id="text"></textarea>
-        <span asp-validation-for="@Model.Text" class="text-danger"></span>
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-sm btn-success">
-                <i class="fas fa-plus"></i></button>
+    <div >
+        <form class="input-group" [formGroup]="commentForm" (keyup.enter)="addComment(commentForm)" (ngSubmit)="addComment(commentForm)" novalidate>
+            <textarea autosize  [formControl]="commentText" class="form-control rounded" type="text" style="background-color: rgb(83, 83, 85); color: white;" placeholder="Dodaj komentarz..."></textarea>
+
+        
+        <div class="col-12 d-flex justify-content-center">
+            <button *ngIf="paginationParams?.hasNext" type="button" class="btn col-4 text-center text-white"
+                (click)="loadMoreComments()">Pokaż wiecej</button>
         </div>
+        <div class="col-12 d-flex justify-content-center">
+            <button *ngIf="!paginationParams?.hasNext" type="button" class="btn col-3 text-center text-white"
+                (click)="hideComments()">Zwiń</button>
+        </div>
+    </form>
     </div>
 </form>

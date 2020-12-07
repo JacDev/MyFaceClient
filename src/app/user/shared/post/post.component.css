@@ -8,3 +8,9 @@ div{
 .date{
     font-size: small;
 }
+.icon{
+    background-color: rgb(58, 58, 59);
+}
+.icontext{
+    color: white;
+}

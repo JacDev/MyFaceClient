@@ -19,10 +19,10 @@ export class HomeComponent implements OnInit {
   public listOfPostFromApi: PostModel[] = null;
   public paginationParams: PaginatiomModel = null;
   private _isLoadingNewPosts : Boolean = false;
-  public currentUserId: string = null;
+  public currentLoggedUserId: string = null;
 
   ngOnInit(): void {
-    this.currentUserId = this._authService.currentUserId;
+    this.currentLoggedUserId = this._authService.currentUserId;
     this._dataService.getFriendsPosts(this._authService.currentUserId)
       .subscribe(
         result => {

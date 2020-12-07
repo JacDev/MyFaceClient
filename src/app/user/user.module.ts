@@ -10,7 +10,8 @@ import { FriendsComponent } from './friends/friends.component';
 import { PostCommentsComponent } from './shared/post/post-comments/post-comments.component';
 import { CommentComponent } from './shared/post/post-comments/comment/comment.component';
 import { UserCardComponent } from './user-card/user-card.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 
 
 @NgModule({
@@ -22,11 +23,14 @@ import { UserCardComponent } from './user-card/user-card.component';
     FriendsComponent,
     PostCommentsComponent,
     CommentComponent,
-    UserCardComponent
+    UserCardComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(userRoutes),
+    FormsModule,
+    ReactiveFormsModule,
+    TextareaAutosizeModule
   ]
 })
 export class UserModule { }

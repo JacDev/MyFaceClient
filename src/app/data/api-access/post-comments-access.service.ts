@@ -14,4 +14,10 @@ export class PostCommentAccessService {
         var currentUrl = url || `${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments`;
         return this._apiAccess.getCollection<PostCommentModel>(currentUrl)
     }
+    postComment(userId: string, postId: string, comment: Object): Observable<PostCommentModel> {
+        return (this._apiAccess.post<PostCommentModel>(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments`, comment)) as Observable<PostCommentModel>
+    }
+    deleteComment(userId: string, postId: string, commentId: string): Observable<Object> {
+        return this._apiAccess.delete(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments/${commentId}`)
+    }
 }

@@ -9,9 +9,10 @@ import { ConnectionsConstants } from "./ConnectionsConstants";
 @Injectable()
 export class AuthorizationService {
   private _userManager: UserManager;
-  private _user: User;
+  private _user: User = null;
   private _loginChangedSubject = new Subject<boolean>();
   public currentUser: UserModel;
+  private isLoadingCurrentUser:boolean=false;
   public loginChanged = this._loginChangedSubject.asObservable();
   public currentUserId: string;
 
@@ -41,12 +42,11 @@ export class AuthorizationService {
       if (this._user !== user) {
         this._loginChangedSubject.next(userCurrent);
       }
-      if (userCurrent && !this.currentUser) {
+      if (userCurrent && !this.currentUser && !this.isLoadingCurrentUser) {
         this.currentUserId = this._user.profile.sub;
         this.loadSecurityContext();
       }
 
-      console.log(this._user);
       return userCurrent;
     })
   }
@@ -77,10 +77,12 @@ export class AuthorizationService {
     });
   }
   loadSecurityContext() {
+    this.isLoadingCurrentUser = true;
     this._dataService.getUser(this._user?.profile.sub)
       .subscribe(
         result => {
           this.currentUser = new UserModel(result);
+          this.isLoadingCurrentUser = false;
           console.log(result);
         },
         error => console.log('error', error)

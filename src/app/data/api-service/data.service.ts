@@ -14,13 +14,13 @@ export class DataAccessService {
   getCollection<T>(url: string) : Observable<PaginationWithCollectionModel<T>>{
     return this.httpClient.get<PaginationWithCollectionModel<T>>(url);
   }
-  post<T>(url: string, data: T) {
+  post<T>(url: string, data: T | Object): Observable<T | Object> {
     return this.httpClient.post(url, data);
   }
   patch<T>(url: string, data: T) {
     return this.httpClient.patch(url, data);
   }
-  delete<T>(url: string) {
+  delete(url: string) {
     return this.httpClient.delete(url);
   }
 }

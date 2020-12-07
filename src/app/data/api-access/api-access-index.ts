@@ -1,2 +1,5 @@
 export * from './post-access.service'
 export * from './user-access.service'
+export * from './post-comments-access.service'
+export * from './reaction-access.service'
+export * from './user-friends-access.service'
