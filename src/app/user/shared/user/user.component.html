@@ -1,8 +1,12 @@
-<div *ngIf="userToDisplay==null; else elseBlock">Loading...</div>
+<div *ngIf="userToDisplay==null; else elseBlock">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
 <ng-template class="" #elseBlock>
 
     <div class=" col-sm-12 border pb-2 bg-white form-group clearfix">
-        <a  class=" text-dark">
+        <a class=" text-dark">
             <user-card [userToDisplay]="userToDisplay"></user-card>
         </a>
         <div class="float-right  mt-3">

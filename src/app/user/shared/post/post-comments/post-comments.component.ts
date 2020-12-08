@@ -17,7 +17,7 @@ export class PostCommentsComponent implements OnInit {
 
   public commentForm: FormGroup;
   public commentText: FormControl;
-
+  public isLoading: boolean = false;
   @Input() postId: string;
   @Input() currentLoggedUserId: string;
   @Input() displayedUserId: string;
@@ -65,46 +65,46 @@ export class PostCommentsComponent implements OnInit {
   hideComments() {
     this.hideCommentsEmitter.emit(true);
   }
-  addComment(comment: FormGroup) {
-    console.log(comment.value.commentText[0] === '↵');
-    console.log(comment.value)
-    console.log(comment.value.commentText.trim().length == 0);
-    if (!comment.value.commentText || comment.value.commentText.trim().length == 0) {
+  addComment(commentForm: FormGroup) {
+
+    if (!commentForm.value.commentText || commentForm.value.commentText.trim().length == 0) {
       console.log("pusty")
     }
     else {
-      console.log(this.currentLoggedUserId);
-      let commenttoret = comment.value.commentText.slice(0, -1);
-      console.log(commenttoret);
-      this._postCommentsAccess.postComment(this.displayedUserId, this.postId, { 'text': commenttoret, 'fromWho': this.currentLoggedUserId })
+      this.isLoading = true;
+      let commentToAdd: string = commentForm.value.commentText.trimEnd()
+      this._postCommentsAccess.postComment(this.displayedUserId, this.postId, { 'text': commentToAdd, 'fromWho': this.currentLoggedUserId })
 
         .subscribe(result => {
+          this.isLoading = false;
           this.listOfCommentsFromApi.push(result);
         })
     }
-    comment.reset();
+    commentForm.reset();
     this.changeCommentsCounterEmitter.emit(1);
   }
 
   deleteComment(commentId: string) {
+    this.isLoading = true;
     this._postCommentsAccess.deleteComment(this.displayedUserId, this.postId, commentId)
       .subscribe(result => {
-        console.log(result)
+        this.isLoading = false;
         this.changeCommentsCounterEmitter.emit(-1);
       },
         error => console.log('error', error));
     this.listOfCommentsFromApi = this.listOfCommentsFromApi.filter(x => x.id !== commentId);
   }
   editComment(comment: Object) {
-    console.log(comment)
+    this.isLoading=true;
     const x = Object.keys(comment).map(key => comment[key]);
-
     this._postCommentsAccess.patchComment(this.currentLoggedUserId, this.postId, x[0], [{
       "op": "replace",
       "path": "/text",
-      "value" : x[1]
-  }])
-    .subscribe();    
-    const comm = this.listOfCommentsFromApi.find(x=>x.id.localeCompare(x[0])).text=x[1];
+      "value": x[1]
+    }])
+      .subscribe(_=>{
+        this.isLoading = false;
+      });
+    const comm = this.listOfCommentsFromApi.find(x => x.id.localeCompare(x[0])).text = x[1];
   }
 }

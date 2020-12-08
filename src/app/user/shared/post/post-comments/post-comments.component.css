@@ -1,0 +1,7 @@
+textarea, textarea:hover, textarea:focus{
+    background-color: rgb(83, 83, 85);
+    color:white;
+}
+textarea::placeholder{
+    color:white;
+}

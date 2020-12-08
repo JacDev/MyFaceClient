@@ -7,7 +7,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 @Component({
   selector: 'post-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.css']
+  styleUrls: ['../.././post.component.css']
 })
 export class CommentComponent implements OnInit {
 

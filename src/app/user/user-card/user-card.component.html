@@ -1,4 +1,4 @@
-<div *ngIf="userToDisplay==null; else elseBlock">Loading...</div>
+<div *ngIf="userToDisplay==null; else elseBlock"></div>
 <ng-template #elseBlock>
     <div class="d-flex" style="cursor: pointer;" [routerLink]="['/user/profile/', userToDisplay.id]">
         <div class="float-left ">

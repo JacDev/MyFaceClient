@@ -20,8 +20,8 @@ export class PostCommentAccessService {
     deleteComment(userId: string, postId: string, commentId: string): Observable<Object> {
         return this._apiAccess.delete(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments/${commentId}`)
     }
-    patchComment(userId: string, postId: string, commentId: string, text: Object): Observable<Object> {
-        return this._apiAccess.patch(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments/${commentId}`, text)
+    patchComment(userId: string, postId: string, commentId: string, jsonPatchDocument: Object): Observable<Object> {
+        return this._apiAccess.patch(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments/${commentId}`, jsonPatchDocument)
     }
 
 }

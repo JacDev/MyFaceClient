@@ -1,4 +1,10 @@
-.dark{
-    background-color: black;
-    color: black;
+.post {
+    background-color: rgb(58, 58, 59);
+}
+textarea, textarea:hover, textarea:focus{
+    background-color: rgb(83, 83, 85);
+    color:white;
+}
+textarea::placeholder{
+    color:white;
 }

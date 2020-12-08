@@ -1,1 +1,17 @@
-<app-post #postComponent *ngFor="let post of listOfPostFromApi" [postToDisplay] = "post" [currentLoggedUserId]="currentLoggedUserId"></app-post>
+<div class="mb-4">
+    <div *ngIf="isImageLoaded" (click)="showImage()" class="d-flex">
+        <img [src]="imageUrl" class="col-12 mt-3 justify-content-center" [ngStyle]="{'max-height': screenHeight*0.9}" style="width:auto">
+    </div>
+    <form class="input-group mt-3" [formGroup]="postForm" (keyup.enter)="addPost(postForm)"
+        (ngSubmit)="addPost(postForm)" novalidate>
+        <textarea autosize [formControl]="postText" class="form-control rounded" type="text" rows="2"
+             placeholder="Podziel się czymś..."></textarea>
+
+    </form>
+    <div class="btn-group d-flex">
+        <button class="btn-sm border-0 ml-auto" style="background-color: inherit;" (click)="addImage()"><i class="far fa-images fa-2x mt-1" style="color: white;"></i></button>
+    </div>
+</div>
+<app-post #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)"
+    [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
+</app-post>
