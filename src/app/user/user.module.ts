@@ -30,7 +30,8 @@ import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
     RouterModule.forChild(userRoutes),
     FormsModule,
     ReactiveFormsModule,
-    TextareaAutosizeModule
+    TextareaAutosizeModule,
+
   ]
 })
 export class UserModule { }

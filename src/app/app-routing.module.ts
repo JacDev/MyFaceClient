@@ -5,11 +5,13 @@ import { SignoutRedirectCallbackComponent } from './core/authorization/signout-r
 import { AuthorizationRouteGuard } from './core/guards/authorize-route-guard';
 import { HomeComponent } from './user/home/home.component';
 import { UserModule } from './user/user.module'
+import { ChatModule } from './chat/chat.module'
 
 const routes: Routes = [
   { path: 'signin-callback', component: SigninRedirectCallbackComponent },
   { path: 'signout-callback', component: SignoutRedirectCallbackComponent },
   { path: 'user', loadChildren: './user/user.module#UserModule', canActivate:[AuthorizationRouteGuard] },
+  { path: 'chat', loadChildren: './chat/chat.module#ChatModule', canActivate:[AuthorizationRouteGuard] },
   { path: '', component: HomeComponent, canActivate: [AuthorizationRouteGuard] },
 ];
 
