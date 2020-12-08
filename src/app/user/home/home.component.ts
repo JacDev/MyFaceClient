@@ -95,21 +95,40 @@ export class HomeComponent implements OnInit {
         .subscribe(result => {
           this.listOfPostFromApi.unshift(result);
         })
-        this.image=null;
-        this.imageUrl = null;
-        this.isImageLoaded = null;
+      this.image = null;
+      this.imageUrl = null;
+      this.isImageLoaded = null;
     }
     postForm.reset();
   }
+  isFileImage(file) {
+    return file && file['type'].split('/')[0] === 'image';
+  }
   addImage() {
     Swal.fire({
-      title: 'Wybierz zdjęcie:',
+      title: '<h6>Wybierz zdjęcie:</h6>',
+      text: 'Maksymalny rozmiar pliku to 25MB!',
       input: 'file',
       inputAttributes: {
         'accept': 'image/*',
         'aria-label': 'Wybierz zdjęcie:'
+      },
+      preConfirm: (result) => {
+        console.log(result)
+        if (result?.size > 25000000) {
+          Swal.showValidationMessage(
+            `Rozmiar przekracza 25MB!`
+          )
+        }
+        else if(!this.isFileImage(result)){
+          Swal.showValidationMessage(
+            `Podany plik nie jest zdjeciem!`
+          )
+        }
       }
     }).then((result) => {
+      console.log(result)
+
       if (result.value) {
         this.image = result.value;
         const reader = new FileReader()
@@ -130,7 +149,6 @@ export class HomeComponent implements OnInit {
       showCloseButton: true,
       showConfirmButton: false,
       imageAlt: 'Dodawane zdjęcie',
-      focusClose: false,
     })
   }
 
