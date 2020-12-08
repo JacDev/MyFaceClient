@@ -32,10 +32,10 @@ export class ProfileComponent implements OnInit {
       this.loadUser();
     }
     else {
-      this._authService.loginChanged.subscribe(_ => {
+      console.log(this._authService.userLoaded)
+      this._authService.userLoaded.subscribe(_ => {
         this.loadUser();
-      }
-      )
+      })
     }
   }
   loadUser() {

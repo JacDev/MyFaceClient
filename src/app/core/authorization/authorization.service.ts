@@ -11,10 +11,14 @@ export class AuthorizationService {
   private _userManager: UserManager;
   private _user: User = null;
   private _loginChangedSubject = new Subject<boolean>();
-  public currentUser: UserModel;
-  private isLoadingCurrentUser:boolean=false;
   public loginChanged = this._loginChangedSubject.asObservable();
+
+  public currentUser: UserModel;
+  private isLoadingCurrentUser: boolean = false;
+
   public currentUserId: string;
+  private _userLoadedSubject = new Subject<boolean>();
+  public userLoaded = this._userLoadedSubject.asObservable();
 
   constructor(private _dataService: UserAccessService) {
     this._userManager = new UserManager(this.getStsSettings());
@@ -84,6 +88,7 @@ export class AuthorizationService {
           this.currentUser = new UserModel(result);
           this.isLoadingCurrentUser = false;
           console.log(result);
+          this._userLoadedSubject.next(true);
         },
         error => console.log('error', error)
       );

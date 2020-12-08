@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   public isImageLoaded: boolean = false;
   public imageUrl: any;
   public screenHeight: number;
+  public isAddingPost: boolean = false;
   screenWidth: number;
 
   ngOnInit(): void {
@@ -87,12 +88,14 @@ export class HomeComponent implements OnInit {
       console.log("pusty")
     }
     else {
+      this.isAddingPost = true;
       let postToAdd: string = postForm.value.postText.trimEnd()
       let data = new FormData();
       data.append('text', postToAdd);
       data.append('picture', this.image);
       this._postAccess.postPost(this.currentLoggedUserId, data)
         .subscribe(result => {
+          this.isAddingPost=false;
           this.listOfPostFromApi.unshift(result);
         })
       this.image = null;

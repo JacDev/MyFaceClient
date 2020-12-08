@@ -7,12 +7,16 @@
 
     <div class="mb-5 rounded p-2 mt-2 post col-12">
 
-        <div class=" ml-1 row d-flex">
-            <user-card [userToDisplay]="userToDisplay"></user-card>
-            <div *ngIf="isLoading" class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
+        <div class=" ml-1 row d-flex ">
+            <div class="mr-auto">
+                <user-card [userToDisplay]="userToDisplay"></user-card>
             </div>
-            <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="dropdown ml-auto mr-2 pt-0 bg-black">
+            <div *ngIf="isLoading" class="">
+                <div class="spinner-border my-2 text-light" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+            <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="dropdown  mr-2 pt-0 bg-black">
                 <button type="button" class="btn text-white align-items-start mt-0 pt-0" data-toggle="dropdown">
                     <span style="font-size: x-large;" class="pb-6">...</span>
                 </button>
