@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { PostAccessService, ReactionAccessService, UserAccessService } from 'src/app/data/api-access/api-access-index';
+import { ImageAccessService } from 'src/app/data/api-access/image-access.service';
 import { PostModel } from 'src/app/data/models/post.model';
 import { UserModel } from 'src/app/data/models/user.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -21,11 +22,21 @@ export class PostComponent implements OnInit {
   public reactionCounter: number = 0;
   public commentsCounter: number = 0;
   public isLoading: boolean = false;
+  public imageToShow: any;
+  public isImageLoading: boolean = false;
+
+  public screenHeight: number;
+  screenWidth: number;
+
+
   constructor(private _userAccess: UserAccessService,
     private _postReactionsAccess: ReactionAccessService,
-    private _postAccess: PostAccessService) { }
+    private _postAccess: PostAccessService,
+    private _imageAccess: ImageAccessService) { }
 
   ngOnInit(): void {
+    this.getScreenSize();
+    this.getImageFromService();
     this.reactionCounter = this.postToDisplay.postReactionsCounter;
     this.commentsCounter = this.postToDisplay.postCommentsCounter;
     this._userAccess.getUser(this.postToDisplay.userId)
@@ -46,6 +57,33 @@ export class PostComponent implements OnInit {
         },
         error => console.log('error', error)
       )
+  }
+  @HostListener('window:resize', ['$event'])
+  getScreenSize(event?) {
+    this.screenHeight = window.innerHeight;
+    this.screenWidth = window.innerWidth;
+  }
+  createImageFromBlob(image: Blob): void {
+    let reader: FileReader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+  getImageFromService() {
+    if (this.postToDisplay.imagePath) {
+      this.isImageLoading = true;
+      this._imageAccess.getImage(this.currentLoggedUserId, this.postToDisplay.imagePath).subscribe(data => {
+        this.createImageFromBlob(data);
+        this.isImageLoading = false;
+      }, error => {
+        this.isImageLoading = false;
+        console.log(error);
+      });
+    }
   }
 
   ShowComments() {
@@ -123,6 +161,18 @@ export class PostComponent implements OnInit {
           },
             error => console.log('error', error));
       }
+    })
+  }
+  showImage() {
+    Swal.fire({
+      width: this.screenWidth * 0.8,
+      imageUrl: this.imageToShow,
+      imageHeight: this.screenHeight * 0.8,
+      imageWidth: 'auto',
+      showCloseButton: true,
+      showConfirmButton: false,
+      imageAlt: 'Dodawane zdjęcie',
+      focusClose: false,
     })
   }
 }

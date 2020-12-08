@@ -6,6 +6,7 @@
 <ng-template class="" #elseBlock>
 
     <div class="mb-5 rounded p-2 mt-2 post col-12">
+
         <div class=" ml-1 row d-flex">
             <user-card [userToDisplay]="userToDisplay"></user-card>
             <div *ngIf="isLoading" class="spinner-border" role="status">
@@ -24,7 +25,9 @@
         <div class="col-12 h-auto text-justify py-2">
             {{postToDisplay?.text}}
         </div>
-
+        <div *ngIf="!isImageLoading;" (click)="showImage()" style="cursor: pointer;">
+            <img [src]="imageToShow" class="col-12 mt-3 justify-content-center">
+        </div>
 
         <div class="col-12 btn-toolbar d-flex justify-content-end  pt-2">
 

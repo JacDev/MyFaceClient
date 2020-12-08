@@ -7,7 +7,10 @@ import { PaginationWithCollectionModel } from '../common/pagination-with-collect
 export class DataAccessService {
 
   constructor(private httpClient: HttpClient) { }
-
+  
+  getImage(imageUrl: string): Observable<Blob> {
+    return this.httpClient.get(imageUrl, { responseType: 'blob' });
+  }
   get<T>(url: string) : Observable<T>{
     return this.httpClient.get<T>(url);
   }

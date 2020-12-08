@@ -5,6 +5,7 @@ import { PostAccessService } from '../../data/api-access/post-access.service';
 import { PaginatiomModel } from '../../data/common/pagination-model';
 import { PostModel } from '../../data/models/post.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { ImageAccessService } from 'src/app/data/api-access/image-access.service';
 
 @Component({
   templateUrl: './home.component.html',
@@ -23,7 +24,7 @@ export class HomeComponent implements OnInit {
   public currentLoggedUserId: string = null;
   public postForm: FormGroup;
   public postText: FormControl;
-  public image: File;
+  public image: File = null;
   public isImageLoaded: boolean = false;
   public imageUrl: any;
   public screenHeight: number;
@@ -71,7 +72,6 @@ export class HomeComponent implements OnInit {
           },
           error => console.log('error', error)
         );
-
     }
   }
 
@@ -87,12 +87,17 @@ export class HomeComponent implements OnInit {
       console.log("pusty")
     }
     else {
-      let postToAdd:string = postForm.value.postText.trimEnd()
-
-      this._postAccess.postPost(this.currentLoggedUserId, { 'text': postToAdd })
+      let postToAdd: string = postForm.value.postText.trimEnd()
+      let data = new FormData();
+      data.append('text', postToAdd);
+      data.append('picture', this.image);
+      this._postAccess.postPost(this.currentLoggedUserId, data)
         .subscribe(result => {
           this.listOfPostFromApi.unshift(result);
         })
+        this.image=null;
+        this.imageUrl = null;
+        this.isImageLoaded = null;
     }
     postForm.reset();
   }
@@ -105,8 +110,8 @@ export class HomeComponent implements OnInit {
         'aria-label': 'Wybierz zdjęcie:'
       }
     }).then((result) => {
-      console.log(result.value);
       if (result.value) {
+        this.image = result.value;
         const reader = new FileReader()
         reader.onload = (e) => {
           this.imageUrl = e.target.result;
@@ -118,12 +123,12 @@ export class HomeComponent implements OnInit {
   }
   showImage() {
     Swal.fire({
-      width:this.screenWidth*0.8,
+      width: this.screenWidth * 0.8,
       imageUrl: this.imageUrl,
-      imageHeight: this.screenHeight*0.8,
-      imageWidth:'auto',
+      imageHeight: this.screenHeight * 0.8,
+      imageWidth: 'auto',
       showCloseButton: true,
-      showConfirmButton:false,
+      showConfirmButton: false,
       imageAlt: 'Dodawane zdjęcie',
       focusClose: false,
     })

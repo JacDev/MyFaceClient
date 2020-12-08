@@ -24,6 +24,7 @@ import { UserAccessService,
   
 import { VerticalNavbarComponent } from './vertical-navbar/vertical-navbar.component';
 import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
+import { ImageAccessService } from './data/api-access/image-access.service';
 
 
 
@@ -48,12 +49,12 @@ import { UserRouteActivator } from './user/shared/user/user-route-activator.serv
     UserAccessService,
     PostAccessService,
     AuthInterceptorService,
-    DataAccessService,
     AuthorizationRouteGuard,
     UserFriendsAccessService,
     UserRouteActivator,
     PostCommentAccessService,
     ReactionAccessService,
+    ImageAccessService,
     {provide : HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
