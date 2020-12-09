@@ -25,6 +25,7 @@ import { UserAccessService,
 import { VerticalNavbarComponent } from './vertical-navbar/vertical-navbar.component';
 import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
 import { ImageAccessService } from './data/api-access/image-access.service';
+import { ChatComponent } from './chat/chat.component';
 
 
 
@@ -34,7 +35,8 @@ import { ImageAccessService } from './data/api-access/image-access.service';
     NavbarComponent,
     SigninRedirectCallbackComponent,
     SignoutRedirectCallbackComponent,
-    VerticalNavbarComponent,   
+    VerticalNavbarComponent,  
+    ChatComponent 
   ],
   imports: [
     BrowserModule,

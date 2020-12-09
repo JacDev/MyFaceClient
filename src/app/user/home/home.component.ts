@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   }
   public listOfPostFromApi: PostModel[] = null;
   public paginationParams: PaginatiomModel = null;
-  private _isLoadingNewPosts: Boolean = false;
+  public isLoadingNewPosts: Boolean = false;
   public currentLoggedUserId: string = null;
   public postForm: FormGroup;
   public postText: FormControl;
@@ -55,29 +55,31 @@ export class HomeComponent implements OnInit {
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
   }
-  @HostListener("window:scroll", [])
-  onScroll(): void {
-    if (this.bottomReached() && this.paginationParams.hasNext && !this._isLoadingNewPosts) {
-      let newPosts: PostModel[] = null;
-      this._isLoadingNewPosts = true;
-      this._postAccess.getFriendsPosts(this._authService.currentUserId, this.paginationParams.nextPageLink)
-        .subscribe(
-          result => {
-            newPosts = result.collection;
-            this.paginationParams = result.paginationMetadata;
+  @HostListener("scroll", [])
+  onScroll(event): void {
+    //console.log(event);
+    if (event.target.id == 'main-view') {
+      if (this.bottomReached(event) && this.paginationParams.hasNext && !this.isLoadingNewPosts) {
+        let newPosts: PostModel[] = null;
+        this.isLoadingNewPosts = true;
+        this._postAccess.getFriendsPosts(this._authService.currentUserId, this.paginationParams.nextPageLink)
+          .subscribe(
+            result => {
+              newPosts = result.collection;
+              this.paginationParams = result.paginationMetadata;
 
-            this.listOfPostFromApi.push(...newPosts);
-            console.log(this.listOfPostFromApi);
-            console.log(this.paginationParams);
-            this._isLoadingNewPosts = false;
-          },
-          error => console.log('error', error)
-        );
+              this.listOfPostFromApi.push(...newPosts);
+              console.log(this.listOfPostFromApi);
+              console.log(this.paginationParams);
+              this.isLoadingNewPosts = false;
+            },
+            error => console.log('error', error)
+          );
+      }
     }
   }
-
-  bottomReached(): boolean {
-    return (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 1);
+  bottomReached(event): boolean {
+    return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
   }
   deletePost(postId: string) {
     this.listOfPostFromApi = this.listOfPostFromApi.filter(x => x.id !== postId);
@@ -95,7 +97,7 @@ export class HomeComponent implements OnInit {
       data.append('picture', this.image);
       this._postAccess.postPost(this.currentLoggedUserId, data)
         .subscribe(result => {
-          this.isAddingPost=false;
+          this.isAddingPost = false;
           this.listOfPostFromApi.unshift(result);
         })
       this.image = null;
@@ -123,7 +125,7 @@ export class HomeComponent implements OnInit {
             `Rozmiar przekracza 25MB!`
           )
         }
-        else if(!this.isFileImage(result)){
+        else if (!this.isFileImage(result)) {
           Swal.showValidationMessage(
             `Podany plik nie jest zdjeciem!`
           )
