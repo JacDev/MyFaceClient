@@ -1,7 +1,9 @@
 import { AuthorizationRouteGuard } from '../core/guards/authorize-route-guard';
-import { ChatMainComponent } from './chat-main/chat-main.component'
+import { ChatComponent } from './chat.component';
 
 
-export const userRoutes = [
-  { path: '', component: ChatMainComponent, canActivate: [AuthorizationRouteGuard] },
+export const chatRoutes = [
+  { path: '', component: ChatComponent},
+  { path: '/chat', component: ChatComponent},
+  { path: '**', component: ChatComponent}
 ]

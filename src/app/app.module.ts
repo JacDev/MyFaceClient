@@ -25,8 +25,6 @@ import { UserAccessService,
 import { VerticalNavbarComponent } from './vertical-navbar/vertical-navbar.component';
 import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
 import { ImageAccessService } from './data/api-access/image-access.service';
-import { ChatComponent } from './chat/chat.component';
-
 
 
 @NgModule({
@@ -36,7 +34,7 @@ import { ChatComponent } from './chat/chat.component';
     SigninRedirectCallbackComponent,
     SignoutRedirectCallbackComponent,
     VerticalNavbarComponent,  
-    ChatComponent 
+ 
   ],
   imports: [
     BrowserModule,
