@@ -1,6 +1,6 @@
 <div *ngIf="userToDisplay==null; else elseBlock"></div>
 <ng-template #elseBlock>
-    <div class="d-flex" style="cursor: pointer;">
+    <div class="d-flex">
         <div class="float-left ">
             <!-- <img class="rounded-circle" *ngIf="userToDisplay?.profileImagePath" [src]="userToDisplay.profileImagePath"
     width="90%" /> -->
@@ -8,7 +8,7 @@
 
         </div>
 
-        <div class="ml-1 align-self-center float-left">
+        <div class="ml-1 align-self-center float-left text-white">
             {{userToDisplay.firstName}} {{userToDisplay.lastName}}
         </div>
     </div>

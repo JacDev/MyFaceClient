@@ -1,0 +1,9 @@
+.main-view {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-right: 0px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}

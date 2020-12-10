@@ -19,7 +19,6 @@ export class ChatService {
 
   initConnection() {
     this._authService.getAccessToken().then(result => {
-      console.log(result);
       let tokenValue = '?token=' + result;
       this.connection = new signalR.HubConnectionBuilder().withUrl(`https://localhost:4999/messagesHub${tokenValue}`)   // mapping to the chathub as in startup.cs
         .configureLogging(signalR.LogLevel.Information)
@@ -28,22 +27,23 @@ export class ChatService {
         console.log(err)
         //await this.start();
       });
-      this.connection.on("ReceiveMessage", (user, message) => { this.reciveMessage(user, message); });
+      this.connection.on("ReceiveMessage", (user, message, when) => { this.reciveMessage(user, message, when); });
       this.start();
     })
   }
-  reciveMessage(fromWho: string, messageText: string) {
+  reciveMessage(fromWho: string, messageText: string, when: Date) {
     let newMessage: MessageDbo = {
-      toWhoId:this._authService.currentUserId,
-      fromWhoId : fromWho,
-      message : messageText,
+      toWho: this._authService.currentUserId,
+      fromWho: fromWho,
+      text: messageText,
+      when: when
     };
 
     this._newMessageSubject.next(newMessage);
     console.log('from hubconnector' + fromWho, messageText);
   }
-  sendMessage(toWhoId: string, message: string) {
-    this.connection.invoke("SendMessageToUser", toWhoId, message)
+  sendMessage(toWhoId: string, message: string, when: Date) {
+    this.connection.invoke("SendMessageToUser", toWhoId, message, when)
       .catch(function (err) {
         return console.error(err.toString());
       });

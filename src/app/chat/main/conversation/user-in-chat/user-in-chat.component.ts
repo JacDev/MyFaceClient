@@ -7,8 +7,7 @@ import { UserModel } from 'src/app/data/models/user.model';
   styleUrls: ['./user-in-chat.component.css']
 })
 export class UserInChatComponent implements OnInit {
-
-  @Input() userToDisplay : UserModel;
+  @Input() userToDisplay: UserModel;
   constructor() { }
 
   ngOnInit(): void {

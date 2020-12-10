@@ -25,6 +25,8 @@ import { UserAccessService,
 import { VerticalNavbarComponent } from './vertical-navbar/vertical-navbar.component';
 import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
 import { ImageAccessService } from './data/api-access/image-access.service';
+import { IsLoggedInRouteGuard } from './core/guards/is-looged-in-route-guard';
+import { MessagesAccessService } from './data/api-access/messages-api-access.service';
 
 
 @NgModule({
@@ -50,11 +52,13 @@ import { ImageAccessService } from './data/api-access/image-access.service';
     PostAccessService,
     AuthInterceptorService,
     AuthorizationRouteGuard,
+    IsLoggedInRouteGuard,
     UserFriendsAccessService,
     UserRouteActivator,
     PostCommentAccessService,
     ReactionAccessService,
     ImageAccessService,
+    MessagesAccessService,
     {provide : HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

@@ -45,3 +45,4 @@ testem.log
 .DS_Store
 Thumbs.db
 src/app/chat/toDo.txt
+src/app/todo.txt

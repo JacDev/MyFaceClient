@@ -43,8 +43,6 @@ export class HomeComponent implements OnInit {
         result => {
           this.listOfPostFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
-          console.log(this.listOfPostFromApi);
-          console.log(this.paginationParams);
         },
         error => console.log('error', error)
       );

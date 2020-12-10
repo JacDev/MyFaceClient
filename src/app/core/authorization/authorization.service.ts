@@ -57,7 +57,7 @@ export class AuthorizationService {
   completeLogin() {
     return this._userManager.signinRedirectCallback().then(user => {
       this._user = user;
-      console.log(user.profile.sub)
+      //console.log(user.profile.sub)
       this._loginChangedSubject.next(!!user && !user.expired);
       return user;
     })
@@ -87,7 +87,7 @@ export class AuthorizationService {
         result => {
           this.currentUser = new UserModel(result);
           this.isLoadingCurrentUser = false;
-          console.log(result);
+          //console.log(result);
           this._userLoadedSubject.next(true);
         },
         error => console.log('error', error)

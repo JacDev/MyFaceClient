@@ -1,5 +1,6 @@
 export class MessageDbo {
-    fromWhoId: string;
-    toWhoId: string;
-    message: string;
+    toWho: string;
+    text: string;
+    when: Date;
+    fromWho: string;
 }

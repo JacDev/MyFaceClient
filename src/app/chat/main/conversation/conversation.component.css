@@ -1,7 +1,3 @@
-.post {
-    background-color: rgb(58, 58, 59);
-}
-
 textarea,
 textarea:hover,
 textarea:focus {
@@ -13,15 +9,16 @@ textarea::placeholder {
     color: white;
 }
 
-.main-post {
+.main-message {
     overflow-y: hidden;
     overflow-x: hidden;
-    padding-right: 20px;
+    margin-right: 20px;
+    background-color: rgb(58, 58, 59);
 }
 
-.main-post:hover {
+.main-message:hover {
     overflow-y: scroll;
-    padding-right: 3px;
+    margin-right: 3px;
 }
 
 ::-webkit-scrollbar {

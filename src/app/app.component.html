@@ -1,9 +1,9 @@
 <app-navbar (loginRedirect)="redirectToSTS($event)" (logoutRedirect)="logout($event)" [isLoggedIn]="isLoggedIn"></app-navbar>
-<div class="col-12 container bg-transparent row justify-content-center">
-    <main role="main" class="offset-lg-3 pb-3 col-lg-6 col-sm-12 col-md-8">
+<div class="col-12 container bg-transparent row justify-content-center mr-0 main-view ">
+    <main role="main" class="offset-lg-3 pb-1 col-lg-6 col-sm-12 col-md-8">
         <router-outlet></router-outlet>
     </main>
-    <div class=" col-lg-3 col-sm-0 col-md-4">
+    <div class="col-lg-3 col-sm-0 col-md-4 pr-0 ml-0">
         <router-outlet name="aside"></router-outlet>
     </div>
 </div>

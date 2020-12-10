@@ -1,0 +1,24 @@
+<div>
+    <div style="cursor: pointer;" (click)="showConversation(userToDisplay.id)">
+        <app-user-in-chat [userToDisplay]="userToDisplay"></app-user-in-chat>
+    </div>
+    <div *ngIf='showWindow'>
+        <div #messageBox (scroll)="onScroll($event)" id='main-view' class="main-message mt-2 rounded" [ngStyle]="{'height': screenHeight * 0.30+'px'}">
+            <chat-message #messagesList *ngFor="let message of listOfMessagesFromApi;last as islast" [messageToDisplay]="message" [currentLoggedUserId]="currentLoggedUserId">
+                <div *ngIf="islast"> {{scrollToBottom()}}</div>
+            </chat-message>
+            <div *ngIf="isLoadingNewMessages" class="d-flex h-100 justify-content-center">
+                <div class="spinner-border my-2 text-light align-self-center" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <form class="input-group" [formGroup]="newMessageForm" (keyup.enter)="addMessage(newMessageForm)" (ngSubmit)="addMessage(newMessageForm)" novalidate>
+            <textarea [formControl]="mesageText" autosize class="form-control rounded" type="text" style="margin-right: 20px;background-color: rgb(83, 83, 85); color: white;"></textarea>
+        </form>
+    </div>
+
+
+</div>
