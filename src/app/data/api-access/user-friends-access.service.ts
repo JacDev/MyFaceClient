@@ -11,7 +11,7 @@ export class UserFriendsAccessService {
   constructor(private _apiAccess : DataAccessService) { }
 
   getFriends(userId: string, url:string = null) : Observable<PaginationWithCollectionModel<UserModel>> {
-    var currentUrl = url || `${ConnectionsConstants.apiRoot}users/${userId}/friends`;
+    var currentUrl = url || `${ConnectionsConstants.apiRoot}users/${userId}/friends?pageSize=20`;
     return this._apiAccess.getCollection<UserModel>(currentUrl)
   }
 }

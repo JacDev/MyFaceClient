@@ -1,15 +1,18 @@
 <div *ngIf="userToDisplay==null; else elseBlock"></div>
 <ng-template #elseBlock>
-    <div class="d-flex">
+    <div class="d-flex my-1">
         <div class="float-left ">
             <!-- <img class="rounded-circle" *ngIf="userToDisplay?.profileImagePath" [src]="userToDisplay.profileImagePath"
     width="90%" /> -->
-            <img class="rounded-circle" src="../../../../assets/images/default.jpg" width="80%" />
+            <img class="rounded-circle py-2 ml-2" src="../../../../assets/images/default.jpg" width="70%" />
 
         </div>
 
         <div class="ml-1 align-self-center float-left text-white">
             {{userToDisplay.firstName}} {{userToDisplay.lastName}}
+        </div>
+        <div class="ml-auto text-white text-center pr-4 align-self-center h4 " *ngIf="newUnseenMessages!=0">
+            <span class="badge badge-danger">{{newUnseenMessages}}</span>
         </div>
     </div>
 </ng-template>

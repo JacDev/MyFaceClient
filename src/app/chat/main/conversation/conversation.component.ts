@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { MessagesAccessService } from 'src/app/data/api-access/messages-api-access.service';
 import { PaginatiomModel } from 'src/app/data/common/pagination-model';
 import { UserModel } from 'src/app/data/models/user.model';
@@ -13,14 +14,14 @@ import { MessageDbo } from '../../data/messageDbo.model';
 })
 export class ConversationComponent implements OnInit {
   @ViewChildren('messagesList') messageElements: QueryList<any>;
-
+  @Input() newMessageFromHub: Observable<MessageDbo>;
   @Input() userToDisplay: UserModel;
   @Input() currentLoggedUserId: string;
   @Output() newMessageEmitter: EventEmitter<MessageDbo> = new EventEmitter<MessageDbo>();
 
   public showWindow: boolean = false;
   public isLoadingNewMessages: boolean = false;
-  public listOfMessagesFromApi: (MessageFromApiModel | MessageDbo)[];
+  public listOfMessagesFromApi: (MessageFromApiModel | MessageDbo)[] = null;
   public messagesPaginationParams: PaginatiomModel = null;
   public newMessageForm: FormGroup;
   public mesageText: FormControl;
@@ -28,6 +29,9 @@ export class ConversationComponent implements OnInit {
   isAfterLoadingNewMessages: boolean = false;
   isScrolled: boolean = false;
   newMessagesToSkip: number = 0;
+  isNewMessage: boolean = false;
+  public newUnseenMessages:number = 0;
+  constructor(private _messageApiAccess: MessagesAccessService) { }
 
   @ViewChild('messageBox') private messageBox: ElementRef;
   scrollToBottom() {
@@ -42,14 +46,26 @@ export class ConversationComponent implements OnInit {
   getScreenSize(event?) {
     this.screenHeight = window.innerHeight;
   }
-  constructor(private _messageApiAccess: MessagesAccessService) { }
 
   ngOnInit(): void {
+    this.newMessageFromHub.subscribe(result => {
+      this.reciveMessage(result);
+    })
     this.mesageText = new FormControl();
     this.newMessageForm = new FormGroup({
       mesageText: this.mesageText
     })
 
+  }
+  reciveMessage(message: MessageDbo) {
+    if (this.userToDisplay.id == message.fromWho) {
+      this.isNewMessage = true;
+      this.newUnseenMessages++;
+      console.log("message from conversation");
+      if (this.listOfMessagesFromApi) {
+        this.listOfMessagesFromApi.push(message);
+      }
+    }
   }
   loadMessages() {
     this.getScreenSize();
@@ -60,13 +76,13 @@ export class ConversationComponent implements OnInit {
           this.isLoadingNewMessages = false
           this.listOfMessagesFromApi = result.collection.reverse();
           this.messagesPaginationParams = result.paginationMetadata;
-          console.log(this.listOfMessagesFromApi);
-          console.log(this.messagesPaginationParams);
         },
         error => console.log('error', error)
       );
   }
   showConversation(withWhoId: string) {
+    this.newUnseenMessages=0;
+    this.isNewMessage = false;
     this.showWindow = !this.showWindow;
     this.loadMessages();
   }
@@ -74,16 +90,16 @@ export class ConversationComponent implements OnInit {
   onScroll(event): void {
     if (event.target.id == 'main-view') {
       if (this.topReached(event) && this.messagesPaginationParams.hasNext && !this.isLoadingNewMessages) {
-        let newPosts: MessageFromApiModel[] = null;
+        let newMessages: MessageFromApiModel[] = null;
         this.isLoadingNewMessages = true;
         this._messageApiAccess.getNextMessages(this.messagesPaginationParams.nextPageLink, this.newMessagesToSkip)
           .subscribe(
             result => {
               this.isAfterLoadingNewMessages = true;
-              newPosts = result.collection;
+              newMessages = result.collection;
               this.messagesPaginationParams = result.paginationMetadata;
 
-              this.listOfMessagesFromApi.unshift(...newPosts.reverse());
+              this.listOfMessagesFromApi.unshift(...newMessages.reverse());
               console.log(this.listOfMessagesFromApi);
               console.log(this.messagesPaginationParams);
               this.isLoadingNewMessages = false;

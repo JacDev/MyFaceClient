@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainComponent } from './main/main.component';
 import { ChatComponent } from './chat.component';
 import { RouterModule } from '@angular/router';
 import { chatRoutes } from './chat.routes';
@@ -10,11 +9,12 @@ import { ConversationComponent } from './main/conversation/conversation.componen
 import { ChatMessageComponent } from './main/conversation/chat-message/chat-message.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
+import { MainChatComponent } from './main/main-chat.component';
 
 @NgModule({
   declarations: [
     UserInChatComponent, 
-    MainComponent, 
+    MainChatComponent, 
     ChatComponent, 
     ChatMessageComponent, 
     ConversationComponent],

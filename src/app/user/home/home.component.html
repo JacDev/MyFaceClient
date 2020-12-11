@@ -20,7 +20,7 @@
 
     </ng-template>
 </div>
-<div (scroll)="onScroll($event)" id='main-view' class="main-post" [ngStyle]="{'height': screenHeight * 0.76+'px'}">
+<div (scroll)="onScroll($event)" id='main-view' class="main-post " [ngStyle]="{'height': screenHeight * 0.76+'px'}">
     <app-post #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)" [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
     </app-post>
     <div *ngIf="isLoadingNewPosts" class="d-flex justify-content-center">

@@ -8,6 +8,7 @@ import { UserModel } from 'src/app/data/models/user.model';
 })
 export class UserInChatComponent implements OnInit {
   @Input() userToDisplay: UserModel;
+  @Input() newUnseenMessages:number;
   constructor() { }
 
   ngOnInit(): void {

@@ -55,8 +55,7 @@ export class HomeComponent implements OnInit {
   }
   @HostListener("scroll", [])
   onScroll(event): void {
-    //console.log(event);
-    if (event.target.id == 'main-view') {
+    //if (event.target.id == 'main-view') {
       if (this.bottomReached(event) && this.paginationParams.hasNext && !this.isLoadingNewPosts) {
         let newPosts: PostModel[] = null;
         this.isLoadingNewPosts = true;
@@ -74,7 +73,7 @@ export class HomeComponent implements OnInit {
             error => console.log('error', error)
           );
       }
-    }
+    //}
   }
   bottomReached(event): boolean {
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
