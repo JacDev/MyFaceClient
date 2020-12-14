@@ -22,11 +22,11 @@ import { UserAccessService,
   PostCommentAccessService,  
   ReactionAccessService} from './data/api-access/api-access-index';
   
-import { VerticalNavbarComponent } from './vertical-navbar/vertical-navbar.component';
 import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
 import { ImageAccessService } from './data/api-access/image-access.service';
 import { IsLoggedInRouteGuard } from './core/guards/is-looged-in-route-guard';
 import { MessagesAccessService } from './data/api-access/messages-api-access.service';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -34,16 +34,17 @@ import { MessagesAccessService } from './data/api-access/messages-api-access.ser
     AppComponent,
     NavbarComponent,
     SigninRedirectCallbackComponent,
-    SignoutRedirectCallbackComponent,
-    VerticalNavbarComponent,  
+    SignoutRedirectCallbackComponent,  
  
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     RouterModule,
-
+    FormsModule,
+    
   ],
   providers: [
     AuthorizationService,

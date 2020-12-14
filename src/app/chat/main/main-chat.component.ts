@@ -68,8 +68,6 @@ export class MainChatComponent implements OnInit {
               this.friendsPaginationParams = result.paginationMetadata;
 
               this.userFriends.unshift(...newFriends.reverse());
-              console.log(this.userFriends);
-              console.log(this.friendsPaginationParams);
               this.isLoadingNewFriends = false;
             },
             error => console.log('error', error)
@@ -91,8 +89,6 @@ export class MainChatComponent implements OnInit {
         result => {
           this.userFriends = result.collection;
           this.friendsPaginationParams = result.paginationMetadata;
-          console.log(this.userFriends);
-          console.log(this.friendsPaginationParams);
           this.isLoadingNewFriends = false;
         },
         error => console.log('error', error)
@@ -103,11 +99,9 @@ export class MainChatComponent implements OnInit {
     let x = this.userFriends.findIndex(x => x.id == message.fromWho)
 
     if (x > -1) {
-      console.log('znaleziony')
       let user: UserModel = this.userFriends.find(x => x.id == message.fromWho);
       this.userFriends.splice(x, 1)
       this.userFriends.unshift(user);
-
     }
     else {
       this._usersApiAccess.getUser(message.fromWho)

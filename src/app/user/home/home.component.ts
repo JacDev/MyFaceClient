@@ -6,6 +6,7 @@ import { PaginatiomModel } from '../../data/common/pagination-model';
 import { PostModel } from '../../data/models/post.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { ImageAccessService } from 'src/app/data/api-access/image-access.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   templateUrl: './home.component.html',
@@ -92,6 +93,7 @@ export class HomeComponent implements OnInit {
       let data = new FormData();
       data.append('text', postToAdd);
       data.append('picture', this.image);
+      data.append('whenAdded', this.getCurrentDate())
       this._postAccess.postPost(this.currentLoggedUserId, data)
         .subscribe(result => {
           this.isAddingPost = false;
@@ -102,6 +104,12 @@ export class HomeComponent implements OnInit {
       this.isImageLoaded = null;
     }
     postForm.reset();
+  }
+  private getCurrentDate():string{
+    let today = new Date();
+    let date = today.getFullYear()+'.'+(today.getMonth()+1)+'.'+today.getDate();    
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();    
+    return date+' '+time;
   }
   isFileImage(file) {
     return file && file['type'].split('/')[0] === 'image';

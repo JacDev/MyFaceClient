@@ -11,7 +11,8 @@ export class NavbarComponent implements OnInit {
   @Output() logoutRedirect: EventEmitter<number> = new EventEmitter();
   @Input() isLoggedIn: boolean;
 
-  constructor(public authService: AuthorizationService) { }
+
+  constructor(private authService: AuthorizationService) { }
 
   ngOnInit(): void {
   }
