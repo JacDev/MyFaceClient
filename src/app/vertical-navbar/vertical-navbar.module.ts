@@ -5,6 +5,7 @@ import { verticalNavbarRoutes } from './vertica-navbar.route';
 import { RouterModule } from '@angular/router';
 import { FoundUserComponent } from './found-user/found-user.component';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared.module';
 
 
 
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     RouterModule.forChild(verticalNavbarRoutes),
-    FormsModule
+    FormsModule,
+    SharedModule
   ]
 })
 export class VerticalNavbarModule { }

@@ -1,9 +1,12 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { PostAccessService, ReactionAccessService, UserAccessService } from 'src/app/data/api-access/api-access-index';
-import { ImageAccessService } from 'src/app/data/api-access/image-access.service';
+import { ImageAccessService } from 'src/app/user/services/image-access.service';
 import { PostModel } from 'src/app/data/models/post.model';
 import { UserModel } from 'src/app/data/models/user.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { 
+  PostAccessService, 
+  ReactionAccessService } from '../../services/index';
+import { UserAccessService } from 'src/app/data/api-access';
 
 @Component({
   selector: 'app-post',
@@ -41,8 +44,8 @@ export class PostComponent implements OnInit {
     this.commentsCounter = this.postToDisplay.postCommentsCounter;
     this._userAccess.getUser(this.postToDisplay.userId)
       .subscribe(
-        resu => {
-          this.userToDisplay = resu;
+        result => {
+          this.userToDisplay = result;
         },
         error => console.log('error', error)
       );
@@ -100,8 +103,7 @@ export class PostComponent implements OnInit {
     else {
       this.reactionCounter++;
       this._postReactionsAccess.postPostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
-        .subscribe(response => {
-          console.log(response);
+        .subscribe(_ => {
         });
     }
     this.isAlreadyLike = !this.isAlreadyLike;
@@ -124,15 +126,10 @@ export class PostComponent implements OnInit {
       console.log(result);
       if (result.isConfirmed && result.value.trim().length != 0) {
         this.isLoading = true;
-        this.postToDisplay.text = result.value;
-        this._postAccess.patchPost(this.currentLoggedUserId, this.postToDisplay.id,
-          [{
-            "op": "replace",
-            "path": "/text",
-            "value": result.value
-          }]
-        ).subscribe(_ => {
+        this._postAccess.patchPost(this.currentLoggedUserId, this.postToDisplay.id, result.value)
+        .subscribe(_ => {
           this.isLoading = false;
+          this.postToDisplay.text = result.value;
         });
       }
     })
@@ -156,7 +153,6 @@ export class PostComponent implements OnInit {
         this._postAccess.deletePost(this.currentLoggedUserId, this.postToDisplay.id)
           .subscribe(result => {
             this.isLoading = false;
-            console.log(result)
             this.deletePostFromListEvent.emit(this.postToDisplay.id);
           },
             error => console.log('error', error));
@@ -172,7 +168,6 @@ export class PostComponent implements OnInit {
       showCloseButton: true,
       showConfirmButton: false,
       imageAlt: 'Dodawane zdjęcie',
-      focusClose: false,
     })
   }
 }

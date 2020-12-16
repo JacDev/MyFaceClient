@@ -17,16 +17,18 @@ import {SignoutRedirectCallbackComponent,
   SigninRedirectCallbackComponent, 
   AuthorizationService} from './core/authorization/authorization-index'
 
-import { UserAccessService, 
-  PostAccessService,UserFriendsAccessService,
-  PostCommentAccessService,  
-  ReactionAccessService} from './data/api-access/api-access-index';
+import { UserAccessService,
+  UserFriendsAccessService,
+} from './data/api-access/index';
   
 import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
-import { ImageAccessService } from './data/api-access/image-access.service';
+import { ImageAccessService } from './user/services/image-access.service';
 import { IsLoggedInRouteGuard } from './core/guards/is-looged-in-route-guard';
 import { MessagesAccessService } from './data/api-access/messages-api-access.service';
 import { CommonModule } from '@angular/common';
+
+import { CurrentTimeService } from './common/time.service';
+import { SharedModule } from './shared.module';
 
 
 @NgModule({
@@ -34,7 +36,7 @@ import { CommonModule } from '@angular/common';
     AppComponent,
     NavbarComponent,
     SigninRedirectCallbackComponent,
-    SignoutRedirectCallbackComponent,  
+    SignoutRedirectCallbackComponent, 
  
   ],
   imports: [
@@ -44,22 +46,20 @@ import { CommonModule } from '@angular/common';
     HttpClientModule,
     RouterModule,
     FormsModule,
-    
+    SharedModule
   ],
   providers: [
     AuthorizationService,
     DataAccessService,
     UserAccessService,
-    PostAccessService,
     AuthInterceptorService,
     AuthorizationRouteGuard,
     IsLoggedInRouteGuard,
     UserFriendsAccessService,
     UserRouteActivator,
-    PostCommentAccessService,
-    ReactionAccessService,
     ImageAccessService,
     MessagesAccessService,
+    CurrentTimeService,
     {provide : HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

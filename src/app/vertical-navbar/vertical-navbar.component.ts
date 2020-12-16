@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { UserAccessService } from '../data/api-access/api-access-index';
+import { UserAccessService } from '../data/api-access/index';
 import { PaginatiomModel } from '../data/common/pagination-model';
 import { UserModel } from '../data/models/user.model';
 

@@ -1,13 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
-import { UserFriendsAccessService } from 'src/app/data/api-access/user-friends-access.service';
+import { UserFriendsAccessService } from 'src/app/data/api-access';
 import { PaginatiomModel } from 'src/app/data/common/pagination-model';
 import { UserModel } from 'src/app/data/models/user.model';
 
 @Component({
   selector: 'app-friends',
-  templateUrl: './friends.component.html',
-  styleUrls: ['./friends.component.css']
+  templateUrl: './friends.component.html'
 })
 export class FriendsComponent implements OnInit {
 
@@ -23,8 +22,6 @@ export class FriendsComponent implements OnInit {
         result => {
           this.listOfUsersFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
-          console.log(this.listOfUsersFromApi);
-          console.log(this.paginationParams);
         },
         error => console.log('error', error)
       );
@@ -33,24 +30,17 @@ export class FriendsComponent implements OnInit {
   @HostListener("window:scroll", [])
   onScroll(): void {
     if (this.bottomReached() && this.paginationParams.hasNext) {
-      let newUsers: UserModel[] = null;
-      this._dataService.getFriends(this._authService.currentUserId, this.paginationParams.nextPageLink)
+      this._dataService.getNextFriends(this.paginationParams.nextPageLink)
         .subscribe(
           result => {
-            newUsers = result.collection;
             this.paginationParams = result.paginationMetadata;
-
-            this.listOfUsersFromApi.push(...newUsers);
-            console.log(this.listOfUsersFromApi);
-            console.log(this.paginationParams);
+            this.listOfUsersFromApi.push(...result.collection);
           },
           error => console.log('error', error)
         );
     }
   }
-
   bottomReached(): boolean {
     return (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 1);
   }
-
 }

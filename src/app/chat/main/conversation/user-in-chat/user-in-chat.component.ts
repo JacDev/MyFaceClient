@@ -3,8 +3,7 @@ import { UserModel } from 'src/app/data/models/user.model';
 
 @Component({
   selector: 'app-user-in-chat',
-  templateUrl: './user-in-chat.component.html',
-  styleUrls: ['./user-in-chat.component.css']
+  templateUrl: './user-in-chat.component.html'
 })
 export class UserInChatComponent implements OnInit {
   @Input() userToDisplay: UserModel;

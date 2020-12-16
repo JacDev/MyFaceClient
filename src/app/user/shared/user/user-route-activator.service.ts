@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map, filter, catchError, mergeMap } from 'rxjs/operators';
-import { UserAccessService } from 'src/app/data/api-access/api-access-index';
+import { UserAccessService } from 'src/app/data/api-access/index';
 
 @Injectable()
 export class UserRouteActivator implements CanActivate {

@@ -3,16 +3,14 @@ import { UserModel } from 'src/app/data/models/user.model';
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  templateUrl: './user.component.html'
 })
 export class UserComponent implements OnInit {
 
-  @Input() public userToDisplay:UserModel;
-  
+  @Input() public userToDisplay: UserModel;
+
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }

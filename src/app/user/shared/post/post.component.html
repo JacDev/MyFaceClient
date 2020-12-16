@@ -1,22 +1,15 @@
-<div *ngIf="postToDisplay==null || currentLoggedUserId==null; else elseBlock">
-    <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-</div>
+<loading-data *ngIf="postToDisplay==null || currentLoggedUserId==null; else elseBlock"></loading-data>
 <ng-template class="" #elseBlock>
 
     <div class="mb-5 rounded p-2 mt-2 post col-12">
-
         <div class=" ml-1 row d-flex ">
             <div class="mr-auto">
                 <user-card [userToDisplay]="userToDisplay"></user-card>
             </div>
-            <div *ngIf="isLoading" class="">
-                <div class="spinner-border my-2 text-light" role="status">
-                    <span class="sr-only"></span>
-                </div>
-            </div>
-            <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="dropdown  mr-2 pt-0 bg-black">
+
+            <loading-data *ngIf="isLoading"></loading-data>
+
+            <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="dropdown mr-2 pt-0 bg-black">
                 <button type="button" class="btn text-white align-items-start mt-0 pt-0" data-toggle="dropdown">
                     <span style="font-size: x-large;" class="pb-6">...</span>
                 </button>
@@ -33,7 +26,7 @@
             <img [src]="imageToShow" class="col-12 mt-3 justify-content-center">
         </div>
 
-        <div class="col-12 btn-toolbar d-flex justify-content-end  pt-2">
+        <div class="col-12 btn-toolbar d-flex justify-content-end pt-2">
 
             <div class="btn-group form-group row pr-2 ">
 
@@ -67,10 +60,6 @@
 
             </div>
         </div>
-        <app-post-comment [postId]="postToDisplay.id" [currentLoggedUserId]="currentLoggedUserId"
-            [displayedUserId]="postToDisplay.userId" *ngIf="showComments" (hideCommentsEmitter)="hideComments($event)"
-            (changeCommentsCounterEmitter)="changeCommentsCounter($event)"></app-post-comment>
-
+        <app-post-comment [postId]="postToDisplay.id" [currentLoggedUserId]="currentLoggedUserId" [displayedUserId]="postToDisplay.userId" *ngIf="showComments" (hideCommentsEmitter)="hideComments($event)" (changeCommentsCounterEmitter)="changeCommentsCounter($event)"></app-post-comment>
     </div>
-
 </ng-template>

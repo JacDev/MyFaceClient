@@ -1,16 +1,9 @@
 <form id="searchForm" (ngSubmit)="searchUsers(searchTerm)" (keyup)="searchUsers(searchTerm)" class="mt-3">
     <div class="form-group">
         <input [(ngModel)]="searchTerm" name="searchTerm" type="text" class="form-control" placeholder="Szukaj..." autocomplete="off">
-        <!-- <button class="btn btn-default">
-            Szukaj
-        </button> -->
     </div>
-    <div *ngIf="foundUsers!=null && foundUsers?.length!=0" (scroll)="onScroll($event)" id='main-view' class="main-search rounded" [ngStyle]="{'height': screenHeight * 0.40+'px'}">
-        <nav-found-user class="" style="background-color: rgb(58, 58, 59);" *ngFor="let found of foundUsers" [foundUser]="found"></nav-found-user>
-        <div *ngIf="isLoadingNewUsers" class="d-flex justify-content-center">
-            <div class="spinner-border my-2 text-light" role="status">
-                <span class="sr-only"></span>
-            </div>
-        </div>
+    <div *ngIf="foundUsers!=null && foundUsers?.length!=0" (scroll)="onScroll($event)" class="scrollable-dark dark-background rounded" [ngStyle]="{'height': screenHeight * 0.40+'px'}">
+        <nav-found-user *ngFor="let found of foundUsers" [foundUser]="found"></nav-found-user>
+        <loading-data *ngIf="isLoadingNewUsers"></loading-data>
     </div>
 </form>

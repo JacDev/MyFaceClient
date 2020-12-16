@@ -3,8 +3,7 @@ import { MessageFromApiModel } from 'src/app/chat/data/message-from-api-model';
 
 @Component({
   selector: 'chat-message',
-  templateUrl: './chat-message.component.html',
-  styleUrls: ['./chat-message.component.css']
+  templateUrl: './chat-message.component.html'
 })
 export class ChatMessageComponent implements OnInit {
   @Input() messageToDisplay: MessageFromApiModel;

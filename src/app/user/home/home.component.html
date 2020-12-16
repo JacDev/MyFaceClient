@@ -1,16 +1,11 @@
 <div class="mb-2" style="padding-right: 20px">
-
-    <div *ngIf="isAddingPost; else addPostBlock" class="d-flex justify-content-center">
-        <div class="spinner-border my-2 text-light" role="status">
-            <span class="sr-only"></span>
-        </div>
-    </div>
+    <loading-data *ngIf="isAddingPost; else addPostBlock"></loading-data>
     <ng-template #addPostBlock>
         <div *ngIf="isImageLoaded" (click)="showImage()" class="d-flex" style="cursor: pointer;">
-            <img [src]="imageUrl" class="col-12 mt-3 justify-content-center" [ngStyle]="{'max-height': screenHeight*0.9}" style="width:auto">
+            <img [src]="imageUrl" class="col-12 mt-3 justify-content-center" [ngStyle]="{'max-height': screenHeight*0.8+'px'}">
         </div>
         <form class="input-group mt-3" [formGroup]="postForm" (keyup.enter)="addPost(postForm)" (ngSubmit)="addPost(postForm)" novalidate>
-            <textarea autosize [formControl]="postText" class="form-control rounded" type="text" rows="2" placeholder="Podziel się czymś..."></textarea>
+            <textarea autosize [formControl]="postText" class="rounded" type="text" rows="2" placeholder="Podziel się czymś..."></textarea>
 
         </form>
         <div class="btn-group d-flex">
@@ -20,7 +15,7 @@
 
     </ng-template>
 </div>
-<div (scroll)="onScroll($event)" id='main-view' class="main-post " [ngStyle]="{'height': screenHeight * 0.76+'px'}">
+<div (scroll)="onScroll($event)" id='main-view' class="scrollable-dark" [ngStyle]="{'height': screenHeight * 0.76+'px'}">
     <app-post #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)" [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
     </app-post>
     <div *ngIf="isLoadingNewPosts" class="d-flex justify-content-center">

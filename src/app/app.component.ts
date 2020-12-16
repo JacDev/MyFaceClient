@@ -19,17 +19,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-   // this.router.navigate(['localhost:4200/{chat:chat}'])
-    //this.router.navigate(['chat', { outlets: { outletName: ['chat'] } }], { skipLocationChange: true }).catch(err=>{console.log(err)});
-    this._authService.isLoggedIn().then(loggedIn => {
-      this.isLoggedIn = loggedIn;
-    })
+    this._authService.isLoggedIn()
+      .then(loggedIn => {
+        this.isLoggedIn = loggedIn;
+      })
   }
   redirectToSTS(number) {
     this._authService.login();
   }
 
-   logout(number) {
-     this._authService.logout();
-   }
+  logout(number) {
+    this._authService.logout();
+  }
 }

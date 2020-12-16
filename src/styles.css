@@ -1,4 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
 .hoverwell {
     background-color: #22262b;
-  }
+}
+
+.dark-background {
+    background-color: rgb(58, 58, 59);
+}
+
+textarea,
+textarea:hover,
+textarea:focus {
+    background-color: rgb(83, 83, 85);
+    color: white;
+    width: 100%;
+    padding-left: 7px;
+}
+
+textarea::placeholder {
+    color: white;
+}
+
+.scrollable-dark {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-right: 20px;
+}
+
+.scrollable-dark:hover {
+    overflow-y: scroll;
+    padding-right: 3px;
+}
+
+::-webkit-scrollbar {
+    width: 17px;
+}
+
+::-webkit-scrollbar:hover {
+    width: 17px;
+    background-color: rgb(59, 58, 58);
+    color: blue;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: rgb(61, 61, 61);
+}
+
+ ::-webkit-scrollbar-track {
+    background: rgb(48, 46, 46);
+}

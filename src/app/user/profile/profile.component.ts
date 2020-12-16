@@ -1,16 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
 import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
-import { PostAccessService, UserAccessService } from 'src/app/data/api-access/api-access-index';
+import { UserAccessService } from 'src/app/data/api-access/index';
 import { PaginatiomModel } from 'src/app/data/common/pagination-model';
 import { PostModel } from 'src/app/data/models/post.model';
 import { UserModel } from 'src/app/data/models/user.model';
+import { PostAccessService } from '../services/index';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  templateUrl: './profile.component.html'
 })
 
 export class ProfileComponent implements OnInit {
@@ -25,46 +24,37 @@ export class ProfileComponent implements OnInit {
   public paginationParams: PaginatiomModel = null;
   public currentDisplayedUser: UserModel = null;
   private isLoadingNewPosts: Boolean = false;
-  public currentLoggedUserId: string = null;
+  public loggedUserId: string = null;
 
   ngOnInit(): void {
-    if (this._authService.currentUser) {
-      this.loadUser();
-    }
-    else {
-      console.log(this._authService.userLoaded)
-      this._authService.userLoaded.subscribe(_ => {
-        this.loadUser();
-      })
-    }
+    this.loadUser();
   }
   loadUser() {
-    this.currentLoggedUserId = this._authService.currentUserId;
-    const currentUserId = this.route.snapshot.params['id'] || this._authService.currentUserId;
-    if (this.route.snapshot.params['id']) {
+    this.loggedUserId = this._authService.currentUserId;
+    let currentUserId;
+    this.route.params.forEach((params: Params) => {
+      currentUserId = params['id'];
+    });
+    if (!currentUserId || currentUserId === this.loggedUserId) {
+        this.getPosts(this.loggedUserId);
+    }
+    else {
       this._userDataService.getUser(currentUserId)
         .subscribe(
           result => {
             this.currentDisplayedUser = result;
-            this.getPosts();
+            this.getPosts(result.id);
           }
         ),
         error => console.log('error', error)
     }
-    else {
-      this.currentDisplayedUser = this._authService.currentUser;
-      this.getPosts()
-    }
   }
-
-  getPosts() {
-    return this._postDataService.getUserPosts(this.currentDisplayedUser.id)
+  getPosts(id:string) {
+    return this._postDataService.getUserPosts(id)
       .subscribe(
         result => {
           this.listOfPostFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
-          console.log(this.listOfPostFromApi);
-          console.log(this.paginationParams);
         },
         error => console.log('error', error)
       );
@@ -72,17 +62,12 @@ export class ProfileComponent implements OnInit {
   @HostListener("window:scroll", [])
   onScroll(): void {
     if (this.bottomReached() && this.paginationParams.hasNext && !this.isLoadingNewPosts) {
-      let newPosts: PostModel[] = null;
       this.isLoadingNewPosts = true;
-      this._postDataService.getUserPosts(this._authService.currentUserId, this.paginationParams.nextPageLink)
+      this._postDataService.getUserNextPosts(this.paginationParams.nextPageLink)
         .subscribe(
           result => {
-            newPosts = result.collection;
             this.paginationParams = result.paginationMetadata;
-
-            this.listOfPostFromApi.push(...newPosts);
-            console.log(this.listOfPostFromApi);
-            console.log(this.paginationParams);
+            this.listOfPostFromApi.push(...result.collection);
             this.isLoadingNewPosts = false;
           },
           error => console.log('error', error)
@@ -90,10 +75,7 @@ export class ProfileComponent implements OnInit {
 
     }
   }
-
   bottomReached(): boolean {
-    // console.log('window.innerHeight + window.scrollY= ', window.innerHeight + window.scrollY, 'document.body.offsetHeight= ', document.body.offsetHeight-1)
-    // console.log((window.innerHeight + window.scrollY) >= (document.body.offsetHeight-1));
     return (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 1);
   }
 }

@@ -8,10 +8,15 @@ import { PostComponent } from './shared/post/post.component';
 import { FriendsComponent } from './friends/friends.component';
 import { PostCommentsComponent } from './shared/post/post-comments/post-comments.component';
 import { CommentComponent } from './shared/post/post-comments/comment/comment.component';
-import { UserCardComponent } from './user-card/user-card.component';
+import { UserCardComponent } from './shared/user/user-card/user-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { ProfileComponent } from './profile/profile.component';
+import { SharedModule } from '../shared.module';
+import { ImageAccessService, 
+  PostAccessService, 
+  PostCommentAccessService, 
+  ReactionAccessService } from './services/index';
 
 
 @NgModule({
@@ -31,7 +36,13 @@ import { ProfileComponent } from './profile/profile.component';
     FormsModule,
     ReactiveFormsModule,
     TextareaAutosizeModule,
-
+    SharedModule
+  ],
+  providers:[
+    PostAccessService,
+    PostCommentAccessService,
+    ReactionAccessService,
+    ImageAccessService
   ]
 })
 export class UserModule { }

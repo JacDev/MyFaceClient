@@ -1,10 +1,10 @@
-export class PaginatiomModel{
+export class PaginatiomModel {
      nextPageLink: string;
      previousPageLink: string;
-     currentPage:number;
-     totalPages:number;
-     pageSize:number;
-     totalCount:number;
-     hasPrevious:boolean;
-     hasNext:boolean;
+     currentPage: number;
+     totalPages: number;
+     pageSize: number;
+     totalCount: number;
+     hasPrevious: boolean;
+     hasNext: boolean;
 }

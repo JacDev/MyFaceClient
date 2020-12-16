@@ -3,8 +3,7 @@ import { UserModel } from 'src/app/data/models/user.model';
 
 @Component({
   selector: 'nav-found-user',
-  templateUrl: './found-user.component.html',
-  styleUrls: ['./found-user.component.css']
+  templateUrl: './found-user.component.html'
 })
 export class FoundUserComponent implements OnInit {
   

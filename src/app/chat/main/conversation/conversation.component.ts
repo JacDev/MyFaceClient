@@ -30,7 +30,7 @@ export class ConversationComponent implements OnInit {
   isScrolled: boolean = false;
   newMessagesToSkip: number = 0;
   isNewMessage: boolean = false;
-  public newUnseenMessages:number = 0;
+  public newUnseenMessages: number = 0;
   constructor(private _messageApiAccess: MessagesAccessService) { }
 
   @ViewChild('messageBox') private messageBox: ElementRef;
@@ -81,33 +81,28 @@ export class ConversationComponent implements OnInit {
       );
   }
   showConversation(withWhoId: string) {
-    this.newUnseenMessages=0;
+    this.newUnseenMessages = 0;
     this.isNewMessage = false;
     this.showWindow = !this.showWindow;
     this.loadMessages();
   }
   @HostListener("scroll", [])
   onScroll(event): void {
-    if (event.target.id == 'main-view') {
-      if (this.topReached(event) && this.messagesPaginationParams.hasNext && !this.isLoadingNewMessages) {
-        let newMessages: MessageFromApiModel[] = null;
-        this.isLoadingNewMessages = true;
-        this._messageApiAccess.getNextMessages(this.messagesPaginationParams.nextPageLink, this.newMessagesToSkip)
-          .subscribe(
-            result => {
-              this.isAfterLoadingNewMessages = true;
-              newMessages = result.collection;
-              this.messagesPaginationParams = result.paginationMetadata;
+    if (this.topReached(event) && this.messagesPaginationParams.hasNext && !this.isLoadingNewMessages) {
+      this.isLoadingNewMessages = true;
+      this._messageApiAccess.getNextMessages(this.messagesPaginationParams.nextPageLink, this.newMessagesToSkip)
+        .subscribe(
+          result => {
+            this.isAfterLoadingNewMessages = true;
+            this.messagesPaginationParams = result.paginationMetadata;
 
-              this.listOfMessagesFromApi.unshift(...newMessages.reverse());
-              console.log(this.listOfMessagesFromApi);
-              console.log(this.messagesPaginationParams);
-              this.isLoadingNewMessages = false;
-            },
-            error => console.log('error', error)
-          );
-      }
+            this.listOfMessagesFromApi.unshift(...result.collection.reverse());
+            this.isLoadingNewMessages = false;
+          },
+          error => console.log('error', error)
+        );
     }
+
   }
   topReached(event): boolean {
     return (event.target.scrollTop == 0);

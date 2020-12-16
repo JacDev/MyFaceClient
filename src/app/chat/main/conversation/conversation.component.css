@@ -1,44 +1,10 @@
-textarea,
-textarea:hover,
-textarea:focus {
-    background-color: rgb(83, 83, 85);
-    color: white;
-}
-
-textarea::placeholder {
-    color: white;
-}
-
-.main-message {
-    overflow-y: hidden;
-    overflow-x: hidden;
+.scrollable-dark {
     margin-right: 20px;
+    padding-right: 0px;
     background-color: rgb(58, 58, 59);
 }
 
-.main-message:hover {
-    overflow-y: scroll;
+.scrollable-dark:hover {
+    padding-right: 0px;
     margin-right: 3px;
-}
-
-::-webkit-scrollbar {
-    width: 17px;
-}
-
-::-webkit-scrollbar:hover {
-    width: 17px;
-    background-color: rgb(59, 58, 58);
-    color: blue;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #888;
-}
-
- ::-webkit-scrollbar-thumb:hover {
-    background: rgb(61, 61, 61);
-}
-
- ::-webkit-scrollbar-track {
-    background: rgb(48, 46, 46);
 }

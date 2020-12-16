@@ -4,7 +4,7 @@
 
     </div>
     <div *ngIf='showWindow'>
-        <div #messageBox (scroll)="onScroll($event)" id='main-view' class="main-message mt-2 rounded" [ngStyle]="{'height': screenHeight * 0.30+'px'}">
+        <div #messageBox (scroll)="onScroll($event)" id="aa" class="scrollable-dark dark-background mt-2 rounded" [ngStyle]="{'height': screenHeight * 0.30+'px'}">
             <chat-message #messagesList *ngFor="let message of listOfMessagesFromApi;last as islast" [messageToDisplay]="message" [currentLoggedUserId]="currentLoggedUserId">
                 <div *ngIf="islast"> {{scrollToBottom()}}</div>
             </chat-message>

@@ -1,17 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthorizationService } from '../../core/authorization/authorization.service';
-import { PostAccessService } from '../../data/api-access/post-access.service';
+import { PostAccessService } from '../services/post-access.service';
 import { PaginatiomModel } from '../../data/common/pagination-model';
 import { PostModel } from '../../data/models/post.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import { ImageAccessService } from 'src/app/data/api-access/image-access.service';
-import { DatePipe } from '@angular/common';
 
 @Component({
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'
-  ]
+  templateUrl: './home.component.html'
 })
 
 export class HomeComponent implements OnInit {
@@ -21,16 +17,18 @@ export class HomeComponent implements OnInit {
   }
   public listOfPostFromApi: PostModel[] = null;
   public paginationParams: PaginatiomModel = null;
-  public isLoadingNewPosts: Boolean = false;
+
   public currentLoggedUserId: string = null;
   public postForm: FormGroup;
   public postText: FormControl;
-  public image: File = null;
-  public isImageLoaded: boolean = false;
+
   public imageUrl: any;
+  public image:File = null;
   public screenHeight: number;
+
   public isAddingPost: boolean = false;
-  screenWidth: number;
+  public isImageLoaded: boolean = false;
+  public isLoadingNewPosts: boolean = false;
 
   ngOnInit(): void {
     this.getScreenSize();
@@ -50,69 +48,51 @@ export class HomeComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?) {
+  getScreenSize(event?): void {
     this.screenHeight = window.innerHeight;
-    this.screenWidth = window.innerWidth;
   }
-  @HostListener("scroll", [])
-  onScroll(event): void {
-    //if (event.target.id == 'main-view') {
-      if (this.bottomReached(event) && this.paginationParams.hasNext && !this.isLoadingNewPosts) {
-        let newPosts: PostModel[] = null;
-        this.isLoadingNewPosts = true;
-        this._postAccess.getFriendsPosts(this._authService.currentUserId, this.paginationParams.nextPageLink)
-          .subscribe(
-            result => {
-              newPosts = result.collection;
-              this.paginationParams = result.paginationMetadata;
-
-              this.listOfPostFromApi.push(...newPosts);
-              console.log(this.listOfPostFromApi);
-              console.log(this.paginationParams);
-              this.isLoadingNewPosts = false;
-            },
-            error => console.log('error', error)
-          );
-      }
-    //}
+  @HostListener("scroll", ['$event'])
+  onScroll(event:Event): void {
+    if (this.bottomReached(event) && this.paginationParams.hasNext && !this.isLoadingNewPosts) {
+      this.isLoadingNewPosts = true;
+      this._postAccess.getFriendsNextPosts(this.paginationParams.nextPageLink)
+        .subscribe(
+          result => {
+            this.paginationParams = result.paginationMetadata;
+            this.listOfPostFromApi.push(...result.collection);
+            this.isLoadingNewPosts = false;
+          },
+          error => console.log('error', error)
+        );
+    }
   }
   bottomReached(event): boolean {
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
   }
-  deletePost(postId: string) {
+  deletePost(postId: string): void {
     this.listOfPostFromApi = this.listOfPostFromApi.filter(x => x.id !== postId);
   }
-  addPost(postForm: FormGroup) {
+  addPost(postForm: FormGroup): void {
     console.log(postForm.value.postText)
-    if (!postForm.value.postText || postForm.value.postText.trim().length == 0) {
-      console.log("pusty")
-    }
-    else {
+    if (postForm.value.postText && postForm.value.postText.trim().length != 0) {
       this.isAddingPost = true;
-      let postToAdd: string = postForm.value.postText.trimEnd()
-      let data = new FormData();
-      data.append('text', postToAdd);
-      data.append('picture', this.image);
-      data.append('whenAdded', this.getCurrentDate())
-      this._postAccess.postPost(this.currentLoggedUserId, data)
+      let text: string = postForm.value.postText.trimEnd()
+
+      this._postAccess.postPost(this.currentLoggedUserId, text, this.image)
         .subscribe(result => {
           this.isAddingPost = false;
           this.listOfPostFromApi.unshift(result);
         })
+        
       this.image = null;
       this.imageUrl = null;
       this.isImageLoaded = null;
     }
     postForm.reset();
   }
-  private getCurrentDate():string{
-    let today = new Date();
-    let date = today.getFullYear()+'.'+(today.getMonth()+1)+'.'+today.getDate();    
-    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();    
-    return date+' '+time;
-  }
-  isFileImage(file) {
-    return file && file['type'].split('/')[0] === 'image';
+
+  isFileImage(file: File) {
+    return file && file.type.split('/')[0] === 'image';
   }
   addImage() {
     Swal.fire({
@@ -124,7 +104,6 @@ export class HomeComponent implements OnInit {
         'aria-label': 'Wybierz zdjęcie:'
       },
       preConfirm: (result) => {
-        console.log(result)
         if (result?.size > 25000000) {
           Swal.showValidationMessage(
             `Rozmiar przekracza 25MB!`
@@ -137,8 +116,6 @@ export class HomeComponent implements OnInit {
         }
       }
     }).then((result) => {
-      console.log(result)
-
       if (result.value) {
         this.image = result.value;
         const reader = new FileReader()
@@ -152,14 +129,13 @@ export class HomeComponent implements OnInit {
   }
   showImage() {
     Swal.fire({
-      width: this.screenWidth * 0.8,
+      width: 'auto',
       imageUrl: this.imageUrl,
-      imageHeight: this.screenHeight * 0.8,
+      imageHeight: this.screenHeight * 0.89,
       imageWidth: 'auto',
-      showCloseButton: true,
+      showCloseButton: false,
       showConfirmButton: false,
       imageAlt: 'Dodawane zdjęcie',
     })
   }
-
 }

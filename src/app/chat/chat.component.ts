@@ -3,8 +3,7 @@ import { AuthorizationService } from '../core/authorization/authorization-index'
 
 @Component({
   selector: 'app-chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  templateUrl: './chat.component.html'
 })
 export class ChatComponent implements OnInit {
 
