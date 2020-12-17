@@ -1,11 +1,11 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { MessageDto } from 'src/app/common/models/messageDto.model';
 import { MessagesAccessService } from 'src/app/data/api-access/messages-api-access.service';
 import { PaginatiomModel } from 'src/app/data/common/pagination-model';
 import { UserModel } from 'src/app/data/models/user.model';
 import { MessageFromApiModel } from '../../data/message-from-api-model';
-import { MessageDbo } from '../../data/messageDbo.model';
 
 @Component({
   selector: 'chat-conversation',
@@ -14,14 +14,14 @@ import { MessageDbo } from '../../data/messageDbo.model';
 })
 export class ConversationComponent implements OnInit {
   @ViewChildren('messagesList') messageElements: QueryList<any>;
-  @Input() newMessageFromHub: Observable<MessageDbo>;
+  @Input() newMessageFromHub: Observable<MessageDto>;
   @Input() userToDisplay: UserModel;
   @Input() currentLoggedUserId: string;
-  @Output() newMessageEmitter: EventEmitter<MessageDbo> = new EventEmitter<MessageDbo>();
+  @Output() newMessageEmitter: EventEmitter<MessageDto> = new EventEmitter<MessageDto>();
 
   public showWindow: boolean = false;
   public isLoadingNewMessages: boolean = false;
-  public listOfMessagesFromApi: (MessageFromApiModel | MessageDbo)[] = null;
+  public listOfMessagesFromApi: (MessageFromApiModel | MessageDto)[] = null;
   public messagesPaginationParams: PaginatiomModel = null;
   public newMessageForm: FormGroup;
   public mesageText: FormControl;
@@ -57,7 +57,7 @@ export class ConversationComponent implements OnInit {
     })
 
   }
-  reciveMessage(message: MessageDbo) {
+  reciveMessage(message: MessageDto) {
     if (this.userToDisplay.id == message.fromWho) {
       this.isNewMessage = true;
       this.newUnseenMessages++;
@@ -115,7 +115,7 @@ export class ConversationComponent implements OnInit {
       this.newMessagesToSkip++;
       this.isAfterLoadingNewMessages = false;
       const text = messageForm.value.mesageText.trimEnd()
-      let messageToSend: MessageDbo = {
+      let messageToSend: MessageDto = {
         text: text,
         toWho: this.userToDisplay.id,
         fromWho: this.currentLoggedUserId,

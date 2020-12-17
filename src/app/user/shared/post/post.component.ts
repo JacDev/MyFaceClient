@@ -3,10 +3,13 @@ import { ImageAccessService } from 'src/app/user/services/image-access.service';
 import { PostModel } from 'src/app/data/models/post.model';
 import { UserModel } from 'src/app/data/models/user.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import { 
-  PostAccessService, 
-  ReactionAccessService } from '../../services/index';
+import {
+  PostAccessService,
+  ReactionAccessService
+} from '../../services/index';
 import { UserAccessService } from 'src/app/data/api-access';
+import { NotificationService } from 'src/app/data/notification.service';
+import { CurrentTimeService } from 'src/app/common/time.service';
 
 @Component({
   selector: 'app-post',
@@ -35,7 +38,9 @@ export class PostComponent implements OnInit {
   constructor(private _userAccess: UserAccessService,
     private _postReactionsAccess: ReactionAccessService,
     private _postAccess: PostAccessService,
-    private _imageAccess: ImageAccessService) { }
+    private _imageAccess: ImageAccessService,
+    private _notificationService: NotificationService,
+    private _timeService: CurrentTimeService) { }
 
   ngOnInit(): void {
     this.getScreenSize();
@@ -104,6 +109,7 @@ export class PostComponent implements OnInit {
       this.reactionCounter++;
       this._postReactionsAccess.postPostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
         .subscribe(_ => {
+          this._notificationService.sendNotification(this.userToDisplay.id, "reaction", new Date(), this.postToDisplay.id)
         });
     }
     this.isAlreadyLike = !this.isAlreadyLike;
@@ -127,10 +133,10 @@ export class PostComponent implements OnInit {
       if (result.isConfirmed && result.value.trim().length != 0) {
         this.isLoading = true;
         this._postAccess.patchPost(this.currentLoggedUserId, this.postToDisplay.id, result.value)
-        .subscribe(_ => {
-          this.isLoading = false;
-          this.postToDisplay.text = result.value;
-        });
+          .subscribe(_ => {
+            this.isLoading = false;
+            this.postToDisplay.text = result.value;
+          });
       }
     })
   }

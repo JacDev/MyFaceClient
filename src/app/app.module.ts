@@ -29,6 +29,9 @@ import { CommonModule } from '@angular/common';
 
 import { CurrentTimeService } from './common/time.service';
 import { SharedModule } from './shared.module';
+import { ChatService } from './chat/services/chat.service';
+import { HubService } from './data/hub.service';
+import { NotificationService } from './data/notification.service';
 
 
 @NgModule({
@@ -60,6 +63,9 @@ import { SharedModule } from './shared.module';
     ImageAccessService,
     MessagesAccessService,
     CurrentTimeService,
+    ChatService,
+    HubService,
+    NotificationService,
     {provide : HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]

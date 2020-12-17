@@ -1,4 +1,4 @@
-export class MessageDbo {
+export class MessageDto {
     toWho: string;
     text: string;
     when: Date;
