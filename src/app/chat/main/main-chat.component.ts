@@ -30,16 +30,21 @@ export class MainChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.getScreenSize();
-    this.currentLoggedUserId = this._authService.currentUserId;
-    if (this._authService.isLoggedIn()
-      .then(_ => {
-        this.loadFriends();
-      }))
 
-      this._chatService.newMessage.subscribe(result => {
-        this._newMessageSubject.next(result);
-        this.moveConversationToTheTop(result);
+    if (this._authService.currentUserId) {
+      this.currentLoggedUserId = this._authService.currentUserId;
+      this.loadFriends();
+    }
+    else {
+      this._authService.userLoaded.subscribe(() => {
+        this.currentLoggedUserId = this._authService.currentUserId;
+        this.loadFriends();
       })
+    }
+    this._chatService.newMessage.subscribe(result => {
+      this._newMessageSubject.next(result);
+      this.moveConversationToTheTop(result);
+    })
   }
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?) {
