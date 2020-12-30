@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   loadUser() {
     this.loggedUserId = this._authService.currentUserId;
     let currentUserId;
-    this.route.params.forEach((params: Params) => {
+    this.route.params.subscribe((params: Params) => {
       currentUserId = params['id'];
       if (!currentUserId || currentUserId === this.loggedUserId) {
         this.currentDisplayedUser = this._authService.currentUser;

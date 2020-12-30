@@ -21,6 +21,24 @@ export class NotificationService {
   sendNotification(toWhoId: string, type: string, when: string, eventId: string) {
     this._hubService.sendNotification(toWhoId, type, when, eventId);
   }
+  getNotification(userId: string, fromWhoId: string = null, notificationType: number = 0): Observable<PaginationWithCollectionModel<NotificationDto>> {
+    var currentUrl = `${ConnectionsConstants.apiRoot}users/${userId}/notifications`
+    let alreadyAddedQuery:boolean = false;
+    if (fromWhoId) {
+      currentUrl += '?fromWhoId=' + fromWhoId;
+      alreadyAddedQuery = true;
+    }
+    if(notificationType!=0){
+      if(!alreadyAddedQuery){
+        currentUrl+='?'
+      }
+      else{
+        currentUrl+='&'
+      }
+      currentUrl += 'notificationType=' + notificationType;
+    }
+    return this._apiAccess.getCollection<NotificationDto>(currentUrl)
+  }
   getNotifications(userId: string): Observable<PaginationWithCollectionModel<NotificationDto>> {
     return this._apiAccess.getCollection<NotificationDto>(`${ConnectionsConstants.apiRoot}users/${userId}/notifications`)
   }
