@@ -7,8 +7,8 @@ import { NotificationService } from '../data/notification.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  @Output() loginRedirect: EventEmitter<number> = new EventEmitter();
-  @Output() logoutRedirect: EventEmitter<number> = new EventEmitter();
+  @Output() loginRedirect = new EventEmitter();
+  @Output() logoutRedirect = new EventEmitter();
   @Input() isLoggedIn: boolean;
   public newNotificationCounter: number = 0;
 
@@ -17,13 +17,13 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this._notificationService.newNotification.subscribe(result => {
-      this.newNotificationCounter++;
+            this.newNotificationCounter++;
     })
   }
   login() {
-    this.loginRedirect.emit(12);
+    this.loginRedirect.emit({});
   }
   logout() {
-    this.logoutRedirect.emit(12);
+    this.logoutRedirect.emit({});
   }
 }

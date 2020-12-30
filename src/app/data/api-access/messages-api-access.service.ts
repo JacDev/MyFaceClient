@@ -9,19 +9,18 @@ import { PaginationWithCollectionModel } from '../common/pagination-with-collect
 export class MessagesAccessService {
 
   constructor(private _apiAccess: DataAccessService) { }
-  getNextMessages(url: string = null, skip:number = 0): Observable<PaginationWithCollectionModel<MessageFromApiModel>> {
-    var currentUrl = url 
-    if(skip!=0){
-      currentUrl+='&Skip='+skip;
+  getNextMessages(url: string = null, skip?: number): Observable<PaginationWithCollectionModel<MessageFromApiModel>> {
+    var currentUrl = url
+    if (skip) {
+      currentUrl += '&Skip=' + skip;
     }
     return this._apiAccess.getCollection<MessageFromApiModel>(currentUrl)
   }
 
-  getMessages(userId: string, withWho:string, url: string = null): Observable<PaginationWithCollectionModel<MessageFromApiModel>> {
-    var currentUrl = url || `${ConnectionsConstants.apiRoot}users/${userId}/messages/with/${withWho}`;
-    return this._apiAccess.getCollection<MessageFromApiModel>(currentUrl)
+  getMessages(userId: string, withWho: string): Observable<PaginationWithCollectionModel<MessageFromApiModel>> {
+    return this._apiAccess.getCollection<MessageFromApiModel>(`${ConnectionsConstants.apiRoot}users/${userId}/messages/with/${withWho}`)
   }
   postMessage(userId: string, message: Object): Observable<MessageFromApiModel> {
-    return (this._apiAccess.post<MessageFromApiModel>(`${ConnectionsConstants.apiRoot}users/{userId}/messages`, message)) as Observable<MessageFromApiModel>
+    return this._apiAccess.post<MessageFromApiModel>(`${ConnectionsConstants.apiRoot}users/${userId}/messages`, message);
   }
 }

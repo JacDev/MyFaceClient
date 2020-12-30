@@ -34,7 +34,14 @@ export class HubService {
       })
   }
   receiveNotification() {
+    console.log('z huba')
+    this.newNotification.subscribe(_=>{
+      console.log('dzial')
+
+    })
     this._newNotificationSubject.next();
+   
+
   }
   reciveMessage(fromWho: string, messageText: string, when: Date) {
     let newMessage: MessageDto = {

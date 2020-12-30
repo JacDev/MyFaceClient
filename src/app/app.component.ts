@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthorizationService } from './core/authorization/authorization.service';
 import { HubService } from './data/hub.service';
 
@@ -9,7 +8,7 @@ import { HubService } from './data/hub.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'MyFaceClient';
+  title = 'MyFace';
   isLoggedIn = false;
 
   constructor(private _authService: AuthorizationService,
@@ -26,11 +25,11 @@ export class AppComponent implements OnInit {
 
       })
   }
-  redirectToSTS(number) {
+  redirectToSTS(event:any) {
     this._authService.login();
   }
 
-  logout(number) {
+  logout(event:any) {
     this._authService.logout();
   }
 }
