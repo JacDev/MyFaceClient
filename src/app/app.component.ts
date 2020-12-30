@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
   redirectToSTS(event:any) {
     this._authService.login();
   }
-
   logout(event:any) {
     this._authService.logout();
   }

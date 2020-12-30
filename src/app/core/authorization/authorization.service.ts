@@ -50,7 +50,6 @@ export class AuthorizationService {
         this.currentUserId = this._user.profile.sub;
         this.loadSecurityContext();
       }
-
       return userCurrent;
     })
   }

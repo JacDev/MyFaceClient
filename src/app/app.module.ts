@@ -32,6 +32,7 @@ import { SharedModule } from './shared.module';
 import { ChatService } from './chat/services/chat.service';
 import { HubService } from './data/hub.service';
 import { NotificationService } from './data/notification.service';
+import { NotificationComponent } from './navbar/notification/notification.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { NotificationService } from './data/notification.service';
     AppComponent,
     NavbarComponent,
     SigninRedirectCallbackComponent,
-    SignoutRedirectCallbackComponent, 
+    SignoutRedirectCallbackComponent,
+    NotificationComponent, 
  
   ],
   imports: [

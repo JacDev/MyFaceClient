@@ -1,9 +1,15 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
     <a class="navbar-brand" [routerLink]="['/']">My Face</a>
-    <span *ngIf="isLoggedIn">
-    <i class="fas fa-bell fa-lg"></i>
-    <span class="badge badge-light" id="notifications">{{newNotificationCounter}}</span>
-    </span>
+    <div *ngIf="isLoggedIn" class=" col-4">
+        <a (click)="loadNotifications()" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell fa-lg"></i>
+            <span class="badge badge-light">{{newNotificationCounter}}</span>
+        </a>
+        <div (scroll)="onScroll($event)" class="dropdown-menu scrollable-dark" aria-labelledby="notificationDropdown" [ngStyle]="{'height': screenHeight * 0.36+'px'}">
+            <app-notification *ngFor="let notification of listOfNotificationsFromApi" [notification]="notification"></app-notification>
+            <loading-data *ngIf="isLoadingNewNotifications"></loading-data>
+        </div>
+    </div>
     <div class="d-lg-none form-inline ml-auto text-white">
         <span class="active">
             <i class="fas fa-search fa-lg white pl-3"></i>

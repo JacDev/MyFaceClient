@@ -25,7 +25,8 @@ textarea::placeholder {
     padding-right: 20px;
 }
 
-.scrollable-dark:hover {
+.scrollable-dark:hover,
+.scrollable-dark:focus {
     overflow-y: scroll;
     padding-right: 3px;
 }

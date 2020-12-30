@@ -18,9 +18,5 @@
 <div (scroll)="onScroll($event)" id='main-view' class="scrollable-dark" [ngStyle]="{'height': screenHeight * 0.76+'px'}">
     <app-post #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)" [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
     </app-post>
-    <div *ngIf="isLoadingNewPosts" class="d-flex justify-content-center">
-        <div class="spinner-border my-2 text-light" role="status">
-            <span class="sr-only"></span>
-        </div>
-    </div>
+    <loading-data *ngIf="isLoadingNewPosts"></loading-data>
 </div>
