@@ -1,6 +1,6 @@
 <div *ngIf="userToDisplay==null; else elseBlock"></div>
 <ng-template #elseBlock>
-    <div class="d-flex text-light" style="cursor: pointer;" [routerLink]="['/profile/', userToDisplay.id]">
+    <div class="d-flex pointable" [routerLink]="['/profile/', userToDisplay.id]">
         <div class="float-left ">
             <!-- <img class="rounded-circle" *ngIf="userToDisplay?.profileImagePath" [src]="userToDisplay.profileImagePath"
     width="90%" /> -->

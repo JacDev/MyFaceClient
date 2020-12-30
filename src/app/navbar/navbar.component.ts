@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
     })
   }
   loadNotifications() {
-    if (!this.listOfNotificationsFromApi) {
+    if (!this.listOfNotificationsFromApi || this.newNotificationCounter!=0) {
       if (this.isLoggedIn) {
         this.loadUser();
       }
@@ -44,7 +44,6 @@ export class NavbarComponent implements OnInit {
   private loadUser() {
     this._notificationService.getNotifications(this._authService.currentUserId)
       .subscribe(notifications => {
-        console.log(notifications)
         this.listOfNotificationsFromApi = notifications.collection;
         this.paginationParams = notifications.paginationMetadata;
       })

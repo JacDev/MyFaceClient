@@ -15,8 +15,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from '../shared.module';
 import { ImageAccessService, 
   PostAccessService, 
-  PostCommentAccessService, 
   ReactionAccessService } from './services/index';
+import { PostCommentAccessService } from './shared/post/post-comments/post-comments-access.service';
+import { UserDataComponent } from './profile/user-data/user-data.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { ImageAccessService,
     PostCommentsComponent,
     CommentComponent,
     UserCardComponent,
+    UserDataComponent,
   ],
   imports: [
     CommonModule,

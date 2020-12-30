@@ -1,28 +1,19 @@
 <div>
-    <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment"
-        [currentLoggedUserId]="currentLoggedUserId" (deleteCommentEvent)="deleteComment($event)"
-        (editCommentEvent)="editComment($event)">
+    <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment" [currentLoggedUserId]="currentLoggedUserId" (deleteCommentEvent)="deleteComment($event)" (editCommentEvent)="editComment($event)">
     </post-comment>
 </div>
 <form class="container col-10">
     <div>
-        <div *ngIf="isLoading" class="d-flex justify-content-center">
-            <div  class="spinner-border mb-3" role="status">
-                <span class="sr-only"></span>
-            </div>
-        </div>
-        <form class="input-group" [formGroup]="commentForm" (keyup.enter)="addComment(commentForm)"
-            (ngSubmit)="addComment(commentForm)" novalidate>
-            <textarea autosize [formControl]="commentText" class="form-control rounded" type="text"
-                style="background-color: rgb(83, 83, 85); color: white;" placeholder="Dodaj komentarz..."></textarea>
+        <loading-data *ngIf="isLoading"></loading-data>
+
+        <form class="input-group" [formGroup]="commentForm" (keyup.enter)="addComment(commentForm)" (ngSubmit)="addComment(commentForm)" novalidate>
+            <textarea autosize [formControl]="commentText" class="rounded" rows="2" type="text" placeholder="Dodaj komentarz..."></textarea>
 
             <div class="col-12 d-flex justify-content-center">
-                <button *ngIf="paginationParams?.hasNext" type="button" class="btn col-4 text-center text-white"
-                    (click)="loadMoreComments()">Pokaż wiecej</button>
+                <button *ngIf="paginationParams?.hasNext" type="button" class="btn col-4 text-center text-white" (click)="loadMoreComments()">Pokaż wiecej</button>
             </div>
             <div class="col-12 d-flex justify-content-center">
-                <button *ngIf="!paginationParams?.hasNext" type="button" class="btn col-3 text-center text-white"
-                    (click)="hideComments()">Zwiń</button>
+                <button *ngIf="!paginationParams?.hasNext" type="button" class="btn col-3 text-center text-white" (click)="hideComments()">Zwiń</button>
             </div>
         </form>
     </div>

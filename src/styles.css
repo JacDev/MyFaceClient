@@ -4,6 +4,11 @@
 
 .dark-background {
     background-color: rgb(58, 58, 59);
+    color: rgb(220, 220, 220);
+}
+
+.pointable {
+    cursor: pointer;
 }
 
 textarea,

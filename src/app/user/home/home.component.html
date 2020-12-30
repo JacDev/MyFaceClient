@@ -1,7 +1,7 @@
 <div class="mb-2" style="padding-right: 20px">
     <loading-data *ngIf="isAddingPost; else addPostBlock"></loading-data>
     <ng-template #addPostBlock>
-        <div *ngIf="isImageLoaded" (click)="showImage()" class="d-flex" style="cursor: pointer;">
+        <div *ngIf="isImageLoaded" (click)="showImage()" class="d-flex pointable">
             <img [src]="imageUrl" class="col-12 mt-3 justify-content-center" [ngStyle]="{'max-height': screenHeight*0.8+'px'}">
         </div>
         <form class="input-group mt-3" [formGroup]="postForm" (keyup.enter)="addPost(postForm)" (ngSubmit)="addPost(postForm)" novalidate>
@@ -9,8 +9,8 @@
 
         </form>
         <div class="btn-group d-flex">
-            <button class="btn-sm border-0 ml-auto" style="background-color: inherit;" (click)="addImage()"><i
-                    class="far fa-images fa-2x mt-1" style="color: white;"></i></button>
+            <button class="btn-sm border-0 ml-auto" style="background-color: inherit;" (click)="addImage()">
+                <i class="far fa-images fa-2x mt-1" style="color: white;"></i></button>
         </div>
 
     </ng-template>

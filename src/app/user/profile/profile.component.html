@@ -1,7 +1,8 @@
 <div *ngIf="currentDisplayedUser==null; else elseBlock">
 </div>
 <ng-template #elseBlock>
-    <div class="d-flex" style="cursor: pointer;">
+    <user-data [displayedUser]="currentDisplayedUser" [currentLoggedUserId]="loggedUserId"></user-data>
+    <!-- <div class="d-flex pointable">
         <div class="float-left ">
             <img class="rounded-circle" *ngIf="currentDisplayedUser?.profileImagePath; else defultPicture" [src]="currentDisplayedUser.profileImagePath" width="90%" />
             <ng-template #defultPicture>
@@ -12,7 +13,7 @@
         <div class="ml-1 align-self-center float-left">
             {{currentDisplayedUser.firstName}} {{currentDisplayedUser.lastName}}
         </div>
-    </div>
+    </div> -->
 </ng-template>
 
 <app-post #postComponent *ngFor="let post of listOfPostFromApi" [postToDisplay]="post" [currentLoggedUserId]="loggedUserId"></app-post>

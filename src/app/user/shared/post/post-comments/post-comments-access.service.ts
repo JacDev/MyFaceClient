@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrentTimeService } from 'src/app/common/time.service';
 import { ConnectionsConstants } from 'src/app/core/authorization/ConnectionsConstants';
-import { DataAccessService } from '../../data/api-service/data.service';
-import { PaginationWithCollectionModel } from '../../data/common/pagination-with-collection-model';
-import { PostCommentModel } from '../../data/models/post-comment.model';
-import { PostCommentToAdd } from '../models/post-comment-to-add.model';
+import { DataAccessService } from '../../../../data/api-service/data.service';
+import { PaginationWithCollectionModel } from '../../../../data/common/pagination-with-collection-model';
+import { PostCommentModel } from '../../../../data/models/post-comment.model';
+import { PostCommentToAdd } from '../../../models/post-comment-to-add.model';
 
 @Injectable()
 export class PostCommentAccessService {

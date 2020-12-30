@@ -10,6 +10,8 @@ import {
 import { UserAccessService } from 'src/app/data/api-access';
 import { NotificationService } from 'src/app/data/notification.service';
 import { CurrentTimeService } from 'src/app/common/time.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
 
 @Component({
   selector: 'app-post',
@@ -33,17 +35,47 @@ export class PostComponent implements OnInit {
 
   public screenHeight: number;
   screenWidth: number;
-
+  private hasParent: boolean;
 
   constructor(private _userAccess: UserAccessService,
     private _postReactionsAccess: ReactionAccessService,
     private _postAccess: PostAccessService,
     private _imageAccess: ImageAccessService,
     private _notificationService: NotificationService,
-    private _timeService: CurrentTimeService) { }
+    private _timeService: CurrentTimeService,
+    private _route: ActivatedRoute,
+    private _authService: AuthorizationService,
+    router: Router) {
+    if (router.url.indexOf('post') > 0) {
+      this.hasParent = false;
+    } else {
+      this.hasParent = true;
+    }
+  }
 
   ngOnInit(): void {
+    if (!this.hasParent) {
+      let postId: string;
+      let userId: string;
+      this._route.params.forEach((params: Params) => {
+        postId = params['id'];
+        userId = params['userId'];
+        this._postAccess.getPost(userId, postId)
+        .subscribe(post => {
+          this.postToDisplay = post;
+          this.currentLoggedUserId = this._authService.currentUserId;
+          this.loadPost();
+        })
+      }
+      );
+    }
+    else {
+      this.loadPost();
+    }
     this.getScreenSize();
+
+  }
+  loadPost() {
     this.getImageFromService();
     this.reactionCounter = this.postToDisplay.postReactionsCounter;
     this.commentsCounter = this.postToDisplay.postCommentsCounter;
@@ -101,15 +133,13 @@ export class PostComponent implements OnInit {
     if (this.isAlreadyLike) {
       this.reactionCounter--;
       this._postReactionsAccess.deletePostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
-        .subscribe(response => {
-          console.log(response);
-        });
+        .subscribe();
     }
     else {
       this.reactionCounter++;
       this._postReactionsAccess.postPostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
-        .subscribe(_ => {
-          this._notificationService.sendNotification(this.userToDisplay.id, "reaction", new Date(), this.postToDisplay.id)
+        .subscribe(() => {
+          this._notificationService.sendNotification(this.userToDisplay.id, "reaction", this._timeService.getCurrentDate(), this.postToDisplay.id)
         });
     }
     this.isAlreadyLike = !this.isAlreadyLike;

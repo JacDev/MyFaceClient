@@ -14,7 +14,6 @@ export class UserAccessService {
      return this._apiAccess.get<UserModel>(`${ConnectionsConstants.apiRoot}users/${id}`)
   }
   getUsersWith(query:string, url:string=null) : Observable<PaginationWithCollectionModel<UserModel>> {
-     console.log(query)
    var currentUrl = url || `${ConnectionsConstants.apiRoot}users/find?searchName=${query.toLocaleLowerCase()}`;
     return this._apiAccess.get<PaginationWithCollectionModel<UserModel>>(currentUrl);
  }

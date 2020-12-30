@@ -34,14 +34,7 @@ export class HubService {
       })
   }
   receiveNotification() {
-    console.log('z huba')
-    this.newNotification.subscribe(_=>{
-      console.log('dzial')
-
-    })
     this._newNotificationSubject.next();
-   
-
   }
   reciveMessage(fromWho: string, messageText: string, when: Date) {
     let newMessage: MessageDto = {
@@ -60,7 +53,7 @@ export class HubService {
         return console.error(err.toString());
       });
   }
-  sendNotification(toWhoId: string, type: string, when: Date, eventId: string) {
+  sendNotification(toWhoId: string, type: string, when: string, eventId: string) {
     this.connection.invoke("SendNotificationToUser", toWhoId, type, when, eventId)
       .catch(function (err) {
         return console.error(err.toString());
@@ -70,7 +63,6 @@ export class HubService {
   public async start() {
     try {
       await this.connection.start();
-      console.log("connected");
     } catch (err) {
       console.log(err);
       //setTimeout(() => this.start(), 5000);

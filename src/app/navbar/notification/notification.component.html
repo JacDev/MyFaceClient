@@ -1,6 +1,6 @@
 <div *ngIf="fromWhoUser==null; else elseBlock"></div>
 <ng-template #elseBlock>
-    <div class="d-flex my-1 dark-background" [ngStyle]="{'color': notification.hasSeen? 'white' : 'red'}">
+    <div class="d-flex my-1 dark-background pointable" [ngStyle]="{'color': notification.hasSeen? 'white' : '#FFCCFF'}" [routerLink]="canNavigateToPost? ['/', fromWhoUser.id, 'post', notification.eventId] :[]">
 
         <img class="rounded-circle py-2 ml-2" src="../../../../assets/images/default.jpg" width="10%" />
         <div class="w-100 ml-2">

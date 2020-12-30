@@ -12,6 +12,7 @@ export class NotificationComponent implements OnInit {
   @Input() notification: NotificationDto;
   public fromWhoUser: UserModel = null;
   public message: string = null;
+  public canNavigateToPost:boolean = false;
   constructor(private _userAccess: UserAccessService) { }
 
   ngOnInit(): void {
@@ -19,17 +20,19 @@ export class NotificationComponent implements OnInit {
       .subscribe(user => {
         this.fromWhoUser = user;
       })
-      this.loadMessage();
+    this.loadMessage();
   }
-loadMessage(){
-  if(+this.notification.notificationType==2){
-    this.message="zaprasza Cię do znajomych"
+  loadMessage() {
+    if (+this.notification.notificationType == 1) {
+      this.message = "zaprasza Cię do znajomych"
+    }
+    if (+this.notification.notificationType == 2) {
+      this.canNavigateToPost=true;
+      this.message = "zareagował na Twój post"
+    }
+    if (+this.notification.notificationType == 3) {
+      this.canNavigateToPost=true;
+      this.message = "dodał komentarz do Twojego posta"
+    }
   }
-  if(+this.notification.notificationType==3){
-    this.message="zareagował na Twój post"
-  }
-  if(+this.notification.notificationType==4){
-    this.message="dodał komentarz do Twojego posta"
-  }
-}
 }

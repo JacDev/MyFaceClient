@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ConnectionsConstants } from 'src/app/core/authorization/ConnectionsConstants';
 import { DataAccessService } from '../api-service/data.service';
 import { PaginationWithCollectionModel } from '../common/pagination-with-collection-model';
+import { FriendsRelationModel } from '../models/friends-relation.model';
 import { UserModel } from '../models/user.model';
 
 @Injectable()
@@ -15,5 +16,8 @@ export class UserFriendsAccessService {
   }
   getNextFriends(url:string) : Observable<PaginationWithCollectionModel<UserModel>> {
     return this._apiAccess.getCollection<UserModel>(url)
+  }
+  getFriendRelation(userId:string, friendId:string){
+    return this._apiAccess.get<FriendsRelationModel>(`${ConnectionsConstants.apiRoot}users/${userId}/friends/${friendId}`)
   }
 }

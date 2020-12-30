@@ -18,7 +18,7 @@ export class NotificationService {
       this._newNotificationSubject.next();
     })
   }
-  sendNotification(toWhoId: string, type: string, when: Date, eventId: string) {
+  sendNotification(toWhoId: string, type: string, when: string, eventId: string) {
     this._hubService.sendNotification(toWhoId, type, when, eventId);
   }
   getNotifications(userId: string): Observable<PaginationWithCollectionModel<NotificationDto>> {

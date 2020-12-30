@@ -2,28 +2,27 @@
 <ng-template class="" #elseBlock>
 
     <div class="mb-5 rounded p-2 mt-2 post col-12">
-        <div class=" ml-1 row d-flex ">
-            <div class="mr-auto">
-                <user-card [userToDisplay]="userToDisplay"></user-card>
-            </div>
-
-            <loading-data *ngIf="isLoading"></loading-data>
-
-            <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="dropdown mr-2 pt-0 bg-black">
-                <button type="button" class="btn text-white align-items-start mt-0 pt-0" data-toggle="dropdown">
-                    <span style="font-size: x-large;" class="pb-6">...</span>
-                </button>
+        <div class="d-flex w-100 pr-3">
+            <user-card [userToDisplay]="userToDisplay"></user-card>
+            <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="dropdown">
+                <button type="button" class="btn text-white" data-toggle="dropdown">
+                        <span style="font-size: x-large;">...</span>
+                    </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <button type="button" class="dropdown-item" (click)="editPost()">Edytuj</button>
                     <button type="button" class="dropdown-item" (click)="deletePost()">Usuń</button>
                 </div>
             </div>
+            <span class="small align-self-center ml-auto">{{postToDisplay.whenAdded | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
         </div>
+
+        <loading-data *ngIf="isLoading"></loading-data>
+
         <div class="col-12 h-auto text-justify py-2">
             {{postToDisplay?.text}}
         </div>
-        <div *ngIf="!isImageLoading;" (click)="showImage()" style="cursor: pointer;">
-            <img [src]="imageToShow" class="col-12 mt-3 justify-content-center">
+        <div *ngIf="!isImageLoading;" (click)="showImage()">
+            <img [src]="imageToShow" class="col-12 mt-3 justify-content-center pointable">
         </div>
 
         <div class="col-12 btn-toolbar d-flex justify-content-end pt-2">

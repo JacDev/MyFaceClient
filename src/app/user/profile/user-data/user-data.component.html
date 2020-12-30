@@ -1,0 +1,15 @@
+<div class="pt-2 text-white">
+    <div class="d-flex">
+        <user-card [userToDisplay]="displayedUser" class=""></user-card>
+        <button *ngIf="canAddFriend" class="btn text-white ml-auto"><i class="fas fa-users"></i> Dodaj do znajomych</button>
+        <button *ngIf="canDeleteFriend" class="btn text-white ml-auto"><i class="fas fa-user-times"></i> Usuń ze znajomych</button>
+        <button *ngIf="canAcceptFriend" class="btn text-white ml-auto"><i class="fas fa-user-friends"></i> Zaakceptuj zaproszenie</button>
+    </div>
+    <div class="pt-1 pl-2">
+        <div>Miasto:</div>
+        <div>Wiek:</div>
+        <div>Data urodzenia:</div>
+        <div>Płeć:</div>
+    </div>
+    <div class="text-center h5 py-2">Posty:</div>
+</div>
