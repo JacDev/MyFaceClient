@@ -26,13 +26,16 @@ export class NotificationComponent implements OnInit {
     if (+this.notification.notificationType == 1) {
       this.message = "zaprasza Cię do znajomych"
     }
-    if (+this.notification.notificationType == 2) {
+    else if (+this.notification.notificationType == 2) {
       this.canNavigateToPost=true;
       this.message = "zareagował na Twój post"
     }
-    if (+this.notification.notificationType == 3) {
+    else if (+this.notification.notificationType == 3) {
       this.canNavigateToPost=true;
       this.message = "dodał komentarz do Twojego posta"
+    }
+   else if (+this.notification.notificationType == 4) {
+      this.message = "zakceptował Twoje zaproszenie"
     }
   }
 }

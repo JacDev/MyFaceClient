@@ -9,15 +9,21 @@ import { UserModel } from '../models/user.model';
 @Injectable()
 export class UserFriendsAccessService {
 
-  constructor(private _apiAccess : DataAccessService) { }
+  constructor(private _apiAccess: DataAccessService) { }
 
-  getFriends(userId: string) : Observable<PaginationWithCollectionModel<UserModel>> {
+  addFriend(userId: string, relationToAdd: object): Observable<FriendsRelationModel> {
+    return this._apiAccess.post<FriendsRelationModel>(`${ConnectionsConstants.apiRoot}users/${userId}/friends`, relationToAdd);
+  }
+  getFriends(userId: string): Observable<PaginationWithCollectionModel<UserModel>> {
     return this._apiAccess.getCollection<UserModel>(`${ConnectionsConstants.apiRoot}users/${userId}/friends?pageSize=20`)
   }
-  getNextFriends(url:string) : Observable<PaginationWithCollectionModel<UserModel>> {
+  getNextFriends(url: string): Observable<PaginationWithCollectionModel<UserModel>> {
     return this._apiAccess.getCollection<UserModel>(url)
   }
-  getFriendRelation(userId:string, friendId:string){
+  getFriendRelation(userId: string, friendId: string) {
     return this._apiAccess.get<FriendsRelationModel>(`${ConnectionsConstants.apiRoot}users/${userId}/friends/${friendId}`)
+  }
+  deleteFriend(userId: string, friendId: string) : Observable<Object> {
+    return this._apiAccess.delete(`${ConnectionsConstants.apiRoot}users/${userId}/friends/${friendId}`)
   }
 }

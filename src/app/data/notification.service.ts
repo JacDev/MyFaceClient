@@ -23,17 +23,17 @@ export class NotificationService {
   }
   getNotification(userId: string, fromWhoId: string = null, notificationType: number = 0): Observable<PaginationWithCollectionModel<NotificationDto>> {
     var currentUrl = `${ConnectionsConstants.apiRoot}users/${userId}/notifications`
-    let alreadyAddedQuery:boolean = false;
+    let alreadyAddedQuery: boolean = false;
     if (fromWhoId) {
       currentUrl += '?fromWhoId=' + fromWhoId;
       alreadyAddedQuery = true;
     }
-    if(notificationType!=0){
-      if(!alreadyAddedQuery){
-        currentUrl+='?'
+    if (notificationType != 0) {
+      if (!alreadyAddedQuery) {
+        currentUrl += '?'
       }
-      else{
-        currentUrl+='&'
+      else {
+        currentUrl += '&'
       }
       currentUrl += 'notificationType=' + notificationType;
     }
@@ -48,5 +48,8 @@ export class NotificationService {
       currentUrl += '&Skip=' + skip;
     }
     return this._apiAccess.getCollection<NotificationDto>(currentUrl)
+  }
+  deleteNotification(userId: string, notificationId: string) : Observable<Object> {
+    return this._apiAccess.delete(`${ConnectionsConstants.apiRoot}users/${userId}/notifications/${notificationId}`)
   }
 }

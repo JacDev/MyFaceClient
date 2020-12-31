@@ -1,3 +1,4 @@
 <div class="mt-3 scrollable-dark" id="main-chat" (scroll)="onScroll($event)" [ngStyle]="{'height': screenHeight * 0.90+'px'}">
     <chat-conversation *ngFor="let user of userFriends" [userToDisplay]="user" [newMessageFromHub]="newMessage" [currentLoggedUserId]="currentLoggedUserId" (newMessageEmitter)="sendMessage($event)"></chat-conversation>
+    <div *ngIf="userFriends?.length==0" class="text-white">Dodaj znajomych aby skorzystać z chatu!</div>
 </div>

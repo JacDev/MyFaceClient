@@ -14,7 +14,6 @@ export class ChatService implements OnInit {
     this._notificationService.newMessage.subscribe(message => {
       this._newMessageSubject.next(message);
     })
-
   }
   sendMessage(toWhoId: string, message: string, when: Date) {
     this._notificationService.sendMessage(toWhoId, message, when);
