@@ -23,7 +23,6 @@ import { UserAccessService,
   
 import { UserRouteActivator } from './user/shared/user/user-route-activator.service';
 import { ImageAccessService } from './user/services/image-access.service';
-import { IsLoggedInRouteGuard } from './core/guards/is-looged-in-route-guard';
 import { MessagesAccessService } from './data/api-access/messages-api-access.service';
 import { CommonModule } from '@angular/common';
 
@@ -33,6 +32,7 @@ import { ChatService } from './chat/services/chat.service';
 import { HubService } from './data/hub.service';
 import { NotificationService } from './data/notification.service';
 import { NotificationComponent } from './navbar/notification/notification.component';
+import { RedirectComponent } from './common/redirect/redirect.component';
 
 
 @NgModule({
@@ -41,7 +41,8 @@ import { NotificationComponent } from './navbar/notification/notification.compon
     NavbarComponent,
     SigninRedirectCallbackComponent,
     SignoutRedirectCallbackComponent,
-    NotificationComponent, 
+    NotificationComponent,
+    RedirectComponent, 
  
   ],
   imports: [
@@ -59,7 +60,6 @@ import { NotificationComponent } from './navbar/notification/notification.compon
     UserAccessService,
     AuthInterceptorService,
     AuthorizationRouteGuard,
-    IsLoggedInRouteGuard,
     UserFriendsAccessService,
     UserRouteActivator,
     ImageAccessService,

@@ -7,17 +7,17 @@ import { HomeComponent } from './user/home/home.component';
 import { UserModule } from './user/user.module'
 import { ChatModule } from './chat/chat.module'
 import { ChatComponent } from './chat/chat.component';
-import { IsLoggedInRouteGuard } from './core/guards/is-looged-in-route-guard';
-import {VerticalNavbarModule} from './vertical-navbar/vertical-navbar.module';
+import { VerticalNavbarModule } from './vertical-navbar/vertical-navbar.module';
+import { RedirectComponent } from './common/redirect/redirect.component';
 
 const routes: Routes = [
   { path: 'signin-callback', component: SigninRedirectCallbackComponent },
   { path: 'signout-callback', component: SignoutRedirectCallbackComponent },
-  { path: '', loadChildren: './user/user.module#UserModule', canActivate:[AuthorizationRouteGuard] },
-  // , canActivate:[IsLoggedInRouteGuard]
-  { path: '', loadChildren: './chat/chat.module#ChatModule', outlet: 'aside'},
-  { path: '', loadChildren: './vertical-navbar/vertical-navbar.module#VerticalNavbarModule', outlet: 'left-routing'},
-  { path: '**',redirectTo:'', canActivate:[AuthorizationRouteGuard] },
+  { path: 'redirect', component: RedirectComponent },
+  { path: '', loadChildren: './user/user.module#UserModule', canActivate: [AuthorizationRouteGuard] },
+  { path: '', loadChildren: './chat/chat.module#ChatModule', outlet: 'aside' },
+  { path: '', loadChildren: './vertical-navbar/vertical-navbar.module#VerticalNavbarModule', outlet: 'left-routing' },
+  { path: '**', redirectTo: '', canActivate: [AuthorizationRouteGuard] },
   //{ path: '', component: ChatComponent, outlet: 'aside', canActivate: [AuthorizationRouteGuard] },
   //{ path: '', component: HomeComponent, canActivate: [AuthorizationRouteGuard] },
 ];
