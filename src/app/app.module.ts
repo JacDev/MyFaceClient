@@ -33,6 +33,7 @@ import { HubService } from './data/hub.service';
 import { NotificationService } from './data/notification.service';
 import { NotificationComponent } from './navbar/notification/notification.component';
 import { RedirectComponent } from './common/redirect/redirect.component';
+import { EmptyComponent } from './common/empty/empty.component';
 
 
 @NgModule({
@@ -42,8 +43,8 @@ import { RedirectComponent } from './common/redirect/redirect.component';
     SigninRedirectCallbackComponent,
     SignoutRedirectCallbackComponent,
     NotificationComponent,
-    RedirectComponent, 
- 
+    RedirectComponent,
+    EmptyComponent
   ],
   imports: [
     CommonModule,

@@ -19,4 +19,7 @@
     <app-post #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)" [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
     </app-post>
     <loading-data *ngIf="isLoadingNewPosts"></loading-data>
+    <div *ngIf="paginationParams && !paginationParams.hasNext" class="text-white text-center">
+        Nie ma więcej postów do wyświetlenia!
+    </div>
 </div>

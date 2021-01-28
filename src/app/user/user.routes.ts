@@ -12,7 +12,4 @@ export const userRoutes = [
   { path: 'friends', component: FriendsComponent, canActivate: [AuthorizationRouteGuard] },
   { path: ':userId/post/:id', component: PostComponent, canActivate: [AuthorizationRouteGuard] },
   { path: '', component: HomeComponent, canActivate: [AuthorizationRouteGuard] },
-  
-  // { path: 'login', component: LoginComponent },
-  // { path: 'register', component: RegisterComponent }
 ]
