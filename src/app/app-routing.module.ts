@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'signout-callback', component: SignoutRedirectCallbackComponent },
   { path: 'redirect', component: RedirectComponent },
   { path: '', loadChildren: './user/user.module#UserModule', canActivate: [AuthorizationRouteGuard] },
-  { path: '', loadChildren: './chat/chat.module#ChatModule', outlet: 'aside' },
+  { path: '', loadChildren: './chat/chat.module#ChatModule', outlet: 'chat' },
   { path: '', loadChildren: './vertical-navbar/vertical-navbar.module#VerticalNavbarModule', outlet: 'left-routing' },
   { path: '**', redirectTo: '', canActivate: [AuthorizationRouteGuard] },
   //{ path: '', component: ChatComponent, outlet: 'aside', canActivate: [AuthorizationRouteGuard] },

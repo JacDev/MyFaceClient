@@ -11,7 +11,6 @@ export class UserRouteActivator implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot) {
         return this._userService.getUser(route.params['id']).pipe(
             map(res => {
-                console.log('From guard:', res)
                 if (res['Error']) {
                     this.router.navigate(['/404'])
                     return false;
@@ -20,7 +19,6 @@ export class UserRouteActivator implements CanActivate {
                 }
             }),
             catchError(err => {
-                console.error('From guard:', err);
                 this.router.navigate(['/404'])
                 return of(false);
             })

@@ -85,19 +85,40 @@ export class UserDataComponent implements OnInit, OnChanges {
         this._notificationAccess.sendNotification(this.displayedUser.id, "friendRequiestAccepted", this._timeService.getCurrentDate(), this.displayedUser.id);
       });
   }
-  deleteFriend(){
-    this._friendsService.deleteFriend(this.currentLoggedUserId,this.displayedUser.id)
-    .subscribe(()=>{
-      this.canDeleteFriend = false;
-      this.canAddFriend = true;
-    })
+  deleteFriend() {
+    this._friendsService.deleteFriend(this.currentLoggedUserId, this.displayedUser.id)
+      .subscribe(() => {
+        this.canDeleteFriend = false;
+        this.canAddFriend = true;
+      })
   }
-  undoFriendRequiest(){
+  undoFriendRequiest() {
     console.log(this.notification)
+    if (this.notification == null) {
+      this._notificationAccess.getNotification(this.currentLoggedUserId, this.displayedUser.id, 1)
+        .subscribe(notifications => {
+          if (notifications.collection.length > 0) {
+            this.deleteFriendRequest();
+          }
+          else {
+            this._notificationAccess.getNotification(this.displayedUser.id, this.currentLoggedUserId, 1)
+              .subscribe(notifications => {
+                this.notification = notifications.collection[0];
+                this.deleteFriendRequest();
+              })
+          }
+        })
+    }
+    else {
+      this.deleteFriendRequest()
+    }
+  }
+  private deleteFriendRequest() {
     this._notificationAccess.deleteNotification(this.currentLoggedUserId, this.notification.id)
-    .subscribe(()=>{
-      this.canCancelFriendRequiest = false;
-      this.canAddFriend = true;
-    })
+      .subscribe(() => {
+        this.canCancelFriendRequiest = false;
+        this.canAddFriend = true;
+        this.notification = null;
+      })
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MessageDto } from 'src/app/common/models/messageDto.model';
@@ -17,6 +17,7 @@ export class ConversationComponent implements OnInit {
   @Input() newMessageFromHub: Observable<MessageDto>;
   @Input() userToDisplay: UserModel;
   @Input() currentLoggedUserId: string;
+  @Input() userToShow: string;
   @Output() newMessageEmitter: EventEmitter<MessageDto> = new EventEmitter<MessageDto>();
 
   public showWindow: boolean = false;
@@ -80,7 +81,7 @@ export class ConversationComponent implements OnInit {
         error => console.log('error', error)
       );
   }
-  showConversation(withWhoId: string) {
+  showConversation() {
     this.newUnseenMessages = 0;
     this.isNewMessage = false;
     this.showWindow = !this.showWindow;
@@ -102,7 +103,6 @@ export class ConversationComponent implements OnInit {
           error => console.log('error', error)
         );
     }
-
   }
   topReached(event): boolean {
     return (event.target.scrollTop == 0);
@@ -138,5 +138,13 @@ export class ConversationComponent implements OnInit {
     this.messageElements.changes.subscribe(t => {
       this.ngForRendred();
     })
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userToShow'].currentValue == this.userToDisplay.id) {
+      this.showConversation()
+    }
+    else if (changes['userToShow'].previousValue == this.userToDisplay.id) {
+      this.showConversation()
+    }
   }
 }

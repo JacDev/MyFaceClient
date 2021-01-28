@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MessageDto } from 'src/app/common/models/messageDto.model';
 import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
@@ -13,9 +13,10 @@ import { ChatService } from '../services/chat.service';
   templateUrl: './main-chat.component.html'
 })
 export class MainChatComponent implements OnInit {
+  @Input() userIdToOpen;
   public currentLoggedUserId: string;
   public screenHeight: number;
-  public userFriends: UserModel[];
+  public userFriends: UserModel[] = null;
   friendsPaginationParams: PaginatiomModel;
 
   private _newMessageSubject = new Subject<MessageDto>();
@@ -27,7 +28,11 @@ export class MainChatComponent implements OnInit {
     private _friendsApiAccess: UserFriendsAccessService,
     private _usersApiAccess: UserAccessService) {
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.userIdToOpen && this.userFriends) {
+      this.moveConversationToTheTop(this.userIdToOpen)
+    }
+  }
   ngOnInit(): void {
     this.getScreenSize();
 
@@ -43,7 +48,7 @@ export class MainChatComponent implements OnInit {
     }
     this._chatService.newMessage.subscribe(result => {
       this._newMessageSubject.next(result);
-      this.moveConversationToTheTop(result);
+      this.moveConversationToTheTop(result.fromWho);
     })
   }
   @HostListener('window:resize', ['$event'])
@@ -79,20 +84,23 @@ export class MainChatComponent implements OnInit {
           this.userFriends = result.collection;
           this.friendsPaginationParams = result.paginationMetadata;
           this.isLoadingNewFriends = false;
+          if (this.userIdToOpen) {
+            this.moveConversationToTheTop(this.userIdToOpen)
+          }
         },
         error => console.log('error', error)
       );
   }
-  moveConversationToTheTop(message: MessageDto) {
-    let x = this.userFriends.findIndex(x => x.id == message.fromWho)
+  moveConversationToTheTop(fromWho: string) {
+    let x = this.userFriends.findIndex(x => x.id == fromWho)
 
     if (x > -1) {
-      let user: UserModel = this.userFriends.find(x => x.id == message.fromWho);
+      let user: UserModel = this.userFriends.find(x => x.id == fromWho);
       this.userFriends.splice(x, 1)
       this.userFriends.unshift(user);
     }
     else {
-      this._usersApiAccess.getUser(message.fromWho)
+      this._usersApiAccess.getUser(fromWho)
         .subscribe(result => {
           this.userFriends.unshift(result);
         },
