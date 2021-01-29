@@ -21,7 +21,7 @@
         <div class="col-12 h-auto text-justify py-2">
             {{postToDisplay?.text}}
         </div>
-        <div *ngIf="!isImageLoading;" (click)="showImage()">
+        <div *ngIf="!isImageLoading && imageToShow" (click)="showImage()">
             <img [src]="imageToShow" class="col-12 mt-3 justify-content-center pointable">
         </div>
 
@@ -59,6 +59,6 @@
 
             </div>
         </div>
-        <app-post-comment [postId]="postToDisplay.id" [currentLoggedUserId]="currentLoggedUserId" [displayedUserId]="postToDisplay.userId" *ngIf="showComments" (hideCommentsEmitter)="hideComments($event)" (changeCommentsCounterEmitter)="changeCommentsCounter($event)"></app-post-comment>
+        <user-post-comments [postId]="postToDisplay.id" [currentLoggedUserId]="currentLoggedUserId" [displayedUserId]="postToDisplay.userId" *ngIf="showComments" (hideCommentsEmitter)="hideComments($event)" (changeCommentsCounterEmitter)="changeCommentsCounter($event)"></user-post-comments>
     </div>
 </ng-template>

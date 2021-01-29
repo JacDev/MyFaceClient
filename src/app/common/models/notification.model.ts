@@ -1,4 +1,4 @@
-export class NotificationDto {
+export class NotificationModel {
     id: string;
     whenAdded: Date;
     hasSeen: boolean

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserModel } from 'src/app/data/models/user.model';
+import { UserModel } from 'src/app/common/models/user.model';
 
 @Component({
   selector: 'nav-found-user',

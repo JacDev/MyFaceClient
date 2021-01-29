@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { UserAccessService } from '../data/api-access/index';
-import { PaginatiomModel } from '../data/common/pagination-model';
-import { UserModel } from '../data/models/user.model';
+import { PaginatiomModel } from '../common/models/pagination-model';
+import { UserModel } from '../common/models/user.model';
 
 @Component({
   selector: 'app-vertical-navbar',

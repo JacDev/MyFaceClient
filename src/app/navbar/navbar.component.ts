@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { NotificationDto } from '../common/models/notificationDto.model';
-import { AuthorizationService } from '../core/authorization/authorization-index';
-import { PaginatiomModel } from '../data/common/pagination-model';
+import { NotificationModel } from '../common/models/notification.model';
+import { AuthorizationService } from '../core/authorization/index';
+import { PaginatiomModel } from '../common/models/pagination-model';
 import { NotificationService } from '../data/notification.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   @Input() isLoggedIn: boolean;
   public newNotificationCounter: number = 0;
 
-  public listOfNotificationsFromApi: NotificationDto[] = null;
+  public listOfNotificationsFromApi: NotificationModel[] = null;
   public paginationParams: PaginatiomModel = null;
   screenHeight: number;
   isLoadingNewNotifications: boolean = false;
@@ -29,8 +29,8 @@ export class NavbarComponent implements OnInit {
       this.newNotificationCounter++;
     })
   }
-  loadNotifications() {
-    if (!this.listOfNotificationsFromApi || this.newNotificationCounter!=0) {
+  loadNotifications(): void {
+    if (!this.listOfNotificationsFromApi || this.newNotificationCounter != 0) {
       if (this.isLoggedIn) {
         this.loadUser();
       }
@@ -48,14 +48,14 @@ export class NavbarComponent implements OnInit {
         this.paginationParams = notifications.paginationMetadata;
       })
   }
-  login() {
+  login(): void {
     this.loginRedirect.emit({});
   }
-  logout() {
+  logout(): void {
     this.logoutRedirect.emit({});
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?): void {
+  getScreenSize(event?: Event): void {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", ['$event'])

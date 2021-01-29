@@ -3,7 +3,7 @@ import { FriendsComponent } from './friends/friends.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PostComponent } from './shared/post/post.component';
-import { UserRouteActivator } from './shared/user/user-route-activator.service';
+import { UserRouteActivator } from './services/user-route-activator.service';
 
 
 export const userRoutes = [

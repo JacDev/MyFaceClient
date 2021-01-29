@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
+import { AuthorizationService } from 'src/app/core/authorization/index';
 import * as signalR from '@aspnet/signalr';
 import { Subject } from 'rxjs';
-import { MessageDto } from '../common/models/messageDto.model';
+import { MessageToAddModel } from '../common/models/message-to-add.model';
 
 @Injectable()
 export class HubService {
 
   private connection: signalR.HubConnection;
-  private _newMessageSubject = new Subject<MessageDto>();
+  private _newMessageSubject = new Subject<MessageToAddModel>();
   public newMessage = this._newMessageSubject.asObservable();
   private _newNotificationSubject = new Subject();
   public newNotification = this._newNotificationSubject.asObservable();
@@ -37,7 +37,7 @@ export class HubService {
     this._newNotificationSubject.next();
   }
   reciveMessage(fromWho: string, messageText: string, when: Date) {
-    let newMessage: MessageDto = {
+    let newMessage: MessageToAddModel = {
       toWho: this._authService.currentUserId,
       fromWho: fromWho,
       text: messageText,
@@ -45,7 +45,6 @@ export class HubService {
     };
 
     this._newMessageSubject.next(newMessage);
-    console.log('from hubconnector' + fromWho, messageText);
   }
   sendMessage(toWhoId: string, message: string, when: Date) {
     this.connection.invoke("SendMessageToUser", toWhoId, message, when)

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserModel } from 'src/app/data/models/user.model';
+import { UserModel } from 'src/app/common/models/user.model';
 
 @Component({
-  selector: 'app-user',
+  selector: 'friend',
   templateUrl: './user.component.html'
 })
 export class UserComponent implements OnInit {
@@ -15,11 +15,10 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  redirectToChat() {
-    this._router.navigate([ '/', { outlets: { 'chat': ['', this.userToDisplay.id] } }], { skipLocationChange: true });
+  redirectToChat(): void {
+    this._router.navigate(['/', { outlets: { 'chat': ['', this.userToDisplay.id] } }], { skipLocationChange: true });
   }
-  deleteFriend(){
+  deleteFriend(): void {
     this.deleteFriendEmitter.emit(this.userToDisplay.id)
   }
-
 }

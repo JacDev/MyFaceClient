@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { PaginatiomModel } from 'src/app/data/common/pagination-model';
-import { PostCommentModel } from 'src/app/data/models/post-comment.model';
-import { PostCommentToUpdate } from './comment/post-comment-to-update.model';
+import { PaginatiomModel } from 'src/app/common/models/pagination-model';
+import { PostCommentModel } from 'src/app/user/models/post-comment.model';
+import { PostCommentToUpdate } from './post-comment-to-update.model';
 import { PostCommentAccessService } from './post-comments-access.service';
 
 @Component({
-  selector: 'app-post-comment',
+  selector: 'user-post-comments',
   templateUrl: './post-comments.component.html'
 })
 export class PostCommentsComponent implements OnInit {

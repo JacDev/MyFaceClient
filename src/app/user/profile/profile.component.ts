@@ -1,10 +1,10 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
+import { AuthorizationService } from 'src/app/core/authorization/index';
 import { UserAccessService } from 'src/app/data/api-access/index';
-import { PaginatiomModel } from 'src/app/data/common/pagination-model';
-import { PostModel } from 'src/app/data/models/post.model';
-import { UserModel } from 'src/app/data/models/user.model';
+import { PaginatiomModel } from 'src/app/common/models/pagination-model';
+import { PostModel } from 'src/app/user/models/post.model';
+import { UserModel } from 'src/app/common/models/user.model';
 import { PostAccessService } from '../services/index';
 
 @Component({

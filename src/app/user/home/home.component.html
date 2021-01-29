@@ -16,8 +16,8 @@
     </ng-template>
 </div>
 <div (scroll)="onScroll($event)" id='main-view' class="scrollable-dark" [ngStyle]="{'height': screenHeight * 0.76+'px'}">
-    <app-post #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)" [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
-    </app-post>
+    <user-posts #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)" [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
+    </user-posts>
     <loading-data *ngIf="isLoadingNewPosts"></loading-data>
     <div *ngIf="paginationParams && !paginationParams.hasNext" class="text-white text-center">
         Nie ma więcej postów do wyświetlenia!

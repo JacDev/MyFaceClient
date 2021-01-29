@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MessageFromApiModel } from 'src/app/chat/data/message-from-api-model';
+import { MessageModel } from 'src/app/chat/models/message.model';
 
 @Component({
   selector: 'chat-message',
   templateUrl: './chat-message.component.html'
 })
 export class ChatMessageComponent implements OnInit {
-  @Input() messageToDisplay: MessageFromApiModel;
+  @Input() messageToDisplay: MessageModel;
   @Input() currentLoggedUserId: string;
   public isLeft: boolean;
   constructor() { }

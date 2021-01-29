@@ -1,4 +1,4 @@
-export class MessageFromApiModel {
+export class MessageModel {
     id: string;
     toWho: string;
     conversationId: string;

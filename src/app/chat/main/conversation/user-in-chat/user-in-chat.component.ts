@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserModel } from 'src/app/data/models/user.model';
+import { UserModel } from 'src/app/common/models/user.model';
 
 @Component({
-  selector: 'app-user-in-chat',
+  selector: 'user-in-chat',
   templateUrl: './user-in-chat.component.html'
 })
 export class UserInChatComponent implements OnInit {
   @Input() userToDisplay: UserModel;
-  @Input() newUnseenMessages:number;
+  @Input() newUnseenMessages: number;
   constructor() { }
 
   ngOnInit(): void {

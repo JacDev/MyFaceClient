@@ -1,3 +1,5 @@
+export * from './auth-interceptor.service'
 export * from './authorization.service'
+//export * from './connectionsConstants'
 export * from './signin-redirect-callback.component'
 export * from './signout-redirect-callback.component'

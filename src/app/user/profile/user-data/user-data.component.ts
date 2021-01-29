@@ -1,43 +1,42 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { NotificationDto } from 'src/app/common/models/notificationDto.model';
-import { CurrentTimeService } from 'src/app/common/time.service';
+import { NotificationModel } from 'src/app/common/models/notification.model';
+import { CurrentTimeService } from 'src/app/common/services/time.service';
 import { UserFriendsAccessService } from 'src/app/data/api-access';
-import { FriendsRelationToAddModel } from 'src/app/data/models/friends-relation-to-add.model';
-import { UserModel } from 'src/app/data/models/user.model';
+import { FriendsRelationToAddModel } from 'src/app/common/models/friends-relation-to-add.model';
+import { UserModel } from 'src/app/common/models/user.model';
 import { NotificationService } from 'src/app/data/notification.service';
 
 @Component({
   selector: 'user-data',
-  templateUrl: './user-data.component.html',
-  styleUrls: ['./user-data.component.css']
+  templateUrl: './user-data.component.html'
 })
 export class UserDataComponent implements OnInit, OnChanges {
   @Input() displayedUser: UserModel;
   @Input() currentLoggedUserId: string;
-  canAddFriend: boolean = false;
-  canDeleteFriend: boolean = false;
-  canAcceptFriend: boolean = false;
-  canCancelFriendRequiest: boolean = false;
-  notification: NotificationDto = null;
+  public canAddFriend: boolean = false;
+  public canDeleteFriend: boolean = false;
+  public canAcceptFriend: boolean = false;
+  public canCancelFriendRequiest: boolean = false;
+  public notification: NotificationModel = null;
 
   constructor(private _friendsService: UserFriendsAccessService,
     private _notificationAccess: NotificationService,
     private _timeService: CurrentTimeService) { }
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.resetState();
     this.loadRelation();
   }
   ngOnInit(): void {
     this.loadRelation();
   }
-  private resetState() {
+  private resetState(): void {
     this.canAddFriend = false;
     this.canDeleteFriend = false;
     this.canAcceptFriend = false;
     this.canCancelFriendRequiest = false;
   }
-  loadRelation() {
+  loadRelation(): void {
     this._friendsService.getFriendRelation(this.currentLoggedUserId, this.displayedUser.id)
       .subscribe(areFriends => {
         if (areFriends) {
@@ -66,12 +65,12 @@ export class UserDataComponent implements OnInit, OnChanges {
         }
       })
   }
-  sendFriendRequiest() {
+  sendFriendRequiest(): void {
     this._notificationAccess.sendNotification(this.displayedUser.id, "friendRequiest", this._timeService.getCurrentDate(), this.displayedUser.id);
     this.canAddFriend = false;
     this.canCancelFriendRequiest = true;
   }
-  acceptFriendRequiest() {
+  acceptFriendRequiest(): void {
     let newRelation: FriendsRelationToAddModel = {
       friendId: this.displayedUser.id,
       sinceWhen: this._timeService.getCurrentDate()
@@ -85,14 +84,14 @@ export class UserDataComponent implements OnInit, OnChanges {
         this._notificationAccess.sendNotification(this.displayedUser.id, "friendRequiestAccepted", this._timeService.getCurrentDate(), this.displayedUser.id);
       });
   }
-  deleteFriend() {
+  deleteFriend(): void {
     this._friendsService.deleteFriend(this.currentLoggedUserId, this.displayedUser.id)
       .subscribe(() => {
         this.canDeleteFriend = false;
         this.canAddFriend = true;
       })
   }
-  undoFriendRequiest() {
+  undoFriendRequiest(): void {
     console.log(this.notification)
     if (this.notification == null) {
       this._notificationAccess.getNotification(this.currentLoggedUserId, this.displayedUser.id, 1)
@@ -113,7 +112,7 @@ export class UserDataComponent implements OnInit, OnChanges {
       this.deleteFriendRequest()
     }
   }
-  private deleteFriendRequest() {
+  private deleteFriendRequest(): void {
     this._notificationAccess.deleteNotification(this.currentLoggedUserId, this.notification.id)
       .subscribe(() => {
         this.canCancelFriendRequiest = false;

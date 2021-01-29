@@ -1,27 +1,27 @@
 import { Component, HostListener, Input, OnInit, SimpleChanges } from '@angular/core';
-import { Subject } from 'rxjs';
-import { MessageDto } from 'src/app/common/models/messageDto.model';
-import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
+import { Observable, Subject } from 'rxjs';
+import { AuthorizationService } from 'src/app/core/authorization/index';
 import { UserFriendsAccessService } from 'src/app/data/api-access';
 import { UserAccessService } from 'src/app/data/api-access/user-access.service';
-import { PaginatiomModel } from 'src/app/data/common/pagination-model';
-import { UserModel } from 'src/app/data/models/user.model';
+import { PaginatiomModel } from 'src/app/common/models/pagination-model';
+import { MessageToAddModel } from 'src/app/common/models/message-to-add.model';
+import { UserModel } from 'src/app/common/models/user.model';
 import { ChatService } from '../services/chat.service';
 
 @Component({
-  selector: 'app-main',
+  selector: 'chat-main',
   templateUrl: './main-chat.component.html'
 })
 export class MainChatComponent implements OnInit {
-  @Input() userIdToOpen;
+  @Input() userIdToOpen: string;
   public currentLoggedUserId: string;
   public screenHeight: number;
   public userFriends: UserModel[] = null;
-  friendsPaginationParams: PaginatiomModel;
+  private friendsPaginationParams: PaginatiomModel;
 
-  private _newMessageSubject = new Subject<MessageDto>();
-  public newMessage = this._newMessageSubject.asObservable();
-  isLoadingNewFriends: boolean = false;
+  private _newMessageSubject = new Subject<MessageToAddModel>();
+  public newMessage: Observable<MessageToAddModel> = this._newMessageSubject.asObservable();
+  public isLoadingNewFriends: boolean = false;
 
   constructor(private _chatService: ChatService,
     private _authService: AuthorizationService,
@@ -52,7 +52,7 @@ export class MainChatComponent implements OnInit {
     })
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?) {
+  getScreenSize(event?): void {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", [])
@@ -73,10 +73,10 @@ export class MainChatComponent implements OnInit {
   bottomReached(event): boolean {
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
   }
-  sendMessage(event: MessageDto) {
+  sendMessage(event: MessageToAddModel) : void {
     this._chatService.sendMessage(event.toWho, event.text, event.when)
   }
-  loadFriends() {
+  loadFriends(): void {
     this.isLoadingNewFriends = true;
     this._friendsApiAccess.getFriends(this.currentLoggedUserId)
       .subscribe(
@@ -91,7 +91,7 @@ export class MainChatComponent implements OnInit {
         error => console.log('error', error)
       );
   }
-  moveConversationToTheTop(fromWho: string) {
+  moveConversationToTheTop(fromWho: string) : void {
     let x = this.userFriends.findIndex(x => x.id == fromWho)
 
     if (x > -1) {

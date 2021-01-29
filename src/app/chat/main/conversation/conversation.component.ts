@@ -1,38 +1,37 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { MessageDto } from 'src/app/common/models/messageDto.model';
-import { MessagesAccessService } from 'src/app/data/api-access/messages-api-access.service';
-import { PaginatiomModel } from 'src/app/data/common/pagination-model';
-import { UserModel } from 'src/app/data/models/user.model';
-import { MessageFromApiModel } from '../../data/message-from-api-model';
+import { MessagesService } from 'src/app/chat/services/messages.service';
+import { PaginatiomModel } from 'src/app/common/models/pagination-model';
+import { MessageToAddModel } from 'src/app/common/models/message-to-add.model';
+import { UserModel } from 'src/app/common/models/user.model';
+import { MessageModel } from '../../models/message.model';
 
 @Component({
   selector: 'chat-conversation',
-  templateUrl: './conversation.component.html',
-  styleUrls: ['./conversation.component.css']
+  templateUrl: './conversation.component.html'
 })
 export class ConversationComponent implements OnInit {
   @ViewChildren('messagesList') messageElements: QueryList<any>;
-  @Input() newMessageFromHub: Observable<MessageDto>;
+  @Input() newMessageFromHub: Observable<MessageToAddModel>;
   @Input() userToDisplay: UserModel;
   @Input() currentLoggedUserId: string;
   @Input() userToShow: string;
-  @Output() newMessageEmitter: EventEmitter<MessageDto> = new EventEmitter<MessageDto>();
+  @Output() newMessageEmitter: EventEmitter<MessageToAddModel> = new EventEmitter<MessageToAddModel>();
 
   public showWindow: boolean = false;
   public isLoadingNewMessages: boolean = false;
-  public listOfMessagesFromApi: (MessageFromApiModel | MessageDto)[] = null;
+  public listOfMessagesFromApi: (MessageModel | MessageToAddModel)[] = null;
   public messagesPaginationParams: PaginatiomModel = null;
   public newMessageForm: FormGroup;
   public mesageText: FormControl;
   public screenHeight: number;
-  isAfterLoadingNewMessages: boolean = false;
-  isScrolled: boolean = false;
-  newMessagesToSkip: number = 0;
-  isNewMessage: boolean = false;
+  private isAfterLoadingNewMessages: boolean = false;
+  private isScrolled: boolean = false;
+  private newMessagesToSkip: number = 0;
+  public isNewMessage: boolean = false;
   public newUnseenMessages: number = 0;
-  constructor(private _messageApiAccess: MessagesAccessService) { }
+  constructor(private _messageApiAccess: MessagesService) { }
 
   @ViewChild('messageBox') private messageBox: ElementRef;
   scrollToBottom() {
@@ -44,7 +43,7 @@ export class ConversationComponent implements OnInit {
     }
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?) {
+  getScreenSize(event?): void {
     this.screenHeight = window.innerHeight;
   }
 
@@ -58,17 +57,16 @@ export class ConversationComponent implements OnInit {
     })
 
   }
-  reciveMessage(message: MessageDto) {
+  reciveMessage(message: MessageToAddModel): void {
     if (this.userToDisplay.id == message.fromWho) {
       this.isNewMessage = true;
       this.newUnseenMessages++;
-      console.log("message from conversation");
       if (this.listOfMessagesFromApi) {
         this.listOfMessagesFromApi.push(message);
       }
     }
   }
-  loadMessages() {
+  loadMessages(): void {
     this.getScreenSize();
     this.isLoadingNewMessages = true;
     this._messageApiAccess.getMessages(this.currentLoggedUserId, this.userToDisplay.id)
@@ -81,7 +79,7 @@ export class ConversationComponent implements OnInit {
         error => console.log('error', error)
       );
   }
-  showConversation() {
+  showConversation(): void {
     this.newUnseenMessages = 0;
     this.isNewMessage = false;
     this.showWindow = !this.showWindow;
@@ -107,7 +105,7 @@ export class ConversationComponent implements OnInit {
   topReached(event): boolean {
     return (event.target.scrollTop == 0);
   }
-  addMessage(messageForm: FormGroup) {
+  addMessage(messageForm: FormGroup): void {
     if (!messageForm.value.mesageText || messageForm.value.mesageText.trim().length == 0) {
       messageForm.reset();
     }
@@ -115,7 +113,7 @@ export class ConversationComponent implements OnInit {
       this.newMessagesToSkip++;
       this.isAfterLoadingNewMessages = false;
       const text = messageForm.value.mesageText.trimEnd()
-      let messageToSend: MessageDto = {
+      let messageToSend: MessageToAddModel = {
         text: text,
         toWho: this.userToDisplay.id,
         fromWho: this.currentLoggedUserId,
@@ -127,14 +125,13 @@ export class ConversationComponent implements OnInit {
       messageForm.reset();
     }
   }
-
-  ngForRendred() {
+  ngForRendred(): void {
     if (!this.isAfterLoadingNewMessages) {
       this.isScrolled = false;
       this.scrollToBottom()
     }
   }
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.messageElements.changes.subscribe(t => {
       this.ngForRendred();
     })

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { AuthorizationService } from './authorization.service';
 
 @Component({
-    selector: 'app-sigout-callback',
     template: '<div></div>'
 })
 export class SignoutRedirectCallbackComponent implements OnInit {

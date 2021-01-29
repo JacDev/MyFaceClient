@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConnectionsConstants } from 'src/app/core/authorization/ConnectionsConstants';
-import { CurrentTimeService } from 'src/app/common/time.service';
-import { DataAccessService } from '../../data/api-service/data.service';
-import { PaginationWithCollectionModel } from '../../data/common/pagination-with-collection-model';
-import { PostModel } from '../../data/models/post.model';
-import { PostToAdd } from '../models/post-to-add.model';
+import { CurrentTimeService } from 'src/app/common/services/time.service';
+import { DataAccessService } from '../../data/api-access/data.service';
+import { PaginationWithCollectionModel } from '../../common/models/pagination-with-collection-model';
+import { PostModel } from '../models/post.model';
 
 @Injectable()
 export class PostAccessService {
@@ -41,11 +40,10 @@ export class PostAccessService {
     return this._apiAccess.delete(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}`)
   }
   postPost(userId: string, text: string, picture: File = null): Observable<PostModel> {
-    let data: PostToAdd = {
-      text: text,
-      whenAdded: this._timeService.getCurrentDate(),
-      picture: picture
-    }
+    let data = new FormData();
+    data.append('text', text);
+    data.append('whenAdded', this._timeService.getCurrentDate());
+    data.append('picture', picture);
     return this._apiAccess.post<PostModel>(`${ConnectionsConstants.apiRoot}users/${userId}/posts`, data);
   }
 }

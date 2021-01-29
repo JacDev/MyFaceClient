@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
+import { AuthorizationService } from 'src/app/core/authorization/index';
 
 @Component({
   selector: 'app-redirect',

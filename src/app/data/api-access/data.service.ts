@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
-import { PaginationWithCollectionModel } from '../common/pagination-with-collection-model';
+import { PaginationWithCollectionModel } from '../../common/models/pagination-with-collection-model';
 
 @Injectable()
 export class DataAccessService {

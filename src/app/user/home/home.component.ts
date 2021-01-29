@@ -2,8 +2,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthorizationService } from '../../core/authorization/authorization.service';
 import { PostAccessService } from '../services/post-access.service';
-import { PaginatiomModel } from '../../data/common/pagination-model';
-import { PostModel } from '../../data/models/post.model';
+import { PaginatiomModel } from '../../common/models/pagination-model';
+import { PostModel } from '../models/post.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
@@ -22,8 +22,8 @@ export class HomeComponent implements OnInit {
   public postForm: FormGroup;
   public postText: FormControl;
 
-  public imageUrl: any;
-  public image:File = null;
+  public imageUrl: string | ArrayBuffer;
+  public image: File = null;
   public screenHeight: number;
 
   public isAddingPost: boolean = false;
@@ -48,11 +48,11 @@ export class HomeComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?): void {
+  getScreenSize(event? : Event): void {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", ['$event'])
-  onScroll(event:Event): void {
+  onScroll(event: Event): void {
     if (this.bottomReached(event) && this.paginationParams.hasNext && !this.isLoadingNewPosts) {
       this.isLoadingNewPosts = true;
       this._postAccess.getFriendsNextPosts(this.paginationParams.nextPageLink)
@@ -66,14 +66,13 @@ export class HomeComponent implements OnInit {
         );
     }
   }
-  bottomReached(event): boolean {
+  bottomReached(event : any): boolean {
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
   }
   deletePost(postId: string): void {
     this.listOfPostFromApi = this.listOfPostFromApi.filter(x => x.id !== postId);
   }
   addPost(postForm: FormGroup): void {
-    console.log(postForm.value.postText)
     if (postForm.value.postText && postForm.value.postText.trim().length != 0) {
       this.isAddingPost = true;
       let text: string = postForm.value.postText.trimEnd()
@@ -83,7 +82,7 @@ export class HomeComponent implements OnInit {
           this.isAddingPost = false;
           this.listOfPostFromApi.unshift(result);
         })
-        
+
       this.image = null;
       this.imageUrl = null;
       this.isImageLoaded = null;
@@ -91,10 +90,10 @@ export class HomeComponent implements OnInit {
     postForm.reset();
   }
 
-  isFileImage(file: File) {
+  isFileImage(file: File) : boolean {
     return file && file.type.split('/')[0] === 'image';
   }
-  addImage() {
+  addImage() : void {
     Swal.fire({
       title: '<h6>Wybierz zdjęcie:</h6>',
       text: 'Maksymalny rozmiar pliku to 25MB!',
@@ -127,7 +126,7 @@ export class HomeComponent implements OnInit {
       }
     })
   }
-  showImage() {
+  showImage() : void {
     Swal.fire({
       width: 'auto',
       imageUrl: this.imageUrl,

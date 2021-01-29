@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConnectionsConstants } from 'src/app/core/authorization/ConnectionsConstants';
-import { DataAccessService } from '../../data/api-service/data.service';
-import { PostReactionModel } from '../../data/models/post-reaction.model';
+import { DataAccessService } from '../../data/api-access/data.service';
+import { PostReactionModel } from '../models/post-reaction.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,4 +1,4 @@
-export class MessageDto {
+export class MessageToAddModel {
     toWho: string;
     text: string;
     when: Date;

@@ -1,11 +1,11 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { MessageDto } from 'src/app/common/models/messageDto.model';
 import { HubService } from 'src/app/data/hub.service';
+import { MessageToAddModel } from 'src/app/common/models/message-to-add.model';
 
 @Injectable()
 export class ChatService implements OnInit {
-  private _newMessageSubject = new Subject<MessageDto>();
+  private _newMessageSubject = new Subject<MessageToAddModel>();
   public newMessage = this._newMessageSubject.asObservable();
 
   constructor(private _notificationService: HubService) { }

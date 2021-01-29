@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { ImageAccessService } from 'src/app/user/services/image-access.service';
-import { PostModel } from 'src/app/data/models/post.model';
-import { UserModel } from 'src/app/data/models/user.model';
+import { PostModel } from 'src/app/user/models/post.model';
+import { UserModel } from 'src/app/common/models/user.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import {
   PostAccessService,
@@ -9,12 +9,12 @@ import {
 } from '../../services/index';
 import { UserAccessService } from 'src/app/data/api-access';
 import { NotificationService } from 'src/app/data/notification.service';
-import { CurrentTimeService } from 'src/app/common/time.service';
+import { CurrentTimeService } from 'src/app/common/services/time.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AuthorizationService } from 'src/app/core/authorization/authorization-index';
+import { AuthorizationService } from 'src/app/core/authorization/index';
 
 @Component({
-  selector: 'app-post',
+  selector: 'user-posts',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })

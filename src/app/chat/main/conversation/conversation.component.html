@@ -1,6 +1,6 @@
 <div>
     <div class="rounded" style="cursor: pointer; margin-right: 20px" [ngStyle]="{'background-color': showWindow? 'rgb(83, 83, 85)'  : ''}" (click)="showConversation()">
-        <app-user-in-chat [userToDisplay]="userToDisplay" [newUnseenMessages]="newUnseenMessages"></app-user-in-chat>
+        <user-in-chat [userToDisplay]="userToDisplay" [newUnseenMessages]="newUnseenMessages"></user-in-chat>
 
     </div>
     <div *ngIf='showWindow'>

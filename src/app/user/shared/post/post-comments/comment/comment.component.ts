@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserAccessService } from 'src/app/data/api-access/index';
-import { PostCommentModel } from 'src/app/data/models/post-comment.model';
-import { UserModel } from 'src/app/data/models/user.model';
+import { PostCommentModel } from 'src/app/user/models/post-comment.model';
+import { UserModel } from 'src/app/common/models/user.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import { PostCommentToUpdate } from './post-comment-to-update.model';
+import { PostCommentToUpdate } from '../post-comment-to-update.model';
 
 @Component({
   selector: 'post-comment',
@@ -16,7 +16,7 @@ export class CommentComponent implements OnInit {
   @Input() userToDisplay: UserModel;
   @Input() currentLoggedUserId: string;
   @Output() deleteCommentEvent: EventEmitter<string> = new EventEmitter<string>();
-  @Output() editCommentEvent: EventEmitter<Object> = new EventEmitter<PostCommentToUpdate>();
+  @Output() editCommentEvent: EventEmitter<PostCommentToUpdate> = new EventEmitter<PostCommentToUpdate>();
 
   constructor(private _userAccess: UserAccessService) { }
 

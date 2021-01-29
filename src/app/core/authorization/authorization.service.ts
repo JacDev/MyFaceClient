@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User, UserManager } from 'oidc-client';
 import { Subject } from 'rxjs';
 import { UserAccessService } from 'src/app/data/api-access/user-access.service';
-import { UserModel } from 'src/app/data/models/user.model';
+import { UserModel } from 'src/app/common/models/user.model';
 
 import { ConnectionsConstants } from "./ConnectionsConstants";
 
@@ -14,7 +14,7 @@ export class AuthorizationService {
   public loginChanged = this._loginChangedSubject.asObservable();
 
   public currentUser: UserModel;
-  private isLoadingCurrentUser: boolean = false;
+  private _isLoadingCurrentUser: boolean = false;
 
   public currentUserId: string;
   private _userLoadedSubject = new Subject<boolean>();
@@ -46,7 +46,7 @@ export class AuthorizationService {
       if (this._user !== user) {
         this._loginChangedSubject.next(userCurrent);
       }
-      if (userCurrent && !this.currentUser && !this.isLoadingCurrentUser) {
+      if (userCurrent && !this.currentUser && !this._isLoadingCurrentUser) {
         this.currentUserId = this._user.profile.sub;
         this.loadSecurityContext();
       }
@@ -56,7 +56,6 @@ export class AuthorizationService {
   completeLogin() {
     return this._userManager.signinRedirectCallback().then(user => {
       this._user = user;
-      //console.log(user.profile.sub)
       this._loginChangedSubject.next(!!user && !user.expired);
       return user;
     })
@@ -80,13 +79,12 @@ export class AuthorizationService {
     });
   }
   loadSecurityContext() {
-    this.isLoadingCurrentUser = true;
+    this._isLoadingCurrentUser = true;
     this._dataService.getUser(this._user?.profile.sub)
       .subscribe(
         result => {
           this.currentUser = new UserModel(result);
-          this.isLoadingCurrentUser = false;
-          //console.log(result);
+          this._isLoadingCurrentUser = false;
           this._userLoadedSubject.next(true);
         },
         error => console.log('error', error)
