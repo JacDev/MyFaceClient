@@ -10,7 +10,7 @@ import { UserModel } from '../common/models/user.model';
 })
 export class VerticalNavbarComponent implements OnInit {
   public searchTerm: string = "";
-  public foundUsers: UserModel[] =null;
+  public foundUsers: UserModel[] = null;
   public screenHeight: number;
   public isLoadingNewUsers: boolean;
   public paginationParams: PaginatiomModel = null;
@@ -19,23 +19,19 @@ export class VerticalNavbarComponent implements OnInit {
   ngOnInit(): void {
     this.getScreenSize();
   }
-  searchUsers(searchTerm: string) {
+  searchUsers(searchTerm: string): void {
     this._userApiAccess.getUsersWith(searchTerm)
       .subscribe(result => {
-        console.log(result);
         this.paginationParams = result.paginationMetadata;
         this.foundUsers = result.collection;
       })
-      
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?) {
+  getScreenSize(event?: Event) {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", [])
   onScroll(event): void {
-    //if (event.target.id == 'main-view') {
-console.log(this.isLoadingNewUsers)
     if (this.bottomReached(event) && this.paginationParams.hasNext && !this.isLoadingNewUsers) {
       let newPosts: UserModel[] = null;
       this.isLoadingNewUsers = true;
@@ -44,10 +40,7 @@ console.log(this.isLoadingNewUsers)
           result => {
             newPosts = result.collection;
             this.paginationParams = result.paginationMetadata;
-
             this.foundUsers.push(...newPosts);
-            console.log(this.foundUsers);
-            console.log(this.paginationParams);
             this.isLoadingNewUsers = false;
           },
           error => console.log('error', error)
@@ -55,7 +48,6 @@ console.log(this.isLoadingNewUsers)
     }
   }
   bottomReached(event): boolean {
-    //console.log((event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 50))
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 50);
   }
 }

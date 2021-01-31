@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+<nav class="navbar sticky-top navbar-dark bg-dark">
     <a class="navbar-brand" [routerLink]="['/']">My Face</a>
-    <div *ngIf="isLoggedIn" class="col-4">
+    <div *ngIf="isLoggedIn" class="col-2">
         <a (click)="loadNotifications()" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-bell fa-lg"></i>
             <span class="badge badge-light">{{newNotificationCounter}}</span>
@@ -11,38 +11,17 @@
             <loading-data *ngIf="isLoadingNewNotifications"></loading-data>
         </div>
     </div>
-    <div class="d-lg-none form-inline ml-auto text-white">
-        <span class="active">
-            <a class="text-white" [routerLink]="['find']"><i class="fas fa-search fa-lg white pl-3"></i></a>
+    <div class="form-inline ml-auto text-white">
+        <span *ngIf="!isLoggedIn" class="row ml-1">
+            <a class="btn text-white" (click)="login()">Zaloguj się</a>
+            <a class="btn text-white" [routerLink]="['user/register']">Rejestracja</a>
         </span>
-        <span class="active">
-            <a  class="text-white" [routerLink]="['chat']"><i class="fas fa-comment-dots fa-lg px-3"></i></a>
+        <span *ngIf="isLoggedIn">
+            <a class="btn text-white d-lg-none" [routerLink]="['find']"><i class="fas fa-search fa-lg white"></i></a>
+            <a class="btn text-white d-lg-none" [routerLink]="['chat']"><i class="fas fa-comment-dots fa-lg"></i></a>
+            <a class="btn text-white" [routerLink]="['friends']"><i class="fas fa-users fa-lg"></i></a>
+            <a class="btn text-white" (click)="logout()"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+            <a class="btn text-white" [routerLink]="['profile']">Profil</a>
         </span>
-    </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse " id="navbarSupportedContent">
-
-        <ul class="navbar-nav ml-auto">
-            <span *ngIf="!isLoggedIn" class="row ml-1">
-                <li class="nav-item active">
-                    <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link"
-                        style="cursor: pointer;" (click)="login()">Zaloguj się <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link" [routerLink]="['user/register']">Rejestracja <span class="sr-only">(current)</span></a>
-            </li>
-            </span>
-            <li *ngIf="isLoggedIn" class="nav-item active">
-                <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link" style="cursor: pointer;" (click)="logout()">Wyloguj <span class="sr-only">(current)</span></a>
-            </li>
-            <li *ngIf="isLoggedIn" class="nav-item active">
-                <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link" style="cursor: pointer;" [routerLink]="['profile']">Profil <span class="sr-only">(current)</span></a>
-            </li>
-            <li *ngIf="isLoggedIn" class="nav-item active">
-                <a routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link" style="cursor: pointer;" [routerLink]="['friends']">Znajomi <span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
     </div>
 </nav>

@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   public isImageLoaded: boolean = false;
   public isLoadingNewPosts: boolean = false;
 
+  
   ngOnInit(): void {
     this.getScreenSize();
     this.postText = new FormControl();

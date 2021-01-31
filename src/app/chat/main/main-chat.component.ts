@@ -13,7 +13,6 @@ import { ChatService } from '../services/chat.service';
   templateUrl: './main-chat.component.html'
 })
 export class MainChatComponent implements OnInit {
-  @Input() userIdToOpen: string;
   public currentLoggedUserId: string;
   public screenHeight: number;
   public userFriends: UserModel[] = null;
@@ -28,11 +27,7 @@ export class MainChatComponent implements OnInit {
     private _friendsApiAccess: UserFriendsAccessService,
     private _usersApiAccess: UserAccessService) {
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.userIdToOpen && this.userFriends) {
-      this.moveConversationToTheTop(this.userIdToOpen)
-    }
-  }
+
   ngOnInit(): void {
     this.getScreenSize();
 
@@ -52,7 +47,7 @@ export class MainChatComponent implements OnInit {
     })
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?): void {
+  getScreenSize(event?: Event): void {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", [])
@@ -73,7 +68,7 @@ export class MainChatComponent implements OnInit {
   bottomReached(event): boolean {
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
   }
-  sendMessage(event: MessageToAddModel) : void {
+  sendMessage(event: MessageToAddModel): void {
     this._chatService.sendMessage(event.toWho, event.text, event.when)
   }
   loadFriends(): void {
@@ -84,14 +79,11 @@ export class MainChatComponent implements OnInit {
           this.userFriends = result.collection;
           this.friendsPaginationParams = result.paginationMetadata;
           this.isLoadingNewFriends = false;
-          if (this.userIdToOpen) {
-            this.moveConversationToTheTop(this.userIdToOpen)
-          }
         },
         error => console.log('error', error)
       );
   }
-  moveConversationToTheTop(fromWho: string) : void {
+  moveConversationToTheTop(fromWho: string): void {
     let x = this.userFriends.findIndex(x => x.id == fromWho)
 
     if (x > -1) {

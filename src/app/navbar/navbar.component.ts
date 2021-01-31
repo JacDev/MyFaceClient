@@ -3,6 +3,7 @@ import { NotificationModel } from '../common/models/notification.model';
 import { AuthorizationService } from '../core/authorization/index';
 import { PaginatiomModel } from '../common/models/pagination-model';
 import { NotificationService } from '../data/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -21,7 +22,8 @@ export class NavbarComponent implements OnInit {
   isLoadingNewNotifications: boolean = false;
 
   constructor(private _authService: AuthorizationService,
-    private _notificationService: NotificationService) { }
+    private _notificationService: NotificationService,
+    private _router: Router) { }
 
   ngOnInit(): void {
     this.getScreenSize();
@@ -75,5 +77,11 @@ export class NavbarComponent implements OnInit {
   }
   bottomReached(event): boolean {
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
+  }
+  redirectToChat(): void {
+    this._router.navigate(['chat']);
+  }
+  redirectToFind(): void {
+    this._router.navigate(['find']);
   }
 }

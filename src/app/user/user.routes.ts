@@ -1,4 +1,4 @@
-import { AuthorizationRouteGuard } from '../core/guards/authorize-route-guard';
+import { AuthorizationRouteGuard } from '../core/authorization/index';
 import { FriendsComponent } from './friends/friends.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';

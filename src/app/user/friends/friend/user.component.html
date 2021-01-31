@@ -1,12 +1,9 @@
 <loading-data *ngIf="userToDisplay==null; else elseBlock"></loading-data>
 
 <ng-template #elseBlock>
-    <div class=" col-sm-12 border rounded py-2 d-flex">
+    <div class=" col-sm-12 border rounded py-3 d-flex mb-1">
         <user-card class="mr-auto align-self-center text-white" [userToDisplay]="userToDisplay"></user-card>
-        <div class="float-right mt-3">
-            <button (click)="redirectToChat()" class="btn bg-white align-self-center mr-1">
-                <i class="fab fa-facebook-messenger"></i>
-            </button>
+        <div class="float-right">
             <button (click)="deleteFriend()" class="btn bg-white align-self-center">
                 <i class="fas fa-user-times"></i>
             </button>

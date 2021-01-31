@@ -1,16 +1,10 @@
-<div *ngIf="fromWhoUser==null; else elseBlock"></div>
-<ng-template #elseBlock>
-    <div class="d-flex my-1 dark-background pointable" [ngStyle]="{'color': notification.hasSeen? 'white' : '#FFCCFF'}" [routerLink]="canNavigateToPost? ['/', fromWhoUser.id, 'post', notification.eventId] :['/profile', fromWhoUser.id]">
-
-        <img class="rounded-circle py-2 ml-2" src="../../../../assets/images/default.jpg" width="10%" />
+<div *ngIf="fromWhoUser">
+    <div class="d-flex my-1 dark-background pointable" [ngStyle]="{'color': notification.hasSeen? 'white' : '#F35656'}" [routerLink]="canNavigateToPost? ['/', fromWhoUser.id, 'post', notification.eventId] :['/profile', fromWhoUser.id]">
+        <img class="rounded-circle py-2 ml-2" src="../../../../assets/images/default.jpg" width="11%" />
         <div class="w-100 ml-2">
-            <div class="">
-                {{fromWhoUser.firstName}} {{fromWhoUser.lastName}}
-                <span class="small float-right">{{notification.whenAdded | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
-            </div>
+            {{fromWhoUser.firstName}} {{fromWhoUser.lastName}}
+            <span class="small float-right">{{notification.whenAdded | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
             <div style="word-wrap: break-word;"> {{message}}</div>
-
         </div>
-
     </div>
-</ng-template>
+</div>

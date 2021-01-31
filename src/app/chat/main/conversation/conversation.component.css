@@ -1,0 +1,9 @@
+.dark-background {
+    margin-right: 20px;
+    padding-right: 3px;
+}
+
+.dark-background:hover,
+.dark-background:focus {
+    margin-right: 3px;
+}

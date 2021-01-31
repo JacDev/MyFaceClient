@@ -1,24 +1,22 @@
 <div>
-    <div class="rounded" style="cursor: pointer; margin-right: 20px" [ngStyle]="{'background-color': showWindow? 'rgb(83, 83, 85)'  : ''}" (click)="showConversation()">
+    <div class="rounded pointable" style="margin-right: 20px" [ngStyle]="{'background-color': showWindow? 'rgb(83, 83, 85)'  : ''}" (click)="showConversation()">
         <user-in-chat [userToDisplay]="userToDisplay" [newUnseenMessages]="newUnseenMessages"></user-in-chat>
 
     </div>
     <div *ngIf='showWindow'>
-        <div #messageBox (scroll)="onScroll($event)" id="aa" class="scrollable-dark dark-background mt-2 rounded" [ngStyle]="{'height': screenHeight * 0.30+'px'}">
+        <div #messageBox (scroll)="onScroll($event)" [ngStyle]="{'height': screenHeight * 0.30+'px'}" class="scrollable-dark dark-background">
             <chat-message #messagesList *ngFor="let message of listOfMessagesFromApi;last as islast" [messageToDisplay]="message" [currentLoggedUserId]="currentLoggedUserId">
                 <div *ngIf="islast"> {{scrollToBottom()}}</div>
             </chat-message>
-            <div *ngIf="listOfMessagesFromApi==null || listOfMessagesFromApi.length==0" class="d-flex h-100 justify-content-center">
+            <div *ngIf="(listOfMessagesFromApi==null || listOfMessagesFromApi.length==0) && !isLoadingNewMessages" class="d-flex h-100 justify-content-center">
                 <div class="text-white align-self-center text-center">
                     <span> Napisz do użytkownika {{userToDisplay.firstName}} {{userToDisplay.lastName}}</span>
                 </div>
             </div>
-            <div *ngIf="isLoadingNewMessages" class="d-flex h-100 justify-content-center">
-                <div class="spinner-border my-2 text-light align-self-center" role="status">
-                    <span class="sr-only"></span>
-                </div>
-            </div>
 
+            <div *ngIf="isLoadingNewMessages" class="d-flex h-100 justify-content-center">
+                <loading-data class="text-white align-self-center" *ngIf="isLoadingNewMessages"></loading-data>
+            </div>
         </div>
 
         <form class="input-group" [formGroup]="newMessageForm" (keyup.enter)="addMessage(newMessageForm)" (ngSubmit)="addMessage(newMessageForm)" novalidate>

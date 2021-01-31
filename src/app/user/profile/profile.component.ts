@@ -8,8 +8,14 @@ import { UserModel } from 'src/app/common/models/user.model';
 import { PostAccessService } from '../services/index';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  styles: [`
+      .active {
+        color: #F97924 !important;
+    }
+    .notactive{
+      color: white !important;
+    }`]
 })
 
 export class ProfileComponent implements OnInit {
@@ -17,12 +23,13 @@ export class ProfileComponent implements OnInit {
   constructor(private _postDataService: PostAccessService,
     private _userDataService: UserAccessService,
     private _authService: AuthorizationService,
-    private route: ActivatedRoute) {
+    private _route: ActivatedRoute) {
   }
 
   public listOfPostFromApi: PostModel[] = null;
   public paginationParams: PaginatiomModel = null;
   public currentDisplayedUser: UserModel = null;
+  public showPosts: boolean = true;
   private isLoadingNewPosts: Boolean = false;
   public loggedUserId: string = null;
 
@@ -32,11 +39,11 @@ export class ProfileComponent implements OnInit {
   loadUser() {
     this.loggedUserId = this._authService.currentUserId;
     let currentUserId;
-    this.route.params.subscribe((params: Params) => {
+    this._route.params.subscribe((params: Params) => {
       currentUserId = params['id'];
       if (!currentUserId || currentUserId === this.loggedUserId) {
         this.currentDisplayedUser = this._authService.currentUser;
-          this.getPosts(this.loggedUserId);
+        this.getPosts(this.loggedUserId);
       }
       else {
         this._userDataService.getUser(currentUserId)
@@ -48,9 +55,9 @@ export class ProfileComponent implements OnInit {
           ),
           error => console.log('error', error)
       }
-    });    
+    });
   }
-  getPosts(id:string) {
+  getPosts(id: string) {
     return this._postDataService.getUserPosts(id)
       .subscribe(
         result => {
@@ -78,5 +85,8 @@ export class ProfileComponent implements OnInit {
   }
   bottomReached(): boolean {
     return (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 1);
+  }
+  switchDisplay(): void {
+    this.showPosts = !this.showPosts;
   }
 }

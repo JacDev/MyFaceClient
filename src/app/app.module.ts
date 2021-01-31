@@ -10,14 +10,13 @@ import { AppComponent } from './app.component';
 import { DataAccessService } from './data/api-access/data.service';
 
 import { NavbarComponent } from './navbar/navbar.component';
-import { AuthorizationRouteGuard } from './core/guards/authorize-route-guard';
-
 
 import {
   SignoutRedirectCallbackComponent,
   SigninRedirectCallbackComponent,
   AuthorizationService,
-  AuthInterceptorService
+  AuthInterceptorService,
+  AuthorizationRouteGuard
 } from './core/authorization/index'
 
 import {
@@ -51,7 +50,7 @@ import { CurrentTimeService } from './common/services/time.service';
     HttpClientModule,
     RouterModule,
     FormsModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
     AuthorizationService,

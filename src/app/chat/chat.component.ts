@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   templateUrl: './chat.component.html'
@@ -7,12 +6,9 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class ChatComponent {
   public userIdToOpen: string = null;
 
-  constructor(private route: ActivatedRoute) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.userIdToOpen = params['id']
-    })
   }
 }

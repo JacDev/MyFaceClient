@@ -1,23 +1,20 @@
 <div class="container my-3 col-10">
-    <div class="input-group col-12 pt-1 rounded" style="background-color: rgb(83, 83, 85);">
-        <div class="col-12 pl-0 ml-0 btn-group row">
-            <div class="d-flex w-100">
-                <user-card [userToDisplay]="userToDisplay"></user-card>
+    <div class="input-group col-12 pt-2 rounded" style="background-color: rgb(83, 83, 85);">
+        <div class="d-flex w-100 px-0 mx-0 ">
+            <user-card [userToDisplay]="userToDisplay"></user-card>
 
-                <div *ngIf="currentLoggedUserId == comment.fromWho" class="dropdown ml-auto">
-                    <button type="button" class="btn text-white align-items-start" data-toggle="dropdown">
-                        <span style="font-size: x-large;" class="pb-6">...</span>
-                    </button>
-                    <div class="dropdown-menu-right dropdown-menu">
-                        <button type="button" class="dropdown-item" (click)="editComment()">Edytuj</button>
-                        <button type="button" class="dropdown-item" (click)="deleteComment()">Usuń</button>
-                    </div>
+            <div *ngIf="currentLoggedUserId == comment.fromWho" class="dropdown ml-auto">
+                <button type="button" class="btn text-white" data-toggle="dropdown">
+                        <span style="font-size: x-large;">...</span>
+                </button>
+                <div class="dropdown-menu-right dropdown-menu">
+                    <button type="button" class="dropdown-item" (click)="editComment()">Edytuj</button>
+                    <button type="button" class="dropdown-item" (click)="deleteComment()">Usuń</button>
                 </div>
-
-                <span class="small align-self-center ml-auto">{{comment.whenAdded | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
-
             </div>
+
         </div>
-        <div class="col-12 pb-1 pt-2" style="word-wrap: break-word;">{{comment.text}}</div>
+        <div class="col-12 py-2" style="word-wrap: break-word;">{{comment.text}}</div>
+        <span class="small ml-auto pb-2">{{comment.whenAdded | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
     </div>
 </div>

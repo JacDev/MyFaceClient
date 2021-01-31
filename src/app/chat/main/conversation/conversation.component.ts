@@ -9,14 +9,14 @@ import { MessageModel } from '../../models/message.model';
 
 @Component({
   selector: 'chat-conversation',
-  templateUrl: './conversation.component.html'
+  templateUrl: './conversation.component.html',
+  styleUrls: ['./conversation.component.css']
 })
 export class ConversationComponent implements OnInit {
   @ViewChildren('messagesList') messageElements: QueryList<any>;
   @Input() newMessageFromHub: Observable<MessageToAddModel>;
   @Input() userToDisplay: UserModel;
   @Input() currentLoggedUserId: string;
-  @Input() userToShow: string;
   @Output() newMessageEmitter: EventEmitter<MessageToAddModel> = new EventEmitter<MessageToAddModel>();
 
   public showWindow: boolean = false;
@@ -43,7 +43,7 @@ export class ConversationComponent implements OnInit {
     }
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?): void {
+  getScreenSize(event? : Event): void {
     this.screenHeight = window.innerHeight;
   }
 
@@ -135,13 +135,5 @@ export class ConversationComponent implements OnInit {
     this.messageElements.changes.subscribe(t => {
       this.ngForRendred();
     })
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['userToShow'].currentValue == this.userToDisplay.id) {
-      this.showConversation()
-    }
-    else if (changes['userToShow'].previousValue == this.userToDisplay.id) {
-      this.showConversation()
-    }
   }
 }

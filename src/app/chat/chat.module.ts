@@ -16,6 +16,7 @@ import {
 } from './services/index'
 import { ChatComponent } from './chat.component'
 import { chatRoutes } from './chat.routes';
+import { SharedModule } from '../shared.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { chatRoutes } from './chat.routes';
     FormsModule,
     ReactiveFormsModule,
     TextareaAutosizeModule,
+    SharedModule
   ],
   providers: [
     MessagesService,

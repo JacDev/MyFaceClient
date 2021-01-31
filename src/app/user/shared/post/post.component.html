@@ -1,19 +1,19 @@
 <loading-data *ngIf="postToDisplay==null || currentLoggedUserId==null; else elseBlock"></loading-data>
 <ng-template class="" #elseBlock>
 
-    <div class="mb-5 rounded p-2 mt-2 post col-12">
-        <div class="d-flex w-100 pr-3">
+    <div class="flex mb-5 rounded p-2 mt-2 post col-12">
+        <div class="d-flex w-100 pr-1">
             <user-card [userToDisplay]="userToDisplay"></user-card>
-            <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="dropdown">
+            <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="ml-auto dropdown">
                 <button type="button" class="btn text-white" data-toggle="dropdown">
                         <span style="font-size: x-large;">...</span>
-                    </button>
+                </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <button type="button" class="dropdown-item" (click)="editPost()">Edytuj</button>
                     <button type="button" class="dropdown-item" (click)="deletePost()">Usuń</button>
                 </div>
             </div>
-            <span class="small align-self-center ml-auto">{{postToDisplay.whenAdded | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
+
         </div>
 
         <loading-data *ngIf="isLoading"></loading-data>
@@ -26,9 +26,7 @@
         </div>
 
         <div class="col-12 btn-toolbar d-flex justify-content-end pt-2">
-
             <div class="btn-group form-group row pr-2 ">
-
                 <button type="button" class="btn" (click)="changeReacton()">
                     <span class="badge badge-light icon">
 
@@ -39,7 +37,7 @@
                         </i>
 
                         <i *ngIf="isAlreadyLike" class="fas fa-sun fa-lg icontext">
-                            <span class="pl-1 small ">
+                            <span class="pl-1 small">
                                 {{reactionCounter}}
                             </span>
                         </i>
@@ -56,8 +54,10 @@
                         </i>
                     </span>
                 </button>
-
             </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <span class="small">{{postToDisplay.whenAdded | date: 'HH:mm:ss dd/MM/yyyy'}}</span>
         </div>
         <user-post-comments [postId]="postToDisplay.id" [currentLoggedUserId]="currentLoggedUserId" [displayedUserId]="postToDisplay.userId" *ngIf="showComments" (hideCommentsEmitter)="hideComments($event)" (changeCommentsCounterEmitter)="changeCommentsCounter($event)"></user-post-comments>
     </div>
