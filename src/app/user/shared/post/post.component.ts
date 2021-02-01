@@ -61,11 +61,11 @@ export class PostComponent implements OnInit {
         postId = params['id'];
         userId = params['userId'];
         this._postAccess.getPost(userId, postId)
-        .subscribe(post => {
-          this.postToDisplay = post;
-          this.currentLoggedUserId = this._authService.currentUserId;
-          this.loadPost();
-        })
+          .subscribe(post => {
+            this.postToDisplay = post;
+            this.currentLoggedUserId = this._authService.currentUserId;
+            this.loadPost();
+          })
       }
       );
     }
@@ -89,8 +89,8 @@ export class PostComponent implements OnInit {
     this._postReactionsAccess.getPostReactions(this.postToDisplay.userId, this.postToDisplay.id)
       .subscribe(
         result => {
-          result.some(x => {
-            if (x.fromWho == this.currentLoggedUserId) {
+          result.some(reaction => {
+            if (reaction.fromWho == this.currentLoggedUserId) {
               this.isAlreadyLike = true;
             }
           })
@@ -113,7 +113,7 @@ export class PostComponent implements OnInit {
       reader.readAsDataURL(image);
     }
   }
-  getImageFromService() {
+  getImageFromService(): void {
     if (this.postToDisplay.imagePath) {
       this.isImageLoading = true;
       this._imageAccess.getImage(this.currentLoggedUserId, this.postToDisplay.imagePath).subscribe(data => {
@@ -126,19 +126,27 @@ export class PostComponent implements OnInit {
     }
   }
 
-  ShowComments() {
+  displayComments(): void {
     this.showComments = !this.showComments;
   }
-  changeReacton() {
+  changeReacton(): void {
     if (this.isAlreadyLike) {
       this.reactionCounter--;
       this._postReactionsAccess.deletePostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
         .subscribe();
+      this._notificationService.getNotification(this.postToDisplay.userId, null, undefined, this.postToDisplay.id)
+        .subscribe(notification => {
+          if (notification.collection.length > 0) {
+            this._notificationService.deleteNotification(this.postToDisplay.userId, notification.collection[0].id)
+              .subscribe();
+          }
+        })
+
     }
     else {
       this.reactionCounter++;
       this._postReactionsAccess.postPostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
-        .subscribe(() => {
+        .subscribe(_ => {
           this._notificationService.sendNotification(this.userToDisplay.id, "reaction", this._timeService.getCurrentDate(), this.postToDisplay.id)
         });
     }
@@ -156,10 +164,9 @@ export class PostComponent implements OnInit {
       inputAttributes: { color: 'white' },
       inputValue: this.postToDisplay.text,
       showCancelButton: true,
-      confirmButtonColor: 'rgb(56, 224, 79)',
+      confirmButtonColor: 'rgb(253, 126, 20)',
 
     }).then((result) => {
-      console.log(result);
       if (result.isConfirmed && result.value.trim().length != 0) {
         this.isLoading = true;
         this._postAccess.patchPost(this.currentLoggedUserId, this.postToDisplay.id, result.value)
@@ -172,14 +179,14 @@ export class PostComponent implements OnInit {
   }
   deletePost() {
     Swal.fire({
-      title: '<h6>Na pewno chcesz usunąć post?</h6>',
+      title: '<h5>Na pewno chcesz usunąć post?</h5>',
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
       confirmButtonText:
         '<i class="fa fa-thumbs-up"></i>',
       confirmButtonAriaLabel: 'Thumbs up, great!',
-      confirmButtonColor: 'rgb(56, 224, 79)',
+      confirmButtonColor: 'rgb(253, 126, 20)',
       cancelButtonText:
         '<i class="fa fa-thumbs-down"></i>',
       cancelButtonAriaLabel: 'Thumbs down'

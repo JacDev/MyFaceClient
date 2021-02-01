@@ -31,14 +31,14 @@ export class CommentComponent implements OnInit {
   }
   deleteComment() {
     Swal.fire({
-      title: '<h6>Na pewno chcesz usunąć komentarz?</h6>',
+      title: '<h5>Na pewno chcesz usunąć komentarz?</h5>',
       showCloseButton: true,
       showCancelButton: true,
       focusConfirm: false,
       confirmButtonText:
         '<i class="fa fa-thumbs-up"></i>',
       confirmButtonAriaLabel: 'Thumbs up, great!',
-      confirmButtonColor: 'rgb(56, 224, 79)',
+      confirmButtonColor: 'rgb(253, 126, 20)',
       cancelButtonText:
         '<i class="fa fa-thumbs-down"></i>',
       cancelButtonAriaLabel: 'Thumbs down'
@@ -54,7 +54,7 @@ export class CommentComponent implements OnInit {
       inputAttributes: { color: 'white' },
       inputValue: this.comment.text,
       showCancelButton: true,
-      confirmButtonColor: 'rgb(56, 224, 79)',
+      confirmButtonColor: 'rgb(253, 126, 20)',
 
     }).then((result) => {
       if (result.isConfirmed && result.value.trim().length != 0) {

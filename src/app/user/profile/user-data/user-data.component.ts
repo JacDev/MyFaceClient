@@ -92,7 +92,6 @@ export class UserDataComponent implements OnInit, OnChanges {
       })
   }
   undoFriendRequiest(): void {
-    console.log(this.notification)
     if (this.notification == null) {
       this._notificationAccess.getNotification(this.currentLoggedUserId, this.displayedUser.id, 1)
         .subscribe(notifications => {

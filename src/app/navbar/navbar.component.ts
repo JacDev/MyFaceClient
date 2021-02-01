@@ -42,12 +42,19 @@ export class NavbarComponent implements OnInit {
         })
       }
     }
+
   }
   private loadUser() {
     this._notificationService.getNotifications(this._authService.currentUserId)
       .subscribe(notifications => {
         this.listOfNotificationsFromApi = notifications.collection;
         this.paginationParams = notifications.paginationMetadata;
+        this.listOfNotificationsFromApi.forEach(element => {
+          if (!element.hasSeen) {
+            this._notificationService.markNotificationAsSeen(element.fromWho, element.id)
+              .subscribe(_ => this.newNotificationCounter = 0);
+          }
+        });
       })
   }
   login(): void {

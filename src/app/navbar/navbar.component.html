@@ -1,11 +1,11 @@
 <nav class="navbar sticky-top navbar-dark bg-dark">
     <a class="navbar-brand" [routerLink]="['/']">My Face</a>
     <div *ngIf="isLoggedIn" class="col-2">
-        <a (click)="loadNotifications()" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a (click)="loadNotifications()" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [ngStyle]="{'color': newNotificationCounter==0? '#ffffff' : '#fd7e14'}">
             <i class="fas fa-bell fa-lg"></i>
             <span class="badge badge-light">{{newNotificationCounter}}</span>
         </a>
-        <div (scroll)="onScroll($event)" class="dropdown-menu scrollable-dark" aria-labelledby="notificationDropdown" [ngStyle]="{'height': screenHeight * 0.36+'px'}">
+        <div (scroll)="onScroll($event)" class="dropdown-menu scrollable-dark border border-white" aria-labelledby="notificationDropdown" [ngStyle]="{'height': screenHeight * 0.36+'px'}">
             <navbar-notifications *ngFor="let notification of listOfNotificationsFromApi" [notification]="notification"></navbar-notifications>
             <div class="text-white text-center pt-4" style="width: 100%;" *ngIf="listOfNotificationsFromApi?.length==0 && !isLoadingNewNotifications">Brak powiadomień</div>
             <loading-data *ngIf="isLoadingNewNotifications"></loading-data>
@@ -18,7 +18,7 @@
         </span>
         <span *ngIf="isLoggedIn">
             <a class="btn text-white d-lg-none" [routerLink]="['find']"><i class="fas fa-search fa-lg white"></i></a>
-            <a class="btn text-white d-lg-none" [routerLink]="['chat']"><i class="fas fa-comment-dots fa-lg"></i></a>
+            <a class="btn text-white d-md-none" [routerLink]="['chat']"><i class="fas fa-comment-dots fa-lg"></i></a>
             <a class="btn text-white" [routerLink]="['friends']"><i class="fas fa-users fa-lg"></i></a>
             <a class="btn text-white" (click)="logout()"><i class="fas fa-sign-out-alt fa-lg"></i></a>
             <a class="btn text-white" [routerLink]="['profile']">Profil</a>

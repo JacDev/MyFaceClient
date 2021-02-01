@@ -1,20 +1,22 @@
-<div>
-    <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment" [currentLoggedUserId]="currentLoggedUserId" (deleteCommentEvent)="deleteComment($event)" (editCommentEvent)="editComment($event)">
-    </post-comment>
-</div>
-<form class="container col-10">
+<div class="mt-2">
     <div>
-        <loading-data *ngIf="isLoading"></loading-data>
-
-        <form class="input-group" [formGroup]="commentForm" (keyup.enter)="addComment(commentForm)" (ngSubmit)="addComment(commentForm)" novalidate>
-            <textarea autosize [formControl]="commentText" class="rounded" rows="2" type="text" placeholder="Dodaj komentarz..."></textarea>
-
-            <div class="col-12 d-flex justify-content-center">
-                <button *ngIf="paginationParams?.hasNext" type="button" class="btn col-4 text-center text-white" (click)="loadMoreComments()">Pokaż wiecej</button>
-            </div>
-            <div class="col-12 d-flex justify-content-center">
-                <button *ngIf="!paginationParams?.hasNext" type="button" class="btn col-3 text-center text-white" (click)="hideComments()">Zwiń</button>
-            </div>
-        </form>
+        <post-comment *ngFor="let comment of listOfCommentsFromApi" [comment]="comment" [currentLoggedUserId]="currentLoggedUserId" (deleteCommentEvent)="deleteComment($event)" (editCommentEvent)="editComment($event)">
+        </post-comment>
     </div>
-</form>
+    <form class="container col-10">
+        <div>
+            <loading-data *ngIf="isLoading"></loading-data>
+
+            <form class="input-group" [formGroup]="commentForm" (keyup.enter)="addComment(commentForm)" (ngSubmit)="addComment(commentForm)" novalidate>
+                <textarea autosize [formControl]="commentText" class="rounded" rows="2" type="text" placeholder="Dodaj komentarz..."></textarea>
+
+                <div class="col-12 d-flex justify-content-center">
+                    <button *ngIf="paginationParams?.hasNext" type="button" class="btn col-4 text-center text-white" (click)="loadMoreComments()">Pokaż wiecej</button>
+                </div>
+                <div class="col-12 d-flex justify-content-center">
+                    <button *ngIf="!paginationParams?.hasNext" type="button" class="btn col-3 text-center text-white" (click)="hideComments()">Zwiń</button>
+                </div>
+            </form>
+        </div>
+    </form>
+</div>

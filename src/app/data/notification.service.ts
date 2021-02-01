@@ -18,10 +18,20 @@ export class NotificationService {
       this._newNotificationSubject.next();
     })
   }
+
+  markNotificationAsSeen(userId: string, notificationId: string): Observable<Object> {
+    let jsonPatchDocument =
+      [{
+        "op": "replace",
+        "path": "/HasSeen",
+        "value": true
+      }]
+    return this._apiAccess.patch<Object>(`${ConnectionsConstants.apiRoot}users/${userId}/notifications/${notificationId}`, jsonPatchDocument);
+  }
   sendNotification(toWhoId: string, type: string, when: string, eventId: string) {
     this._hubService.sendNotification(toWhoId, type, when, eventId);
   }
-  getNotification(userId: string, fromWhoId: string = null, notificationType: number = 0): Observable<PaginationWithCollectionModel<NotificationModel>> {
+  getNotification(userId: string, fromWhoId: string = null, notificationType: number = 0, eventId : string = null): Observable<PaginationWithCollectionModel<NotificationModel>> {
     var currentUrl = `${ConnectionsConstants.apiRoot}users/${userId}/notifications`
     let alreadyAddedQuery: boolean = false;
     if (fromWhoId) {
@@ -37,6 +47,15 @@ export class NotificationService {
       }
       currentUrl += 'notificationType=' + notificationType;
     }
+    if (eventId) {
+      if (!alreadyAddedQuery) {
+        currentUrl += '?'
+      }
+      else {
+        currentUrl += '&'
+      }
+      currentUrl += 'eventId=' + eventId;
+    }
     return this._apiAccess.getCollection<NotificationModel>(currentUrl)
   }
   getNotifications(userId: string): Observable<PaginationWithCollectionModel<NotificationModel>> {
@@ -49,7 +68,7 @@ export class NotificationService {
     }
     return this._apiAccess.getCollection<NotificationModel>(currentUrl)
   }
-  deleteNotification(userId: string, notificationId: string) : Observable<Object> {
+  deleteNotification(userId: string, notificationId: string): Observable<Object> {
     return this._apiAccess.delete(`${ConnectionsConstants.apiRoot}users/${userId}/notifications/${notificationId}`)
   }
 }
