@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HubService } from 'src/app/data/hub.service';
 import { NotificationModel } from '../common/models/notification.model';
-import { ConnectionsConstants } from '../core/authorization/ConnectionsConstants';
+import { environment } from '../../environments/environment'
 import { DataAccessService } from './api-access/data.service';
 import { PaginationWithCollectionModel } from '../common/models/pagination-with-collection-model';
 
@@ -26,13 +26,13 @@ export class NotificationService {
         "path": "/HasSeen",
         "value": true
       }]
-    return this._apiAccess.patch<Object>(`${ConnectionsConstants.apiRoot}users/${userId}/notifications/${notificationId}`, jsonPatchDocument);
+    return this._apiAccess.patch<Object>(`${environment.apiRoot}users/${userId}/notifications/${notificationId}`, jsonPatchDocument);
   }
   sendNotification(toWhoId: string, type: string, when: string, eventId: string) {
     this._hubService.sendNotification(toWhoId, type, when, eventId);
   }
   getNotification(userId: string, fromWhoId: string = null, notificationType: number = 0, eventId : string = null): Observable<PaginationWithCollectionModel<NotificationModel>> {
-    var currentUrl = `${ConnectionsConstants.apiRoot}users/${userId}/notifications`
+    var currentUrl = `${environment.apiRoot}users/${userId}/notifications`
     let alreadyAddedQuery: boolean = false;
     if (fromWhoId) {
       currentUrl += '?fromWhoId=' + fromWhoId;
@@ -59,7 +59,7 @@ export class NotificationService {
     return this._apiAccess.getCollection<NotificationModel>(currentUrl)
   }
   getNotifications(userId: string): Observable<PaginationWithCollectionModel<NotificationModel>> {
-    return this._apiAccess.getCollection<NotificationModel>(`${ConnectionsConstants.apiRoot}users/${userId}/notifications`)
+    return this._apiAccess.getCollection<NotificationModel>(`${environment.apiRoot}users/${userId}/notifications`)
   }
   getNextNotifications(url: string = null, skip?: number): Observable<PaginationWithCollectionModel<NotificationModel>> {
     var currentUrl = url
@@ -69,6 +69,6 @@ export class NotificationService {
     return this._apiAccess.getCollection<NotificationModel>(currentUrl)
   }
   deleteNotification(userId: string, notificationId: string): Observable<Object> {
-    return this._apiAccess.delete(`${ConnectionsConstants.apiRoot}users/${userId}/notifications/${notificationId}`)
+    return this._apiAccess.delete(`${environment.apiRoot}users/${userId}/notifications/${notificationId}`)
   }
 }

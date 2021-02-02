@@ -18,8 +18,8 @@ export class NavbarComponent implements OnInit {
 
   public listOfNotificationsFromApi: NotificationModel[] = null;
   public paginationParams: PaginatiomModel = null;
-  screenHeight: number;
-  isLoadingNewNotifications: boolean = false;
+  public screenHeight: number;
+  public isLoadingNewNotifications: boolean = false;
 
   constructor(private _authService: AuthorizationService,
     private _notificationService: NotificationService,
@@ -64,7 +64,7 @@ export class NavbarComponent implements OnInit {
     this.logoutRedirect.emit({});
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?: Event): void {
+  getScreenSize(): void {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", ['$event'])

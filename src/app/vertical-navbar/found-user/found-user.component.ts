@@ -6,8 +6,8 @@ import { UserModel } from 'src/app/common/models/user.model';
   templateUrl: './found-user.component.html'
 })
 export class FoundUserComponent implements OnInit {
-  
-@Input() public foundUser : UserModel;
+
+  @Input() public foundUser: UserModel;
   constructor() { }
 
   ngOnInit(): void {

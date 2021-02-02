@@ -17,7 +17,6 @@ export class PostCommentsComponent implements OnInit {
   public commentForm: FormGroup;
   public commentText: FormControl;
   public isLoading: boolean = false;
-  public showError: boolean = false;
 
   @Input() postId: string;
   @Input() currentLoggedUserId: string;
@@ -38,26 +37,24 @@ export class PostCommentsComponent implements OnInit {
         result => {
           this.listOfCommentsFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
-        },
-        error => this.showError = true
+        }
       );
   }
-  loadMoreComments() {
+  loadMoreComments(): void {
     if (this.paginationParams.hasNext) {
       this._postCommentsAccess.getNextComments(this.paginationParams.nextPageLink)
         .subscribe(
           result => {
             this.paginationParams = result.paginationMetadata;
             this.listOfCommentsFromApi.push(...result.collection);
-          },
-          error => this.showError = true
+          }
         );
     }
   }
   hideComments(): void {
     this.hideCommentsEmitter.emit(true);
   }
-  addComment(commentForm: FormGroup) {
+  addComment(commentForm: FormGroup): void {
     if (commentForm.value.commentText && commentForm.value.commentText.trim().length != 0) {
       this.isLoading = true;
       let text: string = commentForm.value.commentText.trimEnd()
@@ -66,28 +63,25 @@ export class PostCommentsComponent implements OnInit {
           this.isLoading = false;
           this.listOfCommentsFromApi.push(result);
           commentForm.reset();
-        },
-          error => this.showError = true)
+        })
       this.changeCommentsCounterEmitter.emit(1);
     }
   }
-  deleteComment(commentId: string) {
+  deleteComment(commentId: string): void {
     this.isLoading = true;
     this._postCommentsAccess.deleteComment(this.displayedUserId, this.postId, commentId)
       .subscribe(_ => {
         this.isLoading = false;
         this.changeCommentsCounterEmitter.emit(-1);
         this.listOfCommentsFromApi = this.listOfCommentsFromApi.filter(x => x.id !== commentId);
-      },
-        error => this.showError = true);
+      });
   }
-  editComment(comment: PostCommentToUpdate) {
+  editComment(comment: PostCommentToUpdate): void {
     this.isLoading = true;
     this._postCommentsAccess.patchComment(this.currentLoggedUserId, this.postId, comment.id, comment.text)
       .subscribe(_ => {
         this.isLoading = false;
-      },
-        error => this.showError = true);
+      });
     this.listOfCommentsFromApi.find(x => x.id === comment.id).text = comment.text;
   }
 }

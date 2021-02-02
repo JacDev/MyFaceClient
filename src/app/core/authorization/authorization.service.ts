@@ -3,8 +3,7 @@ import { SignoutResponse, User, UserManager } from 'oidc-client';
 import { Subject } from 'rxjs';
 import { UserAccessService } from 'src/app/data/api-access/user-access.service';
 import { UserModel } from 'src/app/common/models/user.model';
-
-import { ConnectionsConstants } from "./ConnectionsConstants";
+import { environment } from '../../../environments/environment'
 
 @Injectable()
 export class AuthorizationService {
@@ -92,12 +91,12 @@ export class AuthorizationService {
 
   private getStsSettings() : Object {
     return {
-      authority: ConnectionsConstants.stsAuthority,
-      client_id: ConnectionsConstants.clientId,
-      redirect_uri: `${ConnectionsConstants.clientRoot}signin-callback`,
-      scope: 'openid profile MyFaceApiV2 UserInfo2',
-      response_type: 'code',
-      post_logout_redirect_uri: `${ConnectionsConstants.clientRoot}signout-callback`
+      authority: environment.stsAuthority,
+      client_id: environment.clientId,
+      redirect_uri: `${environment.clientRoot}signin-callback`,
+      scope: environment.scope,
+      response_type: environment.response_type,
+      post_logout_redirect_uri: `${environment.clientRoot}signout-callback`
     }
   }
 }

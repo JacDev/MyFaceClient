@@ -46,3 +46,5 @@ testem.log
 Thumbs.db
 src/app/chat/toDo.txt
 src/app/todo.txt
+src/environments/environment.prod.ts
+src/environments/environment.ts

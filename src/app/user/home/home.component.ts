@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
   public isImageLoaded: boolean = false;
   public isLoadingNewPosts: boolean = false;
 
-  public showError : boolean = false;
+  public showError: boolean = false;
 
   ngOnInit(): void {
     this.getScreenSize();
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event? : Event): void {
+  getScreenSize(): void {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", ['$event'])
@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
         );
     }
   }
-  bottomReached(event : any): boolean {
+  bottomReached(event: any): boolean {
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
   }
   deletePost(postId: string): void {
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
           this.isAddingPost = false;
           this.listOfPostFromApi.unshift(result);
         },
-        error => this.showError = true
+          error => this.showError = true
         )
 
       this.image = null;
@@ -94,10 +94,10 @@ export class HomeComponent implements OnInit {
     postForm.reset();
   }
 
-  isFileImage(file: File) : boolean {
+  isFileImage(file: File): boolean {
     return file && file.type.split('/')[0] === 'image';
   }
-  addImage() : void {
+  addImage(): void {
     Swal.fire({
       title: '<h6>Wybierz zdjęcie:</h6>',
       text: 'Maksymalny rozmiar pliku to 25MB!',
@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit {
       }
     })
   }
-  showImage() : void {
+  showImage(): void {
     Swal.fire({
       width: 'auto',
       imageUrl: this.imageUrl,

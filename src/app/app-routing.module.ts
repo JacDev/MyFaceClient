@@ -6,10 +6,8 @@ import {
   AuthorizationRouteGuard
 } from './core/authorization//index';
 
-import { HomeComponent } from './user/home/home.component';
 import { UserModule } from './user/user.module'
 import { ChatModule } from './chat/chat.module'
-import { ChatComponent } from './chat/chat.component';
 import { VerticalNavbarModule } from './vertical-navbar/vertical-navbar.module';
 
 import { RedirectComponent } from './common/redirect/redirect.component';
@@ -20,8 +18,6 @@ const routes: Routes = [
   { path: 'signin-callback', component: SigninRedirectCallbackComponent },
   { path: 'signout-callback', component: SignoutRedirectCallbackComponent },
   { path: 'redirect', component: RedirectComponent },
-
-
 
 {
   path: 'find', canActivate: [AuthorizationRouteGuard],
@@ -47,7 +43,7 @@ const routes: Routes = [
       { path: '', loadChildren: './chat/chat.module#ChatModule', outlet: 'chat' },
       { path: '', loadChildren: './vertical-navbar/vertical-navbar.module#VerticalNavbarModule', outlet: 'left-routing' }]
   },
-  //{ path: '**', redirectTo: '', canActivate: [AuthorizationRouteGuard] },
+  { path: '**', redirectTo: '', canActivate: [AuthorizationRouteGuard] },
 ];
 
 

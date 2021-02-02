@@ -27,7 +27,7 @@ export class VerticalNavbarComponent implements OnInit {
       })
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize() {
+  getScreenSize(): void {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", [])
@@ -46,7 +46,7 @@ export class VerticalNavbarComponent implements OnInit {
         );
     }
   }
-  bottomReached(event): boolean {
+  bottomReached(event: any): boolean {
     return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 50);
   }
 }

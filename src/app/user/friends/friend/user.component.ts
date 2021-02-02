@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { UserModel } from 'src/app/common/models/user.model';
 
 @Component({
@@ -11,8 +10,7 @@ export class UserComponent implements OnInit {
   @Input() public userToDisplay: UserModel;
   @Output() deleteFriendEmitter: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private _router: Router,
-    private route: ActivatedRoute) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

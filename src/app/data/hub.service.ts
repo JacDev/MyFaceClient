@@ -3,6 +3,7 @@ import { AuthorizationService } from 'src/app/core/authorization/index';
 import * as signalR from '@aspnet/signalr';
 import { Subject } from 'rxjs';
 import { MessageToAddModel } from '../common/models/message-to-add.model';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class HubService {
@@ -20,7 +21,7 @@ export class HubService {
       .subscribe(_ => {
         this._authService.getAccessToken().then(result => {
           let tokenValue = '?token=' + result;
-          this.connection = new signalR.HubConnectionBuilder().withUrl(`https://localhost:4999/notificationHub${tokenValue}`)
+          this.connection = new signalR.HubConnectionBuilder().withUrl(`${environment.hubRoot}${tokenValue}`)
             .configureLogging(signalR.LogLevel.Information)
             .build();
           this.connection.onclose(async (err) => {

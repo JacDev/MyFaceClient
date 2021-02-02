@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   public showPosts: boolean = true;
   private isLoadingNewPosts: Boolean = false;
   public loggedUserId: string = null;
-  public showError : boolean = false;
+  public showError: boolean = false;
 
   ngOnInit(): void {
     this.loadUser();
@@ -57,9 +57,9 @@ export class ProfileComponent implements OnInit {
           error => this.showError = true
       }
     },
-    error => this.showError = true);
+      error => this.showError = true);
   }
-  getPosts(id: string) : void {
+  getPosts(id: string): void {
     this._postDataService.getUserPosts(id)
       .subscribe(
         result => {

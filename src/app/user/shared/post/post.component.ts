@@ -149,7 +149,6 @@ export class PostComponent implements OnInit {
               )
           }
         })
-
     }
     else {
       this.reactionCounter++;

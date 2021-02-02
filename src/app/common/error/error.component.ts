@@ -3,7 +3,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'error',
-  templateUrl: './error.component.html'
+  template: ''
 })
 export class ErrorComponent implements OnInit {
 

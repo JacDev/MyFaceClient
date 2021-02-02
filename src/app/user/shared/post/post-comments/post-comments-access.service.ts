@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrentTimeService } from 'src/app/common/services/time.service';
-import { ConnectionsConstants } from 'src/app/core/authorization/ConnectionsConstants';
+import { environment } from '../../../../../environments/environment'
 import { DataAccessService } from '../../../../data/api-access/data.service';
 import { PaginationWithCollectionModel } from '../../../../common/models/pagination-with-collection-model';
 import { PostCommentModel } from '../../../models/post-comment.model';
@@ -14,7 +14,7 @@ export class PostCommentAccessService {
         private _timeService: CurrentTimeService) { }
 
     getComments(userId: string, postId: string): Observable<PaginationWithCollectionModel<PostCommentModel>> {
-        return this._apiAccess.getCollection<PostCommentModel>(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments`)
+        return this._apiAccess.getCollection<PostCommentModel>(`${environment.apiRoot}users/${userId}/posts/${postId}/comments`)
     }
     getNextComments(url: string): Observable<PaginationWithCollectionModel<PostCommentModel>> {
         return this._apiAccess.getCollection<PostCommentModel>(url)
@@ -25,18 +25,18 @@ export class PostCommentAccessService {
             fromWho: fromWhoId,
             whenAdded: this._timeService.getCurrentDate()
         }
-        return this._apiAccess.post<PostCommentModel>(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments`, data);
+        return this._apiAccess.post<PostCommentModel>(`${environment.apiRoot}users/${userId}/posts/${postId}/comments`, data);
     }
     deleteComment(userId: string, postId: string, commentId: string): Observable<Object> {
-        return this._apiAccess.delete(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments/${commentId}`)
+        return this._apiAccess.delete(`${environment.apiRoot}users/${userId}/posts/${postId}/comments/${commentId}`)
     }
     patchComment(userId: string, postId: string, commentId: string, text: string): Observable<Object> {
         const jsonPatchDocument = [{
             "op": "replace",
             "path": "/text",
             "value": text
-          }]
-        return this._apiAccess.patch(`${ConnectionsConstants.apiRoot}users/${userId}/posts/${postId}/comments/${commentId}`, jsonPatchDocument)
+        }]
+        return this._apiAccess.patch(`${environment.apiRoot}users/${userId}/posts/${postId}/comments/${commentId}`, jsonPatchDocument)
     }
 
 }

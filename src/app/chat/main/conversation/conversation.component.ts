@@ -32,7 +32,7 @@ export class ConversationComponent implements OnInit {
   public isNewMessage: boolean = false;
   public newUnseenMessages: number = 0;
 
-  public showError : boolean = false;
+  public showError: boolean = false;
 
   constructor(private _messageApiAccess: MessagesService) { }
 
@@ -42,11 +42,11 @@ export class ConversationComponent implements OnInit {
       try {
         this.messageBox.nativeElement.scrollTop = this.messageBox.nativeElement.scrollHeight;
         this.isScrolled = true;
-      } catch (error) { this.showError = true}
+      } catch (error) { this.showError = true }
     }
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event? : Event): void {
+  getScreenSize(): void {
     this.screenHeight = window.innerHeight;
   }
 
