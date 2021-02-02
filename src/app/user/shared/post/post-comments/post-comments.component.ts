@@ -17,6 +17,7 @@ export class PostCommentsComponent implements OnInit {
   public commentForm: FormGroup;
   public commentText: FormControl;
   public isLoading: boolean = false;
+  public showError: boolean = false;
 
   @Input() postId: string;
   @Input() currentLoggedUserId: string;
@@ -38,7 +39,7 @@ export class PostCommentsComponent implements OnInit {
           this.listOfCommentsFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
         },
-        error => console.log('error', error)
+        error => this.showError = true
       );
   }
   loadMoreComments() {
@@ -49,11 +50,11 @@ export class PostCommentsComponent implements OnInit {
             this.paginationParams = result.paginationMetadata;
             this.listOfCommentsFromApi.push(...result.collection);
           },
-          error => console.log('error', error)
+          error => this.showError = true
         );
     }
   }
-  hideComments() {
+  hideComments(): void {
     this.hideCommentsEmitter.emit(true);
   }
   addComment(commentForm: FormGroup) {
@@ -65,7 +66,8 @@ export class PostCommentsComponent implements OnInit {
           this.isLoading = false;
           this.listOfCommentsFromApi.push(result);
           commentForm.reset();
-        })
+        },
+          error => this.showError = true)
       this.changeCommentsCounterEmitter.emit(1);
     }
   }
@@ -77,14 +79,15 @@ export class PostCommentsComponent implements OnInit {
         this.changeCommentsCounterEmitter.emit(-1);
         this.listOfCommentsFromApi = this.listOfCommentsFromApi.filter(x => x.id !== commentId);
       },
-        error => console.log('error', error));
+        error => this.showError = true);
   }
   editComment(comment: PostCommentToUpdate) {
     this.isLoading = true;
     this._postCommentsAccess.patchComment(this.currentLoggedUserId, this.postId, comment.id, comment.text)
       .subscribe(_ => {
         this.isLoading = false;
-      });
-   this.listOfCommentsFromApi.find(x => x.id === comment.id).text = comment.text;
+      },
+        error => this.showError = true);
+    this.listOfCommentsFromApi.find(x => x.id === comment.id).text = comment.text;
   }
 }

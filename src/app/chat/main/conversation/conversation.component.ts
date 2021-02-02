@@ -31,6 +31,9 @@ export class ConversationComponent implements OnInit {
   private newMessagesToSkip: number = 0;
   public isNewMessage: boolean = false;
   public newUnseenMessages: number = 0;
+
+  public showError : boolean = false;
+
   constructor(private _messageApiAccess: MessagesService) { }
 
   @ViewChild('messageBox') private messageBox: ElementRef;
@@ -39,7 +42,7 @@ export class ConversationComponent implements OnInit {
       try {
         this.messageBox.nativeElement.scrollTop = this.messageBox.nativeElement.scrollHeight;
         this.isScrolled = true;
-      } catch (err) { }
+      } catch (error) { this.showError = true}
     }
   }
   @HostListener('window:resize', ['$event'])
@@ -76,7 +79,7 @@ export class ConversationComponent implements OnInit {
           this.listOfMessagesFromApi = result.collection.reverse();
           this.messagesPaginationParams = result.paginationMetadata;
         },
-        error => console.log('error', error)
+        error => this.showError = true
       );
   }
   showConversation(): void {
@@ -98,7 +101,7 @@ export class ConversationComponent implements OnInit {
             this.listOfMessagesFromApi.unshift(...result.collection.reverse());
             this.isLoadingNewMessages = false;
           },
-          error => console.log('error', error)
+          error => this.showError = true
         );
     }
   }

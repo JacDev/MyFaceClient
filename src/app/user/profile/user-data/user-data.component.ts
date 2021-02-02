@@ -18,6 +18,7 @@ export class UserDataComponent implements OnInit, OnChanges {
   public canAcceptFriend: boolean = false;
   public canCancelFriendRequiest: boolean = false;
   public notification: NotificationModel = null;
+  public showError : boolean = false;
 
   constructor(private _friendsService: UserFriendsAccessService,
     private _notificationAccess: NotificationService,
@@ -59,11 +60,14 @@ export class UserDataComponent implements OnInit, OnChanges {
                     else {
                       this.canAddFriend = true;
                     }
-                  })
+                  },
+                  error => this.showError = true)
               }
-            })
+            },
+            error => this.showError = true)
         }
-      })
+      },
+      error => this.showError = true)
   }
   sendFriendRequiest(): void {
     this._notificationAccess.sendNotification(this.displayedUser.id, "friendRequiest", this._timeService.getCurrentDate(), this.displayedUser.id);
@@ -80,16 +84,17 @@ export class UserDataComponent implements OnInit, OnChanges {
         this.canAcceptFriend = false;
         this.canDeleteFriend = true;
         this._notificationAccess.deleteNotification(this.displayedUser.id, this.notification.id)
-          .subscribe()
+          .subscribe(error => this.showError = true)
         this._notificationAccess.sendNotification(this.displayedUser.id, "friendRequiestAccepted", this._timeService.getCurrentDate(), this.displayedUser.id);
       });
   }
   deleteFriend(): void {
     this._friendsService.deleteFriend(this.currentLoggedUserId, this.displayedUser.id)
-      .subscribe(() => {
+      .subscribe(_ => {
         this.canDeleteFriend = false;
         this.canAddFriend = true;
-      })
+      },
+      error => this.showError = true)
   }
   undoFriendRequiest(): void {
     if (this.notification == null) {
@@ -103,9 +108,11 @@ export class UserDataComponent implements OnInit, OnChanges {
               .subscribe(notifications => {
                 this.notification = notifications.collection[0];
                 this.deleteFriendRequest();
-              })
+              },
+              error => this.showError = true)
           }
-        })
+        },
+        error => this.showError = true)
     }
     else {
       this.deleteFriendRequest()
@@ -117,6 +124,7 @@ export class UserDataComponent implements OnInit, OnChanges {
         this.canCancelFriendRequiest = false;
         this.canAddFriend = true;
         this.notification = null;
-      })
+      },
+      error => this.showError = true)
   }
 }

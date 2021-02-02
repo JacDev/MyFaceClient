@@ -1,3 +1,4 @@
+<error *ngIf='showError'></error>
 <div>
     <div class="rounded pointable" style="margin-right: 20px" [ngStyle]="{'background-color': showWindow? 'rgb(83, 83, 85)'  : ''}" (click)="showConversation()">
         <user-in-chat [userToDisplay]="userToDisplay" [newUnseenMessages]="newUnseenMessages"></user-in-chat>

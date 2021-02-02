@@ -1,3 +1,4 @@
+<error *ngIf="showError"></error>
 <div class="mt-3">
     <friend *ngFor="let user of listOfUsersFromApi" [userToDisplay]='user' (deleteFriendEmitter)='deleteFriend($event)'></friend>
 </div>

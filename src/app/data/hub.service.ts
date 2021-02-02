@@ -6,10 +6,10 @@ import { MessageToAddModel } from '../common/models/message-to-add.model';
 
 @Injectable()
 export class HubService {
-
   private connection: signalR.HubConnection;
   private _newMessageSubject = new Subject<MessageToAddModel>();
   public newMessage = this._newMessageSubject.asObservable();
+  
   private _newNotificationSubject = new Subject();
   public newNotification = this._newNotificationSubject.asObservable();
 
@@ -20,12 +20,11 @@ export class HubService {
       .subscribe(_ => {
         this._authService.getAccessToken().then(result => {
           let tokenValue = '?token=' + result;
-          this.connection = new signalR.HubConnectionBuilder().withUrl(`https://localhost:4999/notificationHub${tokenValue}`)   // mapping to the chathub as in startup.cs
+          this.connection = new signalR.HubConnectionBuilder().withUrl(`https://localhost:4999/notificationHub${tokenValue}`)
             .configureLogging(signalR.LogLevel.Information)
             .build();
           this.connection.onclose(async (err) => {
-            console.log(err)
-            //await this.start();
+            await this.start();
           });
           this.connection.on("ReceiveMessage", (user, message, when) => { this.reciveMessage(user, message, when); });
           this.connection.on("ReceiveNotification", _ => { this.receiveNotification() })
@@ -46,25 +45,34 @@ export class HubService {
 
     this._newMessageSubject.next(newMessage);
   }
-  sendMessage(toWhoId: string, message: string, when: Date) {
+  sendMessage(toWhoId: string, message: string, when: Date): boolean {
+    let res: boolean = true;
     this.connection.invoke("SendMessageToUser", toWhoId, message, when)
+      .then(_ => {
+        res = true;
+      })
       .catch(function (err) {
-        return console.error(err.toString());
+        res = false;
       });
+    return res;
   }
-  sendNotification(toWhoId: string, type: string, when: string, eventId: string) {
+  sendNotification(toWhoId: string, type: string, when: string, eventId: string): boolean {
+    let res: boolean = true;
     this.connection.invoke("SendNotificationToUser", toWhoId, type, when, eventId)
+      .then(_ => {
+        res = true;
+      })
       .catch(function (err) {
-        return console.error(err.toString());
+        res = false;
       });
+    return res;
   }
 
   public async start() {
     try {
       await this.connection.start();
     } catch (err) {
-      console.log(err);
-      //setTimeout(() => this.start(), 5000);
+      setTimeout(() => this.start(), 3000);
     }
   }
 }

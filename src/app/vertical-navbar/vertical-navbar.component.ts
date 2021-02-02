@@ -27,7 +27,7 @@ export class VerticalNavbarComponent implements OnInit {
       })
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?: Event) {
+  getScreenSize() {
     this.screenHeight = window.innerHeight;
   }
   @HostListener("scroll", [])
@@ -43,7 +43,6 @@ export class VerticalNavbarComponent implements OnInit {
             this.foundUsers.push(...newPosts);
             this.isLoadingNewUsers = false;
           },
-          error => console.log('error', error)
         );
     }
   }

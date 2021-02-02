@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
   public showPosts: boolean = true;
   private isLoadingNewPosts: Boolean = false;
   public loggedUserId: string = null;
+  public showError : boolean = false;
 
   ngOnInit(): void {
     this.loadUser();
@@ -53,18 +54,19 @@ export class ProfileComponent implements OnInit {
               this.getPosts(result.id);
             }
           ),
-          error => console.log('error', error)
+          error => this.showError = true
       }
-    });
+    },
+    error => this.showError = true);
   }
-  getPosts(id: string) {
-    return this._postDataService.getUserPosts(id)
+  getPosts(id: string) : void {
+    this._postDataService.getUserPosts(id)
       .subscribe(
         result => {
           this.listOfPostFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
         },
-        error => console.log('error', error)
+        error => this.showError = true
       );
   }
   @HostListener("window:scroll", [])
@@ -78,7 +80,7 @@ export class ProfileComponent implements OnInit {
             this.listOfPostFromApi.push(...result.collection);
             this.isLoadingNewPosts = false;
           },
-          error => console.log('error', error)
+          error => this.showError = true
         );
 
     }

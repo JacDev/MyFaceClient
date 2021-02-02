@@ -24,18 +24,19 @@ export class PostComponent implements OnInit {
   @Input() currentLoggedUserId: string;
   @Output() deletePostFromListEvent: EventEmitter<string> = new EventEmitter<string>();
 
-  public userToDisplay: UserModel;
+  public userToDisplay: UserModel = null;
   public showComments: boolean = false;
   public isAlreadyLike: boolean = false;
   public reactionCounter: number = 0;
   public commentsCounter: number = 0;
   public isLoading: boolean = false;
-  public imageToShow: any;
+  public imageToShow: any = null;
   public isImageLoading: boolean = false;
 
   public screenHeight: number;
-  screenWidth: number;
+  private screenWidth: number;
   private hasParent: boolean;
+  public showError: boolean = false;
 
   constructor(private _userAccess: UserAccessService,
     private _postReactionsAccess: ReactionAccessService,
@@ -65,7 +66,8 @@ export class PostComponent implements OnInit {
             this.postToDisplay = post;
             this.currentLoggedUserId = this._authService.currentUserId;
             this.loadPost();
-          })
+          },
+            error => this.showError = true)
       }
       );
     }
@@ -75,7 +77,7 @@ export class PostComponent implements OnInit {
     this.getScreenSize();
 
   }
-  loadPost() {
+  loadPost(): void {
     this.getImageFromService();
     this.reactionCounter = this.postToDisplay.postReactionsCounter;
     this.commentsCounter = this.postToDisplay.postCommentsCounter;
@@ -84,7 +86,7 @@ export class PostComponent implements OnInit {
         result => {
           this.userToDisplay = result;
         },
-        error => console.log('error', error)
+        error => this.showError = true
       );
     this._postReactionsAccess.getPostReactions(this.postToDisplay.userId, this.postToDisplay.id)
       .subscribe(
@@ -95,11 +97,11 @@ export class PostComponent implements OnInit {
             }
           })
         },
-        error => console.log('error', error)
+        error => this.showError = true
       )
   }
   @HostListener('window:resize', ['$event'])
-  getScreenSize(event?) {
+  getScreenSize(): void {
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
   }
@@ -116,13 +118,14 @@ export class PostComponent implements OnInit {
   getImageFromService(): void {
     if (this.postToDisplay.imagePath) {
       this.isImageLoading = true;
-      this._imageAccess.getImage(this.currentLoggedUserId, this.postToDisplay.imagePath).subscribe(data => {
-        this.createImageFromBlob(data);
-        this.isImageLoading = false;
-      }, error => {
-        this.isImageLoading = false;
-        console.log(error);
-      });
+      this._imageAccess.getImage(this.currentLoggedUserId, this.postToDisplay.imagePath)
+        .subscribe(data => {
+          this.createImageFromBlob(data);
+          this.isImageLoading = false;
+        }, error => {
+          this.isImageLoading = false;
+          error => this.showError = true
+        });
     }
   }
 
@@ -133,12 +136,17 @@ export class PostComponent implements OnInit {
     if (this.isAlreadyLike) {
       this.reactionCounter--;
       this._postReactionsAccess.deletePostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
-        .subscribe();
+        .subscribe(
+          _ => { },
+          error => this.showError = true);
       this._notificationService.getNotification(this.postToDisplay.userId, null, undefined, this.postToDisplay.id)
         .subscribe(notification => {
           if (notification.collection.length > 0) {
             this._notificationService.deleteNotification(this.postToDisplay.userId, notification.collection[0].id)
-              .subscribe();
+              .subscribe(
+                _ => { },
+                error => this.showError = true
+              )
           }
         })
 
@@ -148,11 +156,12 @@ export class PostComponent implements OnInit {
       this._postReactionsAccess.postPostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
         .subscribe(_ => {
           this._notificationService.sendNotification(this.userToDisplay.id, "reaction", this._timeService.getCurrentDate(), this.postToDisplay.id)
-        });
+        },
+          error => this.showError = true);
     }
     this.isAlreadyLike = !this.isAlreadyLike;
   }
-  hideComments(hide: boolean) {
+  hideComments() {
     this.showComments = false;
   }
   changeCommentsCounter(event: number) {
@@ -173,7 +182,8 @@ export class PostComponent implements OnInit {
           .subscribe(_ => {
             this.isLoading = false;
             this.postToDisplay.text = result.value;
-          });
+          },
+            error => this.showError = true);
       }
     })
   }
@@ -198,7 +208,7 @@ export class PostComponent implements OnInit {
             this.isLoading = false;
             this.deletePostFromListEvent.emit(this.postToDisplay.id);
           },
-            error => console.log('error', error));
+            error => this.showError = true);
       }
     })
   }

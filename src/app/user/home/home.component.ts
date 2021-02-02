@@ -30,7 +30,8 @@ export class HomeComponent implements OnInit {
   public isImageLoaded: boolean = false;
   public isLoadingNewPosts: boolean = false;
 
-  
+  public showError : boolean = false;
+
   ngOnInit(): void {
     this.getScreenSize();
     this.postText = new FormControl();
@@ -44,7 +45,7 @@ export class HomeComponent implements OnInit {
           this.listOfPostFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
         },
-        error => console.log('error', error)
+        error => this.showError = true
       );
   }
 
@@ -63,7 +64,7 @@ export class HomeComponent implements OnInit {
             this.listOfPostFromApi.push(...result.collection);
             this.isLoadingNewPosts = false;
           },
-          error => console.log('error', error)
+          error => this.showError = true
         );
     }
   }
@@ -82,7 +83,9 @@ export class HomeComponent implements OnInit {
         .subscribe(result => {
           this.isAddingPost = false;
           this.listOfPostFromApi.unshift(result);
-        })
+        },
+        error => this.showError = true
+        )
 
       this.image = null;
       this.imageUrl = null;

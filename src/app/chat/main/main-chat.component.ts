@@ -22,6 +22,8 @@ export class MainChatComponent implements OnInit {
   public newMessage: Observable<MessageToAddModel> = this._newMessageSubject.asObservable();
   public isLoadingNewFriends: boolean = false;
 
+  public showError : boolean = false;
+
   constructor(private _chatService: ChatService,
     private _authService: AuthorizationService,
     private _friendsApiAccess: UserFriendsAccessService,
@@ -39,12 +41,14 @@ export class MainChatComponent implements OnInit {
       this._authService.userLoaded.subscribe(() => {
         this.currentLoggedUserId = this._authService.currentUserId;
         this.loadFriends();
-      })
+      },
+      error => this.showError = true)
     }
     this._chatService.newMessage.subscribe(result => {
       this._newMessageSubject.next(result);
       this.moveConversationToTheTop(result.fromWho);
-    })
+    },
+    error => this.showError = true)
   }
   @HostListener('window:resize', ['$event'])
   getScreenSize(event?: Event): void {
@@ -61,7 +65,7 @@ export class MainChatComponent implements OnInit {
             this.userFriends.unshift(...result.collection.reverse());
             this.isLoadingNewFriends = false;
           },
-          error => console.log('error', error)
+          error => this.showError = true
         );
     }
   }
@@ -80,7 +84,7 @@ export class MainChatComponent implements OnInit {
           this.friendsPaginationParams = result.paginationMetadata;
           this.isLoadingNewFriends = false;
         },
-        error => console.log('error', error)
+        error => this.showError = true
       );
   }
   moveConversationToTheTop(fromWho: string): void {
@@ -96,7 +100,7 @@ export class MainChatComponent implements OnInit {
         .subscribe(result => {
           this.userFriends.unshift(result);
         },
-          error => console.log('error', error)
+        error => this.showError = true
         );
     }
   }

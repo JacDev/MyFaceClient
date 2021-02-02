@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User, UserManager } from 'oidc-client';
+import { SignoutResponse, User, UserManager } from 'oidc-client';
 import { Subject } from 'rxjs';
 import { UserAccessService } from 'src/app/data/api-access/user-access.service';
 import { UserModel } from 'src/app/common/models/user.model';
@@ -36,7 +36,7 @@ export class AuthorizationService {
       }
     })
   }
-  login() {
+  login(): Promise<void> {
     return this._userManager.signinRedirect();
   }
   isLoggedIn(): Promise<boolean> {
@@ -53,22 +53,22 @@ export class AuthorizationService {
       return userCurrent;
     })
   }
-  completeLogin() {
+  completeLogin(): Promise<User> {
     return this._userManager.signinRedirectCallback().then(user => {
       this._user = user;
       this._loginChangedSubject.next(!!user && !user.expired);
       return user;
     })
   }
-  logout() {
+  logout(): void {
     this._user = null;
     this._loginChangedSubject.next(false);
     this._userManager.signoutRedirect();
   }
-  completeLogout() {
+  completeLogout(): Promise<SignoutResponse> {
     return this._userManager.signoutRedirectCallback();
   }
-  getAccessToken() {
+  getAccessToken(): Promise<string> {
     return this._userManager.getUser().then(user => {
       if (!!user && !user.expired) {
         return user.access_token;
@@ -78,7 +78,7 @@ export class AuthorizationService {
       }
     });
   }
-  loadSecurityContext() {
+  loadSecurityContext() : void {
     this._isLoadingCurrentUser = true;
     this._dataService.getUser(this._user?.profile.sub)
       .subscribe(
@@ -87,11 +87,10 @@ export class AuthorizationService {
           this._isLoadingCurrentUser = false;
           this._userLoadedSubject.next(true);
         },
-        error => console.log('error', error)
       );
   }
 
-  private getStsSettings() {
+  private getStsSettings() : Object {
     return {
       authority: ConnectionsConstants.stsAuthority,
       client_id: ConnectionsConstants.clientId,

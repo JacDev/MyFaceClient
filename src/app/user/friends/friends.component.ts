@@ -4,7 +4,6 @@ import { UserFriendsAccessService } from 'src/app/data/api-access';
 import { PaginatiomModel } from 'src/app/common/models/pagination-model';
 import { UserModel } from 'src/app/common/models/user.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'user-friends',
@@ -16,11 +15,11 @@ export class FriendsComponent implements OnInit {
   public paginationParams: PaginatiomModel = null;
   private loggedUser: string = null;
   public currentUserId: string = null;
+  public showError: boolean = false;
 
   constructor(private _dataService: UserFriendsAccessService,
     private _authService: AuthorizationService,
-    private _friendsService: UserFriendsAccessService,
-    private _route: ActivatedRoute) { }
+    private _friendsService: UserFriendsAccessService,) { }
 
   ngOnInit(): void {
     this.loggedUser = this._authService.currentUserId;
@@ -35,7 +34,7 @@ export class FriendsComponent implements OnInit {
           this.listOfUsersFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
         },
-        error => console.log('error', error)
+        error => this.showError = true
       );
   }
   @HostListener("window:scroll", [])
@@ -47,7 +46,7 @@ export class FriendsComponent implements OnInit {
             this.paginationParams = result.paginationMetadata;
             this.listOfUsersFromApi.push(...result.collection);
           },
-          error => console.log('error', error)
+          error => this.showError = true
         );
     }
   }
@@ -72,7 +71,8 @@ export class FriendsComponent implements OnInit {
         this._friendsService.deleteFriend(this.loggedUser, friendToRemove)
           .subscribe(_ => {
             this.listOfUsersFromApi = this.listOfUsersFromApi.filter(x => x.id !== friendToRemove);
-          })
+          },
+          error => this.showError = true)
       }
     })
   }

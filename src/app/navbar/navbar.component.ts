@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.getScreenSize();
-    this._notificationService.newNotification.subscribe(result => {
+    this._notificationService.newNotification.subscribe(_ => {
       this.newNotificationCounter++;
     })
   }
@@ -37,14 +37,14 @@ export class NavbarComponent implements OnInit {
         this.loadUser();
       }
       else {
-        this._authService.userLoaded.subscribe(() => {
+        this._authService.userLoaded.subscribe(_ => {
           this.loadUser();
         })
       }
     }
 
   }
-  private loadUser() {
+  private loadUser() : void{
     this._notificationService.getNotifications(this._authService.currentUserId)
       .subscribe(notifications => {
         this.listOfNotificationsFromApi = notifications.collection;
@@ -78,7 +78,6 @@ export class NavbarComponent implements OnInit {
             this.listOfNotificationsFromApi.push(...result.collection);
             this.isLoadingNewNotifications = false;
           },
-          error => console.log('error', error)
         );
     }
   }

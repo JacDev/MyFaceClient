@@ -1,3 +1,4 @@
+<error *ngIf='showError'></error>
 <div class="mt-1 scrollable-dark" (scroll)="onScroll($event)" [ngStyle]="{'height': screenHeight * 0.90+'px'}">
     <chat-conversation *ngFor="let user of userFriends" [userToDisplay]="user" [newMessageFromHub]="newMessage" [currentLoggedUserId]="currentLoggedUserId" (newMessageEmitter)="sendMessage($event)"></chat-conversation>
     <div class="d-flex h-100 justify-content-center">

@@ -17,6 +17,7 @@ export class CommentComponent implements OnInit {
   @Input() currentLoggedUserId: string;
   @Output() deleteCommentEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() editCommentEvent: EventEmitter<PostCommentToUpdate> = new EventEmitter<PostCommentToUpdate>();
+  public showError: boolean = false;
 
   constructor(private _userAccess: UserAccessService) { }
 
@@ -26,7 +27,7 @@ export class CommentComponent implements OnInit {
         resu => {
           this.userToDisplay = resu;
         },
-        error => console.log('error', error)
+        error => this.showError = true
       )
   }
   deleteComment() {
