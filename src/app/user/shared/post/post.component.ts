@@ -85,7 +85,6 @@ export class PostComponent implements OnInit {
       .subscribe(
         result => {
           this.userToDisplay = result;
-          console.log(result)
         },
         error => this.showError = true
       );
@@ -188,7 +187,6 @@ export class PostComponent implements OnInit {
     })
   }
   setProfileImage() : void{
-    console.log(this.postToDisplay.id)
     this._postAccess.setProfileImage(this.currentLoggedUserId, this.postToDisplay.id)
     .subscribe();
   }

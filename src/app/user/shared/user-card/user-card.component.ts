@@ -8,21 +8,19 @@ import { ImageAccessService } from '../../services';
 })
 export class UserCardComponent implements OnInit {
 
-  @Input() userToDisplay : UserModel;
+  @Input() userToDisplay: UserModel;
   public imageToShow: any = null;
 
-  constructor(private _imageAccess : ImageAccessService ) { }
+  constructor(private _imageAccess: ImageAccessService) { }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.getImageFromService(); 
+    this.getImageFromService();
   }
   getImageFromService(): void {
-    console.log(this.userToDisplay)
     if (this.userToDisplay?.profileImagePath) {
-      console.log(this.userToDisplay.profileImagePath)
       this._imageAccess.getImage(this.userToDisplay.id, this.userToDisplay.profileImagePath)
         .subscribe(data => {
           this.createImageFromBlob(data);;
