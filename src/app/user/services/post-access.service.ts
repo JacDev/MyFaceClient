@@ -46,4 +46,8 @@ export class PostAccessService {
     data.append('picture', picture);
     return this._apiAccess.post<PostModel>(`${environment.apiRoot}users/${userId}/posts`, data);
   }
+  setProfileImage(userId:string, postId: string) : Observable<string>{
+    console.log(postId)
+    return this._apiAccess.post<string>(`${environment.apiRoot}users/${userId}/posts/${postId}`, {});
+  }
 }

@@ -13,7 +13,7 @@ export class ErrorComponent implements OnInit {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: `Coś poszło nie tak! Spróbuj za kilka minut!`,
+      text: `Coś poszło nie tak! Spróbuj ponownie za chwilę!`,
     })
   }
 

@@ -85,6 +85,7 @@ export class PostComponent implements OnInit {
       .subscribe(
         result => {
           this.userToDisplay = result;
+          console.log(result)
         },
         error => this.showError = true
       );
@@ -160,13 +161,13 @@ export class PostComponent implements OnInit {
     }
     this.isAlreadyLike = !this.isAlreadyLike;
   }
-  hideComments() {
+  hideComments() : void {
     this.showComments = false;
   }
-  changeCommentsCounter(event: number) {
+  changeCommentsCounter(event: number) : void {
     this.commentsCounter += event;
   }
-  editPost() {
+  editPost() : void {
     Swal.fire({
       input: 'textarea',
       inputAttributes: { color: 'white' },
@@ -186,7 +187,12 @@ export class PostComponent implements OnInit {
       }
     })
   }
-  deletePost() {
+  setProfileImage() : void{
+    console.log(this.postToDisplay.id)
+    this._postAccess.setProfileImage(this.currentLoggedUserId, this.postToDisplay.id)
+    .subscribe();
+  }
+  deletePost() : void {
     Swal.fire({
       title: '<h5>Na pewno chcesz usunąć post?</h5>',
       showCloseButton: true,
@@ -211,7 +217,7 @@ export class PostComponent implements OnInit {
       }
     })
   }
-  showImage() {
+  showImage() : void {
     Swal.fire({
       width: this.screenWidth * 0.8,
       imageUrl: this.imageToShow,
