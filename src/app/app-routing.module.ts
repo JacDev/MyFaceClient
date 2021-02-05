@@ -19,14 +19,14 @@ const routes: Routes = [
   { path: 'signout-callback', component: SignoutRedirectCallbackComponent },
   { path: 'redirect', component: RedirectComponent },
 
-{
-  path: 'find', canActivate: [AuthorizationRouteGuard],
-  children: [
-    { path: '', loadChildren: './vertical-navbar/vertical-navbar.module#VerticalNavbarModule' },
-    { path: '', component: EmptyComponent, outlet: 'chat' },
-    { path: '', component: EmptyComponent, outlet: 'left-routing' }
-  ]
-},
+  {
+    path: 'find', canActivate: [AuthorizationRouteGuard],
+    children: [
+      { path: '', loadChildren: './vertical-navbar/vertical-navbar.module#VerticalNavbarModule' },
+      { path: '', component: EmptyComponent, outlet: 'chat' },
+      { path: '', component: EmptyComponent, outlet: 'left-routing' }
+    ]
+  },
   {
     path: 'chat', canActivate: [AuthorizationRouteGuard],
     children: [

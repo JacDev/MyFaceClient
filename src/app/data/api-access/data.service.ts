@@ -17,10 +17,13 @@ export class DataAccessService {
   getCollection<T>(url: string) : Observable<PaginationWithCollectionModel<T>>{
     return this.httpClient.get<PaginationWithCollectionModel<T>>(url);
   }
-  post<T>(url: string, data: Object | Object): Observable<T> {
+  post<T>(url: string, data: object): Observable<T> {
     return this.httpClient.post<T>(url, data);
   }
-  patch<T>(url: string, data: Object) {
+  postText<T>(url: string, data: object) : Observable<string> {
+    return this.httpClient.post(url, data, {responseType: 'text'});
+  }
+  patch<T>(url: string, data: object) {
     return this.httpClient.patch(url, data);
   }
   delete(url: string) {

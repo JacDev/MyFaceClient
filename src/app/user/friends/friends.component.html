@@ -1,4 +1,6 @@
 <error *ngIf="showError"></error>
 <div class="mt-3">
     <friend *ngFor="let user of listOfUsersFromApi" [userToDisplay]='user' (deleteFriendEmitter)='deleteFriend($event)'></friend>
+    <loading-data *ngIf='isLoadingFriends'></loading-data>
+    <div class="text-center text-white h5" *ngIf='listOfUsersFromApi?.length ==0 && !isLoadingFriends'>Nie masz żadnych znajomych!</div>
 </div>

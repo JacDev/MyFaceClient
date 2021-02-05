@@ -16,6 +16,7 @@ export class FriendsComponent implements OnInit {
   private loggedUser: string = null;
   public currentUserId: string = null;
   public showError: boolean = false;
+  public isLoadingFriends: boolean = false;
 
   constructor(private _dataService: UserFriendsAccessService,
     private _authService: AuthorizationService,
@@ -27,12 +28,14 @@ export class FriendsComponent implements OnInit {
   }
 
   loadFriends(): void {
+    this.isLoadingFriends = true;
     let currentUserId: string = this.userId || this.loggedUser;
     this._dataService.getFriends(currentUserId)
       .subscribe(
         result => {
           this.listOfUsersFromApi = result.collection;
           this.paginationParams = result.paginationMetadata;
+          this.isLoadingFriends = false;
         },
         error => this.showError = true
       );
@@ -72,7 +75,7 @@ export class FriendsComponent implements OnInit {
           .subscribe(_ => {
             this.listOfUsersFromApi = this.listOfUsersFromApi.filter(x => x.id !== friendToRemove);
           },
-          error => this.showError = true)
+            error => this.showError = true)
       }
     })
   }

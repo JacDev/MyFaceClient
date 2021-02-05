@@ -1,9 +1,10 @@
-<form id="searchForm" (ngSubmit)="searchUsers(searchTerm)" (keyup)="searchUsers(searchTerm)" class="mt-3">
+<form id="searchForm" (ngSubmit)="searchUsers(searchTerm)" (keyup)="searchUsers(searchTerm)" class="my-3">
     <div class="form-group">
         <input [(ngModel)]="searchTerm" name="searchTerm" type="text" class="form-control" placeholder="Szukaj..." autocomplete="off">
     </div>
-    <div *ngIf="foundUsers!=null && foundUsers?.length!=0" (scroll)="onScroll($event)" class="scrollable-dark dark-background rounded" [ngStyle]="{'height': screenHeight * 0.40+'px'}">
+    <div *ngIf="foundUsers!=null && foundUsers?.length!=0 || searchTerm?.length>0" (scroll)="onScroll($event)" class="scrollable-dark dark-background rounded" [ngStyle]="{'height': screenHeight * 0.40+'px'}">
         <nav-found-user *ngFor="let found of foundUsers" [foundUser]="found"></nav-found-user>
         <loading-data *ngIf="isLoadingNewUsers"></loading-data>
+        <div class="text-center mt-3" *ngIf='searchTerm?.length>0 && foundUsers?.length==0 && !isLoadingNewUsers'>Nie znaleziono użytkownika</div>
     </div>
 </form>

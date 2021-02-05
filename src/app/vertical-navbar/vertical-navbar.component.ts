@@ -20,10 +20,12 @@ export class VerticalNavbarComponent implements OnInit {
     this.getScreenSize();
   }
   searchUsers(searchTerm: string): void {
+    this.isLoadingNewUsers=true;
     this._userApiAccess.getUsersWith(searchTerm)
       .subscribe(result => {
         this.paginationParams = result.paginationMetadata;
         this.foundUsers = result.collection;
+        this.isLoadingNewUsers=false;
       })
   }
   @HostListener('window:resize', ['$event'])

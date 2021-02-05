@@ -10,7 +10,7 @@ export class HubService {
   private connection: signalR.HubConnection;
   private _newMessageSubject = new Subject<MessageToAddModel>();
   public newMessage = this._newMessageSubject.asObservable();
-  
+
   private _newNotificationSubject = new Subject();
   public newNotification = this._newNotificationSubject.asObservable();
 
@@ -22,7 +22,7 @@ export class HubService {
         this._authService.getAccessToken().then(result => {
           let tokenValue = '?token=' + result;
           this.connection = new signalR.HubConnectionBuilder().withUrl(`${environment.hubRoot}${tokenValue}`)
-            .configureLogging(signalR.LogLevel.Information)
+            .configureLogging(signalR.LogLevel.None)
             .build();
           this.connection.onclose(async (err) => {
             await this.start();

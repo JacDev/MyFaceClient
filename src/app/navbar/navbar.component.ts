@@ -31,29 +31,32 @@ export class NavbarComponent implements OnInit {
       this.newNotificationCounter++;
     })
   }
-  loadNotifications(): void {
+  loadUser(): void {
     if (!this.listOfNotificationsFromApi || this.newNotificationCounter != 0) {
       if (this.isLoggedIn) {
-        this.loadUser();
+        this.loadNotifications();
       }
       else {
         this._authService.userLoaded.subscribe(_ => {
-          this.loadUser();
+          this.loadNotifications();
         })
       }
     }
 
   }
-  private loadUser() : void{
+  private loadNotifications() : void{
+    this.isLoadingNewNotifications=true;
     this._notificationService.getNotifications(this._authService.currentUserId)
       .subscribe(notifications => {
         this.listOfNotificationsFromApi = notifications.collection;
         this.paginationParams = notifications.paginationMetadata;
+        this.isLoadingNewNotifications=false;
         this.listOfNotificationsFromApi.forEach(element => {
           if (!element.hasSeen) {
             this._notificationService.markNotificationAsSeen(element.fromWho, element.id)
               .subscribe(_ => this.newNotificationCounter = 0);
           }
+
         });
       })
   }

@@ -48,7 +48,6 @@ import { UserCardComponent } from './shared/user-card/user-card.component';
     PostAccessService,
     PostCommentAccessService,
     ReactionAccessService,
-    ImageAccessService,
     UserRouteActivator
   ]
 })

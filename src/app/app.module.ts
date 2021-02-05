@@ -31,6 +31,7 @@ import { NotificationComponent } from './navbar/notification/notification.compon
 import { RedirectComponent } from './common/redirect/redirect.component';
 import { EmptyComponent } from './common/empty/empty.component';
 import { CurrentTimeService } from './common/services/time.service';
+import { ImageAccessService } from './user/services';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { CurrentTimeService } from './common/services/time.service';
     CurrentTimeService,
     HubService,
     NotificationService,
+    ImageAccessService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]

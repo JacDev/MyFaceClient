@@ -1,10 +1,9 @@
 <div *ngIf="foundUser==null; else elseBlock"></div>
 <ng-template #elseBlock>
     <a [routerLink]="['/profile', foundUser.id]">
-        <div class="d-flex my-1">
-            <div class="float-left ">
-                <img class="rounded-circle" *ngIf="foundUser?.profileImagePath else defultImage;" [src]="foundUser.profileImagePath" width="70%" />
-                <ng-template #defultImage> <img class="rounded-circle py-2 ml-2" src="../../../../assets/images/default.jpg" width="70%" /></ng-template>
+        <div class="d-flex my-2">
+            <div class="float-left  pl-1">
+                <img class="rounded-circle" [src]="foundUser?.profileImagePath? imageToShow : '../../../../assets/images/default.jpg'" width="70%" />
             </div>
 
             <div class="ml-1 align-self-center mr-auto text-white">

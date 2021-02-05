@@ -30,20 +30,13 @@
         <div class="col-12 btn-toolbar d-flex justify-content-end pt-2">
             <div class="btn-group form-group row pr-2 ">
                 <button type="button" class="btn" (click)="changeReacton()">
-                    <span class="badge badge-light icon">
+                    <span class="badge badge-light icon icontext">
 
-                        <i *ngIf="!isAlreadyLike" class="far fa-sun fa-lg ">
+                        <i [ngClass]="isAlreadyLike? 'fas fa-sun':'far fa-sun'" class="fa-lg" [ngStyle]="{'color' :  isAlreadyLike? 'rgb(253, 126, 20)' : '' }">
                             <span class="pl-1 small icontext">
                                 {{reactionCounter}}
                             </span>
                         </i>
-
-                        <i *ngIf="isAlreadyLike" class="fas fa-sun fa-lg icontext">
-                            <span class="pl-1 small">
-                                {{reactionCounter}}
-                            </span>
-                        </i>
-
                     </span>
                 </button>
 
