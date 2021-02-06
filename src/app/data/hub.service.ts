@@ -29,14 +29,16 @@ export class HubService {
           });
           this.connection.on("ReceiveMessage", (user, message, when) => { this.reciveMessage(user, message, when); });
           this.connection.on("ReceiveNotification", _ => { this.receiveNotification() })
-          this.start();
+          this.start().catch( err=>
+            this.start()
+          );
         })
       })
   }
-  receiveNotification() {
+  receiveNotification() : void {
     this._newNotificationSubject.next();
   }
-  reciveMessage(fromWho: string, messageText: string, when: Date) {
+  reciveMessage(fromWho: string, messageText: string, when: Date) :void{
     let newMessage: MessageToAddModel = {
       toWho: this._authService.currentUserId,
       fromWho: fromWho,
@@ -69,11 +71,11 @@ export class HubService {
     return res;
   }
 
-  public async start() {
+  public async start() :Promise<void> {
     try {
       await this.connection.start();
     } catch (err) {
-      setTimeout(() => this.start(), 3000);
+      setTimeout(() => this.start(), 500);
     }
   }
 }

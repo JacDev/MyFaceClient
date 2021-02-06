@@ -1,11 +1,11 @@
 <error *ngIf="showError"></error>
-<div class="mb-2" style="padding-right: 20px">
+<div class="mb-2 surrounding-scrollable-pd">
     <loading-data *ngIf="isAddingPost; else addPostBlock"></loading-data>
     <ng-template #addPostBlock>
         <div *ngIf="isImageLoaded" (click)="showImage()" class="d-flex pointable">
             <img [src]="imageUrl" class="col-12 mt-3 justify-content-center" [ngStyle]="{'max-height': screenHeight*0.8+'px'}">
         </div>
-        <form class="input-group mt-3" [formGroup]="postForm" (keyup.enter)="addPost(postForm)" (ngSubmit)="addPost(postForm)" novalidate>
+        <form class="input-group " [formGroup]="postForm" (keyup.enter)="addPost(postForm)" (ngSubmit)="addPost(postForm)" novalidate>
             <textarea autosize [formControl]="postText" class="rounded" type="text" rows="2" placeholder="Podziel się czymś..."></textarea>
 
         </form>
@@ -15,9 +15,9 @@
         </div>
     </ng-template>
 </div>
-<div (scroll)="onScroll($event)" id='main-view' class="scrollable-dark" [ngStyle]="{'height': screenHeight * 0.76+'px'}">
-    <user-posts #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)" [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
-    </user-posts>
+<div (scroll)="onScroll($event)" id='main-view' class="scrollable-dark" [ngStyle]="{'height': screenHeight * 0.73+'px'}">
+    <user-post #postComponent *ngFor="let post of listOfPostFromApi" (deletePostFromListEvent)="deletePost($event)" [postToDisplay]="post" [currentLoggedUserId]="currentLoggedUserId">
+    </user-post>
     <loading-data *ngIf="isLoadingNewPosts"></loading-data>
     <div *ngIf="paginationParams && !paginationParams.hasNext" class="text-white text-center">
         Nie ma więcej postów do wyświetlenia!

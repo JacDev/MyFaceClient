@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PaginatiomModel } from 'src/app/common/models/pagination-model';
+import { CurrentTimeService } from 'src/app/common/services/time.service';
+import { NotificationService } from 'src/app/data/notification.service';
 import { PostCommentModel } from 'src/app/user/models/post-comment.model';
 import { PostCommentToUpdate } from './post-comment-to-update.model';
 import { PostCommentAccessService } from './post-comments-access.service';
@@ -24,7 +26,9 @@ export class PostCommentsComponent implements OnInit {
   @Output() hideCommentsEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() changeCommentsCounterEmitter: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private _postCommentsAccess: PostCommentAccessService) { }
+  constructor(private _postCommentsAccess: PostCommentAccessService,
+    private _notificationService: NotificationService,
+    private _timeService: CurrentTimeService) { }
 
 
   ngOnInit(): void {
@@ -62,6 +66,8 @@ export class PostCommentsComponent implements OnInit {
         .subscribe(result => {
           this.isLoading = false;
           this.listOfCommentsFromApi.push(result);
+          console.log(this.displayedUserId);
+          this._notificationService.sendNotification(this.displayedUserId, "comment", this._timeService.getCurrentDate(), this.postId)
           commentForm.reset();
         })
       this.changeCommentsCounterEmitter.emit(1);

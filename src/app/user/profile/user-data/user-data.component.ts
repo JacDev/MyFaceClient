@@ -82,6 +82,7 @@ export class UserDataComponent implements OnInit, OnChanges {
         this._notificationAccess.deleteNotification(this.displayedUser.id, this.notification.id)
           .subscribe()
         this._notificationAccess.sendNotification(this.displayedUser.id, "friendRequiestAccepted", this._timeService.getCurrentDate(), this.displayedUser.id);
+        window.location.reload();
       });
   }
   deleteFriend(): void {
@@ -89,6 +90,7 @@ export class UserDataComponent implements OnInit, OnChanges {
       .subscribe(_ => {
         this.canDeleteFriend = false;
         this.canAddFriend = true;
+        window.location.reload();
       })
   }
   undoFriendRequiest(): void {

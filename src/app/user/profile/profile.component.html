@@ -1,12 +1,14 @@
 <error *ngIf="showError"></error>
-<div class="mt-2" *ngIf="currentDisplayedUser!= null">
+<div *ngIf="currentDisplayedUser!= null">
     <user-data [displayedUser]="currentDisplayedUser" [currentLoggedUserId]="loggedUserId"></user-data>
     <div class="d-flex justify-content-center">
         <button (click)='switchDisplay()' class="btn text-center h5 py-2 text-white" [ngClass]="showPosts? 'active' : 'notactive'">Posty:</button>
         <button (click)='switchDisplay()' class="btn text-center h5 py-2 text-white" [ngClass]="showPosts? 'notactive' : 'active'">Znajomi:</button>
     </div>
-    <div *ngIf='showPosts; else elseBlock'>
-        <user-posts #postComponent *ngFor="let post of listOfPostFromApi" [postToDisplay]="post" [currentLoggedUserId]="loggedUserId"></user-posts>
+    <div #postComponent class="scrollable-dark" (scroll)="onScroll($event)" [ngStyle]="{'height': screenHeight * 0.62+'px'}" *ngIf='showPosts; else elseBlock'>
+        <user-post *ngFor="let post of listOfPostFromApi" [postToDisplay]="post" [currentLoggedUserId]="loggedUserId"></user-post>
+        <loading-data *ngIf='isLoadingNewPosts'></loading-data>
+        <div class="text-white text-center h6 mt-3" *ngIf='listOfPostFromApi?.length==0'> Brak postów do wyświetlenia!</div>
     </div>
     <ng-template #elseBlock>
         <user-friends [userId]='currentDisplayedUser.id'></user-friends>

@@ -3,7 +3,7 @@
 <ng-template #elseBlock>
     <div class=" col-sm-12 border rounded py-3 d-flex mb-1">
         <user-card class="mr-auto align-self-center text-white" [userToDisplay]="userToDisplay"></user-card>
-        <div class="float-right">
+        <div *ngIf="canDelete" class="float-right">
             <button (click)="deleteFriend()" class="btn bg-white align-self-center">
                 <i class="fas fa-user-times"></i>
             </button>

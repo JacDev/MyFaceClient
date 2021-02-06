@@ -63,7 +63,9 @@ export class ConversationComponent implements OnInit {
   reciveMessage(message: MessageToAddModel): void {
     if (this.userToDisplay.id == message.fromWho) {
       this.isNewMessage = true;
-      this.newUnseenMessages++;
+      if (!this.showWindow) {
+        this.newUnseenMessages++;
+      }
       if (this.listOfMessagesFromApi) {
         this.listOfMessagesFromApi.push(message);
       }
@@ -85,8 +87,11 @@ export class ConversationComponent implements OnInit {
   showConversation(): void {
     this.newUnseenMessages = 0;
     this.isNewMessage = false;
+    if (!this.showWindow) {
+      this.loadMessages();
+    }
     this.showWindow = !this.showWindow;
-    this.loadMessages();
+
   }
   @HostListener("scroll", [])
   onScroll(event): void {
@@ -131,12 +136,16 @@ export class ConversationComponent implements OnInit {
   ngForRendred(): void {
     if (!this.isAfterLoadingNewMessages) {
       this.isScrolled = false;
-      this.scrollToBottom()
+      if (this.showWindow) {
+        this.scrollToBottom()
+      }
     }
   }
   ngAfterViewInit(): void {
     this.messageElements.changes.subscribe(t => {
-      this.ngForRendred();
+      if (t.length > 0) { //only #when messageBox not empty
+        this.ngForRendred();
+      }
     })
   }
 }

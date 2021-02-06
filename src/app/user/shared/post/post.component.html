@@ -2,7 +2,7 @@
 <loading-data *ngIf="postToDisplay==null || currentLoggedUserId==null; else elseBlock"></loading-data>
 <ng-template class="" #elseBlock>
 
-    <div class="flex mb-5 rounded p-2 mt-2 post col-12">
+    <div class="flex mb-5 rounded p-2 post col-12">
         <div class="d-flex w-100 pr-1">
             <user-card [userToDisplay]="userToDisplay"></user-card>
             <div *ngIf="currentLoggedUserId == postToDisplay.userId" class="ml-auto dropdown">

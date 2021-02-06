@@ -1,3 +1,8 @@
+html,
+body {
+    scrollbar-color: rgb(136, 136, 136) rgb(59, 58, 58) !important;
+}
+
 .hoverwell {
     background-color: #22262b;
 }
@@ -36,6 +41,14 @@ textarea::placeholder {
     padding-right: 3px;
 }
 
+.surrounding-scrollable-mg {
+    margin-right: 20px !important;
+}
+
+.surrounding-scrollable-pd {
+    padding-right: 20px !important;
+}
+
 ::-webkit-scrollbar {
     width: 17px;
 }
@@ -58,12 +71,24 @@ textarea::placeholder {
     background: rgb(48, 46, 46);
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+.fixed-bottom {
     height: 50px;
-    line-height: 50px;
     background-color: #443e3e;
     color: rgb(230, 230, 230);
+    line-height: 50px;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    .scrollable-dark {
+        padding-right: 0px !important;
+        margin-right: 0px !important;
+        overflow-y: hidden !important;
+    }
+    .surrounding-scrollable-mg {
+        margin-right: 0px !important;
+    }
+    .surrounding-scrollable-pd {
+        padding-right: 0px !important;
+    }
 }

@@ -8,6 +8,7 @@ import { UserModel } from 'src/app/common/models/user.model';
 export class UserComponent implements OnInit {
 
   @Input() public userToDisplay: UserModel;
+  @Input() public canDelete: boolean = false;
   @Output() deleteFriendEmitter: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }

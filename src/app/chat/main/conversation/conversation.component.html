@@ -1,6 +1,6 @@
 <error *ngIf='showError'></error>
-<div>
-    <div class="rounded pointable" style="margin-right: 20px" [ngStyle]="{'background-color': showWindow? 'rgb(83, 83, 85)'  : ''}" (click)="showConversation()">
+<div class="mb-2">
+    <div class="rounded pointable surrounding-scrollable-mg" [ngStyle]="{'background-color': showWindow? 'rgb(83, 83, 85)'  : ''}" (click)="showConversation()">
         <user-in-chat [userToDisplay]="userToDisplay" [newUnseenMessages]="newUnseenMessages"></user-in-chat>
 
     </div>
@@ -20,8 +20,9 @@
             </div>
         </div>
 
-        <form class="input-group" [formGroup]="newMessageForm" (keyup.enter)="addMessage(newMessageForm)" (ngSubmit)="addMessage(newMessageForm)" novalidate>
-            <textarea [formControl]="mesageText" autosize class="form-control rounded" type="text" style="margin-right: 20px;background-color: rgb(83, 83, 85); color: white;"></textarea>
+        <form class="surrounding-scrollable-pd input-group" [formGroup]="newMessageForm" (keyup.enter)="addMessage(newMessageForm)" (ngSubmit)="addMessage(newMessageForm)" novalidate>
+            <textarea [formControl]="mesageText" autosize class="form-control rounded" type="text" style="background-color: rgb(83, 83, 85); color: white;"></textarea>
+            <button type="submit" class="btn btn-sm text-white d-lg-none border border-white rounded"><i class="fas fa-paper-plane"></i></button>
         </form>
     </div>
 

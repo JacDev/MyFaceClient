@@ -21,6 +21,10 @@ export class AuthorizationService {
 
   constructor(private _dataService: UserAccessService) {
     this._userManager = new UserManager(this.getStsSettings());
+    window['authority'] = environment.stsAuthority
+    window['client_id'] = environment.clientId
+    window['scope'] = environment.scope
+    window['response_type'] = environment.response_type
 
     this._userManager.events.addAccessTokenExpired(_ => {
       this._loginChangedSubject.next(false);
@@ -65,6 +69,8 @@ export class AuthorizationService {
     this._userManager.signoutRedirect();
   }
   completeLogout(): Promise<SignoutResponse> {
+    this._user = null;
+    this._loginChangedSubject.next(false);
     return this._userManager.signoutRedirectCallback();
   }
   getAccessToken(): Promise<string> {
@@ -96,7 +102,9 @@ export class AuthorizationService {
       redirect_uri: `${environment.clientRoot}signin-callback`,
       scope: environment.scope,
       response_type: environment.response_type,
-      post_logout_redirect_uri: `${environment.clientRoot}signout-callback`
+      post_logout_redirect_uri: `${environment.clientRoot}signout-callback`,
+      automaticSilentRenew: true,
+      silent_redirect_uri:`${environment.clientRoot}assets/silent-callback.html`
     }
   }
 }

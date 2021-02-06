@@ -30,12 +30,18 @@ export class ProfileComponent implements OnInit {
   public paginationParams: PaginatiomModel = null;
   public currentDisplayedUser: UserModel = null;
   public showPosts: boolean = true;
-  private isLoadingNewPosts: Boolean = false;
+  public isLoadingNewPosts: Boolean = false;
   public loggedUserId: string = null;
   public showError: boolean = false;
+  public screenHeight: number;
 
   ngOnInit(): void {
+    this.getScreenSize();
     this.loadUser();
+  }
+  @HostListener('window:resize', ['$event'])
+  getScreenSize(): void {
+    this.screenHeight = window.innerHeight;
   }
   loadUser() {
     this.loggedUserId = this._authService.currentUserId;
@@ -69,9 +75,9 @@ export class ProfileComponent implements OnInit {
         error => this.showError = true
       );
   }
-  @HostListener("window:scroll", [])
-  onScroll(): void {
-    if (this.bottomReached() && this.paginationParams.hasNext && !this.isLoadingNewPosts) {
+  @HostListener("scroll", ['$event'])
+  onScroll(event: Event): void {
+    if (this.bottomReached(event) && this.paginationParams.hasNext && !this.isLoadingNewPosts) {
       this.isLoadingNewPosts = true;
       this._postDataService.getUserNextPosts(this.paginationParams.nextPageLink)
         .subscribe(
@@ -85,9 +91,11 @@ export class ProfileComponent implements OnInit {
 
     }
   }
-  bottomReached(): boolean {
-    return (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 1);
+
+  bottomReached(event: any): boolean {
+    return (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight - 110);
   }
+
   switchDisplay(): void {
     this.showPosts = !this.showPosts;
   }

@@ -51,3 +51,5 @@ src/environments/environment.ts
 src/web.config
 src/assets/images/logo.jpg
 src/favicon.ico
+src/assets/js/oidc-client.min.js
+src/assets/silent-callback.html

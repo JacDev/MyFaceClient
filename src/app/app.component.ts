@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
     this._authService.login();
   }
   logout(event:any) {
+    window.location.reload();
     this._authService.logout();
   }
 }

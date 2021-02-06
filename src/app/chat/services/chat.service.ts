@@ -4,13 +4,11 @@ import { HubService } from 'src/app/data/hub.service';
 import { MessageToAddModel } from 'src/app/common/models/message-to-add.model';
 
 @Injectable()
-export class ChatService implements OnInit {
+export class ChatService {
   private _newMessageSubject = new Subject<MessageToAddModel>();
   public newMessage = this._newMessageSubject.asObservable();
 
-  constructor(private _notificationService: HubService) { }
-
-  ngOnInit(): void {
+  constructor(private _notificationService: HubService){
     this._notificationService.newMessage.subscribe(message => {
       this._newMessageSubject.next(message);
     })

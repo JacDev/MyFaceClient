@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit, SimpleChanges } from '@angular/core';
 import { AuthorizationService } from 'src/app/core/authorization/index';
 import { UserFriendsAccessService } from 'src/app/data/api-access';
 import { PaginatiomModel } from 'src/app/common/models/pagination-model';
@@ -17,11 +17,15 @@ export class FriendsComponent implements OnInit {
   public currentUserId: string = null;
   public showError: boolean = false;
   public isLoadingFriends: boolean = false;
-
+  public canDelete: boolean = false;
   constructor(private _dataService: UserFriendsAccessService,
     private _authService: AuthorizationService,
     private _friendsService: UserFriendsAccessService,) { }
 
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.loadFriends();
+  }
   ngOnInit(): void {
     this.loggedUser = this._authService.currentUserId;
     this.loadFriends();
@@ -30,6 +34,7 @@ export class FriendsComponent implements OnInit {
   loadFriends(): void {
     this.isLoadingFriends = true;
     let currentUserId: string = this.userId || this.loggedUser;
+    this.canDelete = !currentUserId.localeCompare(this.loggedUser)
     this._dataService.getFriends(currentUserId)
       .subscribe(
         result => {
@@ -42,7 +47,7 @@ export class FriendsComponent implements OnInit {
   }
   @HostListener("window:scroll", [])
   onScroll(): void {
-    if (this.bottomReached() && this.paginationParams.hasNext) {
+    if (this.bottomReached() && this.paginationParams?.hasNext) {
       this._dataService.getNextFriends(this.paginationParams.nextPageLink)
         .subscribe(
           result => {

@@ -14,7 +14,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthorizationService } from 'src/app/core/authorization/index';
 
 @Component({
-  selector: 'user-posts',
+  selector: 'user-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
@@ -154,6 +154,7 @@ export class PostComponent implements OnInit {
       this.reactionCounter++;
       this._postReactionsAccess.postPostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
         .subscribe(_ => {
+          console.log(this.userToDisplay.id);
           this._notificationService.sendNotification(this.userToDisplay.id, "reaction", this._timeService.getCurrentDate(), this.postToDisplay.id)
         },
           error => this.showError = true);

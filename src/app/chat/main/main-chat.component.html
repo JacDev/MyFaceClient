@@ -1,7 +1,7 @@
 <error *ngIf='showError'></error>
-<div class="mt-1 scrollable-dark" (scroll)="onScroll($event)" [ngStyle]="{'height': screenHeight * 0.90+'px'}">
+<div class="scrollable-dark pt-0 h-100" (scroll)="onScroll($event)" [ngStyle]="{'height': screenHeight * 0.60+'px'}">
     <chat-conversation *ngFor="let user of userFriends" [userToDisplay]="user" [newMessageFromHub]="newMessage" [currentLoggedUserId]="currentLoggedUserId" (newMessageEmitter)="sendMessage($event)"></chat-conversation>
-    <div class="d-flex h-100 justify-content-center">
+    <div *ngIf="userFriends?.length==0" class="d-flex h-100 justify-content-center">
         <div *ngIf="userFriends?.length==0" class="text-white text-center h3 align-self-center">Dodaj znajomych aby skorzystać z chatu!</div>
     </div>
 </div>
