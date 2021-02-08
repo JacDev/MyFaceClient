@@ -35,6 +35,8 @@ Użytkownik może przejrzeć listę swoich znajomych oraz usunąć wybranego:
 
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/FriendsPage.png)
 
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/RemoveFriend.png)
+
 Użytkownik może wyszkukiwać innych użytkowników:
 <br>
 
