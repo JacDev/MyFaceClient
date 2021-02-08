@@ -41,7 +41,7 @@ Po odnalezieniu użytkownika, możne weść na jego profil i wyświetlić jego p
 Gdy użytkownik dostanie powiadomienie (zaproszenie do znajomych, zaakceptowanie wysłanego zaproszenia do znajomych, reakcja lub komentarz na post), w lewym rogu przy logo dzowonek zmienia kolor na pomarańczowy:
 <br>
 
-![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/NewNotifications.png)
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/NewNotification.png)
 
 Po kliknięciu w dzwonek może przejrzeć otrzymane powiadomienia, a po nasiciśnięciu powiadomienia zostanie przekierowany na profil znajomego (jeśli powiadomienie dotyczny akceptacji zaproszenia) lub na stronę postu:
 <br>
