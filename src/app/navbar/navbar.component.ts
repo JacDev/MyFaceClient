@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { UserModel } from '../common/models';
 import { UserAccessService } from '../data/api-access';
 import { ImageAccessService } from '../user/services';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-navbar',
@@ -117,7 +118,19 @@ export class NavbarComponent implements OnInit {
     this.loginRedirect.emit({});
   }
   logout(): void {
-    this.logoutRedirect.emit({});
+    Swal.fire({
+      title: '<h5>Na pewno chcesz się wylogować?</h5>',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: 'Wyloguj',
+      confirmButtonColor: 'rgb(253, 126, 20)',
+      cancelButtonText: 'Wróć!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.logoutRedirect.emit({});
+      }
+    })
   }
   @HostListener('window:resize', ['$event'])
   getScreenSize(): void {
