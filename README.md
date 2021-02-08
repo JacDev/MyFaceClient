@@ -3,7 +3,7 @@ Myface jest portalem społecznościowym wzorowanym na Facebooku. Posiada funkcjo
 - ustawienie zdjęcia profilowego;
 - dodawanie oraz usuwanie reakcji i komentarzy do postów;
 - wyszkukiwanie, dodawanie oraz usuwanie znajomych;
-- czat oraz powiadomienia w czasie rzeczywistym
+- czat oraz powiadomienia w czasie rzeczywistym.
 
 Po wejściu na adres [Myface](https://myface.azurewebsites.net/) użytkownik jest przekierowywany na stronę IdentityServera w celu autentykacji (wszystkie screeny pokazują wyświetlanie na dużym i małym ekranie):
 <br>
@@ -19,6 +19,16 @@ Przeglądając posty użytkownik ma możliwość zostawienia reakcji oraz dodani
 <br>
 
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/PostOptions.png)
+
+
+Użytkownik może edytować oraz usunąć swój post, a jeśli post zawiera zdjęcie, to moze ustawić je jako profilowe:
+<br> 
+
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/SelectOption.png)
+
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/EditPost.png)
+
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/RemovePost.png)
 
 Użytkownik może przejrzeć listę swoich znajomych oraz usunąć wybranego:
 <br>
