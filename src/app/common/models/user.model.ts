@@ -14,5 +14,6 @@ export class UserModel {
         this.lastName= user.lastName;
         this.profileImagePath= user.profileImagePath;
         this.dateOfBirht= user.dateOfBirht;
+        this.role = user.role;
     }
 }

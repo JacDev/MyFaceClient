@@ -129,6 +129,7 @@ export class NavbarComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.logoutRedirect.emit({});
+        this._router.navigate(['redirect']);
       }
     })
   }

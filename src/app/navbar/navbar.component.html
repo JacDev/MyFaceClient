@@ -19,7 +19,6 @@
     <div class="form-inline ml-auto text-white ">
         <span *ngIf="!isLoggedIn " class="row ml-1 ">
             <a class="btn text-white " (click)="login() ">Zaloguj się</a>
-            <a class="btn text-white " [routerLink]="[ 'user/register'] ">Rejestracja</a>
         </span>
         <span *ngIf="isLoggedIn ">
             <a class="btn text-white d-lg-none " [routerLink]="[ 'find'] "><i class="fas fa-search fa-lg white "></i></a>

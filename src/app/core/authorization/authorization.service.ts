@@ -92,7 +92,7 @@ export class AuthorizationService {
           this.currentUser = new UserModel(result);
           this._isLoadingCurrentUser = false;
           this._userLoadedSubject.next(true);
-          this.canDelete = !!this.currentUser.role?.localeCompare("demo");
+          this.canDelete = !(this.currentUser.role?.localeCompare("demo") == 0);
         },
       );
   }
