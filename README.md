@@ -64,5 +64,10 @@ Użytkownik może wybrać z listy znajomych (z prawej strony na ekranach większ
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/Chat.png)
 
 Gdy użytkownik dostanie nową wiadomość, konwersacja przesuwana jest na samą górę, a obok nazwiska znajomego pojawia się licznik nowych wiadomości:
+<br>
 
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/NewMessage.png)
+
+Po naciśnięciu ikony wylogowania w prawym górnym rogu, użytkownikowi zostanie wyswietlone okno dialogowe w celu potwierdzenia operacji:
+
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/LogoutConfirm.png)
