@@ -5,12 +5,12 @@ Myface jest portalem społecznościowym wzorowanym na Facebooku. Posiada funkcjo
 - wyszkukiwanie, dodawanie oraz usuwanie znajomych;
 - czat oraz powiadomienia w czasie rzeczywistym.
 
-Po wejściu na adres [Myface](https://myface.azurewebsites.net/) użytkownik jest przekierowywany na stronę IdentityServera w celu autentykacji (wszystkie screeny pokazują wyświetlanie na dużym i małym ekranie):
+Po wejściu na adres [Myface](https://myface.azurewebsites.net/) użytkownik jest przekierowywany na stronę IdentityServera ([Repo](https://github.com/JacDev/MyFaceApi)) w celu autentykacji (wszystkie screeny pokazują wyświetlanie na dużym i małym ekranie):
 <br>
   
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/RedirectPage.png)
 
-Po zalogowaniu użytkownikowi prezentowana jest strona domowa, na której może dodać post i zdjęcia. Poniżej znajdują się posty jego oraz jego znajomych posorotwane od najnowszych do najstarszych:
+Po zalogowaniu użytkownikowi prezentowana jest strona domowa, na której może dodać post i zdjęcie. Poniżej znajdują się posty jego oraz jego znajomych posorotwane od najnowszych do najstarszych:
 <br>
 
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/HomePage.png)
@@ -40,7 +40,7 @@ Użytkownik może wyszkukiwać innych użytkowników:
 
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/FindUser.png)
 
-Po odnalezieniu użytkownika, możne weść na jego profil i wyświetlić jego posty oraz znajomych:
+Po odnalezieniu użytkownika, możne wejść na jego profil i wyświetlić jego posty oraz znajomych:
 <br>
 
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/ProfilePage.png)
@@ -48,7 +48,7 @@ Po odnalezieniu użytkownika, możne weść na jego profil i wyświetlić jego p
 
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/ProfileFriends.png)
 
-Gdy użytkownik dostanie powiadomienie (zaproszenie do znajomych, zaakceptowanie wysłanego zaproszenia do znajomych, reakcja lub komentarz na post), w lewym rogu przy logo dzowonek zmienia kolor na pomarańczowy:
+Gdy użytkownik dostanie powiadomienie (zaproszenie do znajomych, zaakceptowanie wysłanego zaproszenia, reakcja lub komentarz na post), w lewym rogu przy logo dzowonek zmienia kolor na pomarańczowy:
 <br>
 
 ![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/NewNotification.png)
