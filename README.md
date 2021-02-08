@@ -1,27 +1,41 @@
-# MyFace
+Myface jest portalem społecznościowym wzorowanym na Facebooku. Posiada funkcjonalności takie jak:
+- dodawanie, edycja oraz usuwanie postów;
+- ustawienie zdjęcia profilowego;
+- dodawanie oraz usuwanie reakcji i komentarzy do postów;
+- wyszkukiwanie, dodawanie oraz usuwanie znajomych;
+- czat oraz powiadomienia w czasie rzeczywistym
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
+Po wejściu na adres: <a href="https://myface.azurewebsites.net/"></a> użytkownik jest przekierowywany na stronę IdentityServera w celu autentykacji (wszystkie screeny pokazują wyświetlanie na dużym i małym ekranie):
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/RedirectPage.png)
 
-## Development server
+Po zalogowaniu użytkownikowi pokazywana jest strona domowa, na której może dodać post i zdjęcia. Poniżej znajdują się posty jego oraz jego znajomych posorotwane od najnowszych do najstarszych:
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/HomePage.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Przeglądając posty użytkownik ma możliwość zostawienia reakcji oraz dodania i przeglądania komentarzy:
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/PostOptions.png)
 
-## Code scaffolding
+Użytkownik może przejrzeć listę swoich znajomych oraz usunąć wybranego:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/FriendsPage.png)
 
-## Build
+Użytkownik może wyszkukiwać innych użytkowników:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/FindUser.png)
 
-## Running unit tests
+Po odnalezieniu użytkownika, możne weść na jego profil i wyświetlić jego posty oraz znajomych:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/ProfilePage.png)
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/ProfileFriends.png)
 
-## Further help
+Gdy użytkownik dostanie powiadomienie (zaproszenie do znajomych, zaakceptowanie wysłanego zaproszenia do znajomych, reakcja lub komentarz na post), w lewym rogu przy logo dzowonek zmienia kolor na pomarańczowy:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/NewNotification.png)
+
+Użytkownik może wybrać z listy znajomych (z prawej strony na ekranach większych niż 767px lub po kliknięciu ikony czatu na mniejszych ekranach) znajomych, z którymi chce rozpocząć rozmowę:
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/Chat.png)
+
+Gdy użytkownik dostanie nową wiadomość, konwersacja przesuwana jest na samą górę, a obok nazwiska znajomego pojawia się licznik nowych wiadomości:
+
+![Image of Yaktocat](https://github.com/JacDev/MyFaceClient/blob/master/Readme/Images/NewMessage.png)
