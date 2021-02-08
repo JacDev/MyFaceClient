@@ -10,7 +10,7 @@
                         <span style="font-size: x-large;">...</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <button type="button" class="dropdown-item" (click)="setProfileImage()">Ustaw jako profilowe</button>
+                    <button *ngIf="postToDisplay?.imagePath" type="button" class="dropdown-item" (click)="setProfileImage()">Ustaw jako profilowe</button>
                     <button type="button" class="dropdown-item" (click)="editPost()">Edytuj</button>
                     <button type="button" class="dropdown-item" (click)="deletePost()">Usuń</button>
                 </div>
