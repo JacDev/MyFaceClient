@@ -6,7 +6,8 @@ export class UserModel {
     lastName: string;
     profileImagePath: string;
     dateOfBirht: Data;
-    
+    role: string;
+
     constructor(user: UserModel) {
         this.id = user.id;
         this.firstName= user.firstName;

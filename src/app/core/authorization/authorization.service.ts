@@ -18,6 +18,7 @@ export class AuthorizationService {
   public currentUserId: string;
   private _userLoadedSubject = new Subject<boolean>();
   public userLoaded = this._userLoadedSubject.asObservable();
+  public canDelete: boolean = true;
 
   constructor(private _dataService: UserAccessService) {
     this._userManager = new UserManager(this.getStsSettings());
@@ -83,7 +84,7 @@ export class AuthorizationService {
       }
     });
   }
-  loadSecurityContext() : void {
+  loadSecurityContext(): void {
     this._isLoadingCurrentUser = true;
     this._dataService.getUser(this._user?.profile.sub)
       .subscribe(
@@ -91,11 +92,12 @@ export class AuthorizationService {
           this.currentUser = new UserModel(result);
           this._isLoadingCurrentUser = false;
           this._userLoadedSubject.next(true);
+          this.canDelete = !!this.currentUser.role?.localeCompare("demo");
         },
       );
   }
 
-  private getStsSettings() : Object {
+  private getStsSettings(): Object {
     return {
       authority: environment.stsAuthority,
       client_id: environment.clientId,
@@ -104,7 +106,7 @@ export class AuthorizationService {
       response_type: environment.response_type,
       post_logout_redirect_uri: `${environment.clientRoot}signout-callback`,
       automaticSilentRenew: true,
-      silent_redirect_uri:`${environment.clientRoot}assets/silent-callback.html`
+      silent_redirect_uri: `${environment.clientRoot}assets/silent-callback.html`
     }
   }
 }

@@ -70,17 +70,26 @@ export class FriendsComponent implements OnInit {
       confirmButtonText:
         '<i class="fa fa-thumbs-up"></i>',
       confirmButtonAriaLabel: 'Thumbs up, great!',
-      confirmButtonColor: 'rgb(56, 224, 79)',
+      confirmButtonColor: 'rgb(253, 126, 20)',
       cancelButtonText:
         '<i class="fa fa-thumbs-down"></i>',
       cancelButtonAriaLabel: 'Thumbs down'
     }).then((result) => {
       if (result.isConfirmed) {
-        this._friendsService.deleteFriend(this.loggedUser, friendToRemove)
-          .subscribe(_ => {
-            this.listOfUsersFromApi = this.listOfUsersFromApi.filter(x => x.id !== friendToRemove);
-          },
-            error => this.showError = true)
+        if (!this._authService.canDelete) {
+          Swal.fire({
+            icon: 'error',
+            text: 'Nie możesz usunąć znajomego w trybie demo!',
+            confirmButtonColor: 'rgb(253, 126, 20)',
+          })
+        }
+        else {
+          this._friendsService.deleteFriend(this.loggedUser, friendToRemove)
+            .subscribe(_ => {
+              this.listOfUsersFromApi = this.listOfUsersFromApi.filter(x => x.id !== friendToRemove);
+            },
+              error => this.showError = true)
+        }
       }
     })
   }

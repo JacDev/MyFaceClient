@@ -218,14 +218,23 @@ export class PostComponent implements OnInit {
       cancelButtonAriaLabel: 'Thumbs down'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.isLoading = true;
-        this._postAccess.deletePost(this.currentLoggedUserId, this.postToDisplay.id)
-          .subscribe(_ => {
-            this.isLoading = false;
-            this.deletePostFromListEvent.emit(this.postToDisplay.id);
-          },
-            error => this.showError = true);
-      }
+        if(!this._authService.canDelete){
+          Swal.fire({
+            icon: 'error',
+            text: 'Nie możesz usunąć postu w trybie demo!',
+            confirmButtonColor: 'rgb(253, 126, 20)',
+          })
+        }
+        else{
+          this.isLoading = true;
+          this._postAccess.deletePost(this.currentLoggedUserId, this.postToDisplay.id)
+            .subscribe(_ => {
+              this.isLoading = false;
+              this.deletePostFromListEvent.emit(this.postToDisplay.id);
+            },
+              error => this.showError = true);
+        }
+        }
     })
   }
   showImage(): void {

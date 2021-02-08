@@ -4,6 +4,7 @@ import { PostCommentModel } from 'src/app/user/models/post-comment.model';
 import { UserModel } from 'src/app/common/models/user.model';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { PostCommentToUpdate } from '../post-comment-to-update.model';
+import { AuthorizationService } from 'src/app/core/authorization';
 
 @Component({
   selector: 'post-comment',
@@ -18,7 +19,8 @@ export class CommentComponent implements OnInit {
   @Output() deleteCommentEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() editCommentEvent: EventEmitter<PostCommentToUpdate> = new EventEmitter<PostCommentToUpdate>();
 
-  constructor(private _userAccess: UserAccessService) { }
+  constructor(private _userAccess: UserAccessService,
+    private _authService: AuthorizationService) { }
 
   ngOnInit(): void {
     this._userAccess.getUser(this.comment.fromWho)
@@ -43,7 +45,16 @@ export class CommentComponent implements OnInit {
       cancelButtonAriaLabel: 'Thumbs down'
     }).then((result) => {
       if (result.isConfirmed) {
+        if(!this._authService.canDelete){
+          Swal.fire({
+            icon: 'error',
+            text: 'Nie możesz usunąć komentarza w trybie demo!',
+            confirmButtonColor: 'rgb(253, 126, 20)',
+          })
+        }
+        else{
         this.deleteCommentEvent.emit(this.comment.id);
+        }
       }
     })
   }
