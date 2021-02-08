@@ -1,6 +1,6 @@
 <div *ngIf="fromWhoUser">
     <div class="d-flex my-1 dark-background pointable" [ngStyle]="{'color': notification.hasSeen? 'white' : '#F35656'}" [routerLink]="canNavigateToPost? ['/', fromWhoUser.id, 'post', notification.eventId] :['/profile', fromWhoUser.id]">
-        <img class="rounded-circle align-self-center pl-1" [src]="fromWhoUser?.profileImagePath? imageToShow : '../../../../assets/images/default.jpg'" width="16%" height="16%" />
+        <img class="rounded-circle align-self-center ml-1" [src]="fromWhoUser?.profileImagePath? imageToShow : '../../../../assets/images/default.jpg'" height="40px" />
 
         <div class="w-100 ml-2">
             {{fromWhoUser.firstName}} {{fromWhoUser.lastName}}

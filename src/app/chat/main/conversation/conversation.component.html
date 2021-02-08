@@ -22,7 +22,7 @@
 
         <form class="surrounding-scrollable-pd input-group" [formGroup]="newMessageForm" (keyup.enter)="addMessage(newMessageForm)" (ngSubmit)="addMessage(newMessageForm)" novalidate>
             <textarea [formControl]="mesageText" autosize class="form-control rounded" type="text" style="background-color: rgb(83, 83, 85); color: white;"></textarea>
-            <button type="submit" class="btn btn-sm text-white d-lg-none border border-white rounded"><i class="fas fa-paper-plane"></i></button>
+            <button type="submit" class="btn btn-sm text-white d-lg-none rounded"><i class="fas fa-paper-plane"></i></button>
         </form>
     </div>
 

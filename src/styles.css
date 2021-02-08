@@ -83,7 +83,7 @@ textarea::placeholder {
     .scrollable-dark {
         padding-right: 0px !important;
         margin-right: 0px !important;
-        overflow-y: hidden !important;
+        overflow-y: scroll;
     }
     .surrounding-scrollable-mg {
         margin-right: 0px !important;

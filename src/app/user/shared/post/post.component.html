@@ -20,7 +20,7 @@
 
         <loading-data *ngIf="isLoading"></loading-data>
 
-        <div class="col-12 h-auto text-justify py-2">
+        <div class="col-12 h-auto text-justify py-2 px-2 text-field">
             {{postToDisplay?.text}}
         </div>
         <div *ngIf="!isImageLoading && imageToShow" (click)="showImage()">

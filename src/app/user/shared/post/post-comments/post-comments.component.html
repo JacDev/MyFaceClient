@@ -8,8 +8,10 @@
             <loading-data *ngIf="isLoading"></loading-data>
 
             <form class="input-group" [formGroup]="commentForm" (keyup.enter)="addComment(commentForm)" (ngSubmit)="addComment(commentForm)" novalidate>
-                <textarea autosize [formControl]="commentText" class="rounded" rows="2" type="text" placeholder="Dodaj komentarz..."></textarea>
-
+                <div class="input-group">
+                    <textarea autosize [formControl]="commentText" class="form-control rounded" rows="2" type="text" placeholder="Dodaj komentarz..." style="background-color: rgb(83, 83, 85); color: white;"></textarea>
+                    <button type="submit" class="btn text-white ml-auto d-lg-none"><i class="fas fa-location-arrow"></i></button>
+                </div>
                 <div class="col-12 d-flex justify-content-center">
                     <button *ngIf="paginationParams?.hasNext" type="button" class="btn col-4 text-center text-white" (click)="loadMoreComments()">Pokaż wiecej</button>
                 </div>

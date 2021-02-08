@@ -25,12 +25,15 @@ export class HomeComponent implements OnInit {
   public imageUrl: string | ArrayBuffer;
   public image: File = null;
   public screenHeight: number;
+  public screenWidth: number;
 
   public isAddingPost: boolean = false;
   public isImageLoaded: boolean = false;
   public isLoadingNewPosts: boolean = false;
 
   public showError: boolean = false;
+  private imageWidth: number;
+  private imageFrameWidth: number;
 
   ngOnInit(): void {
     this.getScreenSize();
@@ -52,6 +55,15 @@ export class HomeComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   getScreenSize(): void {
     this.screenHeight = window.innerHeight;
+    this.screenWidth = window.innerWidth;
+    if(this.screenWidth < 650){
+      this.imageFrameWidth = this.screenWidth;
+      this.imageWidth= this.screenWidth;
+    }
+    else{
+      this.imageFrameWidth = this.screenWidth * 0.8;
+      this.imageWidth= this.screenWidth * 0.4;
+    }
   }
   @HostListener("scroll", ['$event'])
   onScroll(event: Event): void {
@@ -75,10 +87,9 @@ export class HomeComponent implements OnInit {
     this.listOfPostFromApi = this.listOfPostFromApi.filter(x => x.id !== postId);
   }
   addPost(postForm: FormGroup): void {
-    if (postForm.value.postText && postForm.value.postText.trim().length != 0) {
+    if ((postForm.value.postText && postForm.value.postText.trim().length != 0) || this.image) {
       this.isAddingPost = true;
-      let text: string = postForm.value.postText.trimEnd()
-
+      let text: string = postForm.value.postText?.trimEnd() || "";
       this._postAccess.postPost(this.currentLoggedUserId, text, this.image)
         .subscribe(result => {
           this.isAddingPost = false;
@@ -132,11 +143,11 @@ export class HomeComponent implements OnInit {
   }
   showImage(): void {
     Swal.fire({
-      width: 'auto',
+      width: this.imageFrameWidth,
       imageUrl: this.imageUrl,
-      imageHeight: this.screenHeight * 0.89,
-      imageWidth: 'auto',
-      showCloseButton: false,
+      imageHeight: 'auto',
+      imageWidth: this.imageWidth,
+      showCloseButton: true,
       showConfirmButton: false,
       imageAlt: 'Dodawane zdjęcie',
     })

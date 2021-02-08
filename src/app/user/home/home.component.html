@@ -3,16 +3,18 @@
     <loading-data *ngIf="isAddingPost; else addPostBlock"></loading-data>
     <ng-template #addPostBlock>
         <div *ngIf="isImageLoaded" (click)="showImage()" class="d-flex pointable">
-            <img [src]="imageUrl" class="col-12 mt-3 justify-content-center" [ngStyle]="{'max-height': screenHeight*0.8+'px'}">
+            <img [src]="imageUrl" class="col-12 mt-3 justify-content-center mb-1" [ngStyle]="{'max-height': screenHeight*0.8+'px'}">
         </div>
         <form class="input-group " [formGroup]="postForm" (keyup.enter)="addPost(postForm)" (ngSubmit)="addPost(postForm)" novalidate>
             <textarea autosize [formControl]="postText" class="rounded" type="text" rows="2" placeholder="Podziel się czymś..."></textarea>
+            <div class="btn-group ml-auto">
+                <button type="submit" class="btn text-white d-lg-none"><i class="fas fa-location-arrow"></i></button>
 
+                <button type="button" class="btn-sm border-0 ml-auto" style="background-color: inherit;" (click)="addImage()">
+                  <i class="far fa-images fa-2x mt-1" style="color: white;"></i></button>
+            </div>
         </form>
-        <div class="btn-group d-flex">
-            <button class="btn-sm border-0 ml-auto" style="background-color: inherit;" (click)="addImage()">
-                <i class="far fa-images fa-2x mt-1" style="color: white;"></i></button>
-        </div>
+
     </ng-template>
 </div>
 <div (scroll)="onScroll($event)" id='main-view' class="scrollable-dark" [ngStyle]="{'height': screenHeight * 0.73+'px'}">

@@ -1,12 +1,12 @@
 <nav class="navbar fixed-top navbar-dark bg-dark">
-    <a class="navbar-brand " [routerLink]="['/']">
-        <div class="input-group">
-            <img src="../../assets/images/logo.jpg" alt="Logo" style="width:38px;">
-            <div class="d-none d-md-block pl-1"> MyFace</div>
+    <a class="navbar-brand pointable" [routerLink]="['/']">
+        <div class="input-group ">
+            <img src="../../assets/images/logo.jpg " alt="Logo " style="width:38px; ">
+            <div class="d-none d-md-block pl-1 "> MyFace</div>
         </div>
     </a>
     <div *ngIf="isLoggedIn" class="">
-        <a (click)="loadUser()" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [ngStyle]="{'color': newNotificationCounter==0? '#ffffff' : '#fd7e14'}">
+        <a (click)="loadNotifications()" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [ngStyle]="{'color': newNotificationCounter==0? '#ffffff' : '#fd7e14'}">
             <i class="fas fa-bell fa-lg"></i>
             <span class="badge badge-light">{{newNotificationCounter}}</span>
         </a>
@@ -16,17 +16,23 @@
             <loading-data class="align-self-center" *ngIf="isLoadingNewNotifications"></loading-data>
         </div>
     </div>
-    <div class="form-inline ml-auto text-white">
-        <span *ngIf="!isLoggedIn" class="row ml-1">
-            <a class="btn text-white" (click)="login()">Zaloguj się</a>
-            <a class="btn text-white" [routerLink]="['user/register']">Rejestracja</a>
+    <div class="form-inline ml-auto text-white ">
+        <span *ngIf="!isLoggedIn " class="row ml-1 ">
+            <a class="btn text-white " (click)="login() ">Zaloguj się</a>
+            <a class="btn text-white " [routerLink]="[ 'user/register'] ">Rejestracja</a>
         </span>
-        <span *ngIf="isLoggedIn">
-            <a class="btn text-white d-lg-none" [routerLink]="['find']"><i class="fas fa-search fa-lg white"></i></a>
-            <a class="btn text-white d-md-none" [routerLink]="['chat']"><i class="fas fa-comment-dots fa-lg"></i></a>
-            <a class="btn text-white" [routerLink]="['profile']">Profil</a>
-            <a class="btn text-white" [routerLink]="['friends']"><i class="fas fa-users fa-lg"></i></a>
-            <a class="btn text-white" (click)="logout()"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+        <span *ngIf="isLoggedIn ">
+            <a class="btn text-white d-lg-none " [routerLink]="[ 'find'] "><i class="fas fa-search fa-lg white "></i></a>
+            <a class="btn text-white d-md-none " [routerLink]="[ 'chat'] "><i class="fas fa-comment-dots fa-lg "></i></a>
+            <a class="btn text-white form-inline" [routerLink]="[ 'profile'] ">
+              <div class="btn-group">
+              <img class=" btn-sm rounded-circle p-0 m-0" *ngIf="currentLoggedUser?.profileImagePath else defultImage; " [src]="imageToShow " height="40px"  />
+              <ng-template #defultImage> <img class="btn btn-sm rounded-circle p-0 m-0" src="../../../../assets/images/default.jpg " height="40px"/></ng-template>
+              <div class=" d-none d-md-block pl-1 align-self-center" *ngIf="currentLoggedUser?.firstName">{{currentLoggedUser.firstName}} </div>
+            </div>
+            </a>
+            <a class="btn text-white " [routerLink]="[ 'friends'] "><i class="fas fa-users fa-lg "></i></a>
+            <a class="btn text-white " (click)="logout() "><i class="fas fa-sign-out-alt fa-lg "></i></a>
         </span>
     </div>
 </nav>

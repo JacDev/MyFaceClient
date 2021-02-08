@@ -66,7 +66,6 @@ export class PostCommentsComponent implements OnInit {
         .subscribe(result => {
           this.isLoading = false;
           this.listOfCommentsFromApi.push(result);
-          console.log(this.displayedUserId);
           this._notificationService.sendNotification(this.displayedUserId, "comment", this._timeService.getCurrentDate(), this.postId)
           commentForm.reset();
         })

@@ -1,28 +1,41 @@
 .post {
     background-color: rgb(58, 58, 59);
 }
-div{
+
+div {
     color: rgb(255, 255, 255);
     font-size: medium;
 }
-.date{
+
+.date {
     font-size: small;
 }
-.icon{
+
+.icon {
     background-color: rgb(58, 58, 59);
 }
-.icontext{
+
+.icontext {
     color: white;
 }
-.dropdown-item{
-    background-color:rgb(97, 97, 99);
+
+.dropdown-item {
+    background-color: rgb(97, 97, 99);
     color: white;
 }
-.dropdown-item:hover{
+
+.dropdown-item:hover {
     background-color: rgb(87, 87, 87);
 }
-.dropdown-menu{
+
+.dropdown-menu {
     background-color: rgb(97, 97, 99);
     border: white;
     border-style: groove;
+}
+
+.text-field {
+    overflow: auto !important;
+    word-wrap: break-word !important;
+    text-align: left !important;
 }

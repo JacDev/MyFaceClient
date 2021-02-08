@@ -1,11 +1,9 @@
 <div *ngIf="userToDisplay==null; else elseBlock"></div>
 <ng-template #elseBlock>
-    <div class="d-flex mb-1">
+    <div class="d-flex mb-1 py-1 pl-1">
         <div class="float-left ">
-            <!-- <img class="rounded-circle" *ngIf="userToDisplay?.profileImagePath" [src]="userToDisplay.profileImagePath"
-    width="90%" /> -->
-            <img class="rounded-circle py-2 ml-2" src="../../../../assets/images/default.jpg" width="70%" />
-
+            <img class="rounded-circle " *ngIf="userToDisplay?.profileImagePath else defultImage; " [src]="imageToShow " width="70% " />
+            <ng-template #defultImage> <img class="rounded-circle " src="../../../../assets/images/default.jpg " width="70% " /></ng-template>
         </div>
 
         <div class="ml-1 align-self-center float-left text-white">

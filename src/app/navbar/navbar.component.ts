@@ -4,6 +4,9 @@ import { AuthorizationService } from '../core/authorization/index';
 import { PaginatiomModel } from '../common/models/pagination-model';
 import { NotificationService } from '../data/notification.service';
 import { Router } from '@angular/router';
+import { UserModel } from '../common/models';
+import { UserAccessService } from '../data/api-access';
+import { ImageAccessService } from '../user/services';
 
 @Component({
   selector: 'app-navbar',
@@ -20,37 +23,87 @@ export class NavbarComponent implements OnInit {
   public paginationParams: PaginatiomModel = null;
   public screenHeight: number;
   public isLoadingNewNotifications: boolean = false;
+  public currentLoggedUser: UserModel = null;
+  public currentLoggedUserId: string = null;
+  public imageToShow: any = null;
 
   constructor(private _authService: AuthorizationService,
     private _notificationService: NotificationService,
-    private _router: Router) { }
+    private _router: Router,
+    private _userAccess: UserAccessService,
+    private _imageAccess: ImageAccessService) { }
 
   ngOnInit(): void {
     this.getScreenSize();
+    this.loadUser();
     this._notificationService.newNotification.subscribe(_ => {
       this.newNotificationCounter++;
     })
   }
   loadUser(): void {
+    if (this._authService.currentUserId) {
+      this.currentLoggedUserId = this._authService.currentUserId;
+      this.getUser();
+    }
+    else {
+      this._authService.userLoaded.subscribe(() => {
+        this.currentLoggedUserId = this._authService.currentUserId;
+        if (!this.currentLoggedUser) {
+          this.getUser();
+        }
+      })
+    }
+  }
+
+  getImageFromService(): void {
+    if (this.currentLoggedUser?.profileImagePath) {
+      this._imageAccess.getImage(this.currentLoggedUserId, this.currentLoggedUser.profileImagePath)
+        .subscribe(data => {
+          this.createImageFromBlob(data);;
+        }, error => {
+        });
+    }
+  }
+  createImageFromBlob(image: Blob): void {
+    let reader: FileReader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
+  getUser(): void {
+    this._userAccess.getUser(this.currentLoggedUserId)
+      .subscribe(
+        result => {
+          this.currentLoggedUser = result;
+          this.getImageFromService();
+        },
+      );
+  }
+  loadNotifications(): void {
     if (!this.listOfNotificationsFromApi || this.newNotificationCounter != 0) {
       if (this.isLoggedIn) {
-        this.loadNotifications();
+        this.getNotifications();
       }
       else {
         this._authService.userLoaded.subscribe(_ => {
-          this.loadNotifications();
+          this.getNotifications();
         })
       }
     }
 
   }
-  private loadNotifications() : void{
-    this.isLoadingNewNotifications=true;
+  private getNotifications(): void {
+    this.isLoadingNewNotifications = true;
     this._notificationService.getNotifications(this._authService.currentUserId)
       .subscribe(notifications => {
         this.listOfNotificationsFromApi = notifications.collection;
         this.paginationParams = notifications.paginationMetadata;
-        this.isLoadingNewNotifications=false;
+        this.isLoadingNewNotifications = false;
         this.listOfNotificationsFromApi.forEach(element => {
           if (!element.hasSeen) {
             this._notificationService.markNotificationAsSeen(element.fromWho, element.id)

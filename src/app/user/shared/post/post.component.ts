@@ -38,6 +38,9 @@ export class PostComponent implements OnInit {
   private hasParent: boolean;
   public showError: boolean = false;
 
+  private imageWidth: number;
+  private imageFrameWidth: number;
+
   constructor(private _userAccess: UserAccessService,
     private _postReactionsAccess: ReactionAccessService,
     private _postAccess: PostAccessService,
@@ -104,6 +107,14 @@ export class PostComponent implements OnInit {
   getScreenSize(): void {
     this.screenHeight = window.innerHeight;
     this.screenWidth = window.innerWidth;
+    if(this.screenWidth < 650){
+      this.imageFrameWidth = this.screenWidth;
+      this.imageWidth= this.screenWidth;
+    }
+    else{
+      this.imageFrameWidth = this.screenWidth * 0.8;
+      this.imageWidth= this.screenWidth * 0.4;
+    }
   }
   createImageFromBlob(image: Blob): void {
     let reader: FileReader = new FileReader();
@@ -154,7 +165,6 @@ export class PostComponent implements OnInit {
       this.reactionCounter++;
       this._postReactionsAccess.postPostReactions(this.postToDisplay.userId, this.postToDisplay.id, this.currentLoggedUserId)
         .subscribe(_ => {
-          console.log(this.userToDisplay.id);
           this._notificationService.sendNotification(this.userToDisplay.id, "reaction", this._timeService.getCurrentDate(), this.postToDisplay.id)
         },
           error => this.showError = true);
@@ -210,7 +220,7 @@ export class PostComponent implements OnInit {
       if (result.isConfirmed) {
         this.isLoading = true;
         this._postAccess.deletePost(this.currentLoggedUserId, this.postToDisplay.id)
-          .subscribe(result => {
+          .subscribe(_ => {
             this.isLoading = false;
             this.deletePostFromListEvent.emit(this.postToDisplay.id);
           },
@@ -220,13 +230,13 @@ export class PostComponent implements OnInit {
   }
   showImage(): void {
     Swal.fire({
-      width: this.screenWidth * 0.8,
+      width: this.imageFrameWidth,
       imageUrl: this.imageToShow,
-      imageHeight: this.screenHeight * 0.8,
-      imageWidth: 'auto',
+      imageHeight: 'auto',
+      imageWidth: this.imageWidth,
       showCloseButton: true,
       showConfirmButton: false,
-      imageAlt: 'Dodawane zdjęcie',
+      imageAlt: 'Zdjęcie',
     })
   }
 }

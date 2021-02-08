@@ -15,9 +15,9 @@ import { CommentComponent } from './shared/post/post-comments/comment/comment.co
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from '../shared.module';
-import { ImageAccessService, 
-  PostAccessService, 
-  ReactionAccessService, 
+import { ImageAccessService,
+  PostAccessService,
+  ReactionAccessService,
   UserRouteActivator} from './services/index';
 import { PostCommentAccessService } from './shared/post/post-comments/post-comments-access.service';
 import { UserDataComponent } from './profile/user-data/user-data.component';
